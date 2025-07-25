@@ -300,13 +300,13 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             const sheetId = '1-tbex3bF-Czw0IyaZSvakCWqaTGejWalRo64KEcCyfg';
-            const managementSheetName = '失物招領管理平台';
+            const managementSheetName = '失物招領管理系統';
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(managementSheetName)}`;
 
             const locations = {
                 "全部": ["全部地點"],
-                "進德校區": ["全部地點", "教學大樓", "操場", "白沙大樓", "圖書館", "綜合球場", "學生宿舍", "其他"],
-                "寶山校區": ["全部地點", "工學院", "教學一館", "教學二館", "科技學院", "管理學院", "其他"]
+                "進德校區": ["全部地點", "教學大樓", "白沙大樓", "圖書館", "體育館", "操場"],
+                "寶山校區": ["全部地點", "工學院", "科技學院", "管理學院", "教學一館", "教學二館"]
             };
 
             let allItems = [];
@@ -318,21 +318,13 @@
             const endDateFilter = document.getElementById('end-date-filter');
             const keywordFilter = document.getElementById('keyword-filter');
 
-            /**
-             * 從 Google Sheets 的特殊日期字串 "Date(YYYY,M,D)" 中，解析出一個有效的 JavaScript Date 物件。
-             * @param {string} gvizDate - 來自 Google Sheets API 的日期字串
-             * @returns {Date|null}
-             */
             function parseGvizDate(gvizDate) {
                 if (!gvizDate || typeof gvizDate !== 'string') return null;
-
                 const match = gvizDate.match(/Date\((\d+),(\d+),(\d+)\)/);
                 if (!match) return null;
-
                 const year = parseInt(match[1], 10);
                 const month = parseInt(match[2], 10);
                 const day = parseInt(match[3], 10);
-
                 return new Date(year, month, day);
             }
 
@@ -352,28 +344,20 @@
 
                         const rows = data.table.rows;
                         const headers = data.table.cols.map(col => col.label);
-
                         const indices = {
-                            status: headers.indexOf('狀態'), id: headers.indexOf('遺失物編號'),
-                            yearSemester: headers.indexOf('學期-學年'), date: headers.indexOf('拾獲日期'),
-                            campus: headers.indexOf('拾獲校區'), location: headers.indexOf('拾獲地點'),
-                            name: headers.indexOf('拾獲物品名稱'), description: headers.indexOf('物品詳細描述'),
-                            image: headers.indexOf('圖片公開連結')
+                            status: headers.indexOf('狀態'), id: headers.indexOf('遺失物編號'), yearSemester: headers.indexOf('學期-學年'),
+                            date: headers.indexOf('拾獲日期'), campus: headers.indexOf('拾獲校區'), location: headers.indexOf('拾獲地點'),
+                            name: headers.indexOf('拾獲物品名稱'), description: headers.indexOf('物品詳細描述'), image: headers.indexOf('圖片公開連結')
                         };
 
                         allItems = rows.map(row => {
                             const item = row.c;
                             return {
-                                id: item[indices.id]?.v || '',
-                                yearSemester: item[indices.yearSemester]?.v || '',
-                                pickupDate: item[indices.date]?.f || '無日期',
-                                jsDate: parseGvizDate(item[indices.date]?.v),
-                                campus: item[indices.campus]?.v || '',
-                                location: item[indices.location]?.v || '',
-                                name: item[indices.name]?.v || '無名稱',
-                                description: item[indices.description]?.v || '',
-                                imageUrl: item[indices.image]?.v || '',
-                                status: item[indices.status]?.v || ''
+                                id: item[indices.id]?.v || '', yearSemester: item[indices.yearSemester]?.v || '',
+                                pickupDate: item[indices.date]?.f || '無日期', jsDate: parseGvizDate(item[indices.date]?.v),
+                                campus: item[indices.campus]?.v || '', location: item[indices.location]?.v || '',
+                                name: item[indices.name]?.v || '無名稱', description: item[indices.description]?.v || '',
+                                imageUrl: item[indices.image]?.v || '', status: item[indices.status]?.v || ''
                             };
                         }).filter(item => item.status === '上架');
 
@@ -389,9 +373,7 @@
             function populateFilters(items) {
                 const uniqueYearSemesters = [...new Set(items.map(item => item.yearSemester))].filter(Boolean);
                 uniqueYearSemesters.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
-                while (yearSemesterFilter.options.length > 1) {
-                    yearSemesterFilter.remove(1);
-                }
+                while (yearSemesterFilter.options.length > 1) { yearSemesterFilter.remove(1); }
                 uniqueYearSemesters.forEach(ys => {
                     const option = document.createElement('option');
                     option.value = ys;
@@ -409,26 +391,20 @@
                 items.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'item-card';
-
                     let finalImageUrl = 'https://via.placeholder.com/400x300?text=No+Image';
                     if (item.imageUrl && item.imageUrl.includes('drive.google.com')) {
                         const fileId = item.imageUrl.split('id=')[1];
                         finalImageUrl = `https://lh3.googleusercontent.com/d/${fileId}=w1000`;
                     }
-
                     card.innerHTML = `
-                        <div class="card-image-wrapper">
-                            <img src="${finalImageUrl}" alt="${item.name}" class="card-image" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Image+Error';">
-                        </div>
+                        <div class="card-image-wrapper"><img src="${finalImageUrl}" alt="${item.name}" class="card-image" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Image+Error';"></div>
                         <div class="card-content">
                             <h3>${item.name}</h3>
                             <p><strong>拾獲日期：</strong>${item.pickupDate}</p>
                             <p><strong>拾獲地點：</strong>${item.campus} - ${item.location}</p>
                             <p><strong>物品描述：</strong>${item.description || '無'}</p>
                         </div>
-                        <div class="card-footer">
-                            遺失物編號：${item.id}
-                        </div>
+                        <div class="card-footer">遺失物編號：${item.id}</div>
                     `;
                     itemsGrid.appendChild(card);
                 });
@@ -438,12 +414,20 @@
                 const selectedCampus = campusFilter.value;
                 const campusLocations = locations[selectedCampus] || [];
                 locationFilter.innerHTML = '';
+
                 campusLocations.forEach(location => {
                     const option = document.createElement('option');
                     option.value = location;
                     option.textContent = location;
                     locationFilter.appendChild(option);
                 });
+
+                if (selectedCampus !== '全部') {
+                    const otherOption = document.createElement('option');
+                    otherOption.value = '_other_';
+                    otherOption.textContent = '其他';
+                    locationFilter.appendChild(otherOption);
+                }
             }
 
             let debounceTimer;
@@ -475,8 +459,17 @@
                     }
 
                     if (selectedYearSemester !== '全部') filteredItems = filteredItems.filter(item => item.yearSemester === selectedYearSemester);
-                    if (selectedCampus !== '全部') filteredItems = filteredItems.filter(item => item.campus === selectedCampus);
-                    if (selectedLocation !== '全部地點') filteredItems = filteredItems.filter(item => item.location === selectedLocation);
+                    if (selectedCampus !== '全部') {
+                        filteredItems = filteredItems.filter(item => item.campus === selectedCampus);
+
+                        if (selectedLocation === '_other_') {
+                            const predefinedLocations = locations[selectedCampus] || [];
+                            filteredItems = filteredItems.filter(item => !predefinedLocations.includes(item.location));
+                        } else if (selectedLocation !== '全部地點') {
+                            filteredItems = filteredItems.filter(item => item.location === selectedLocation);
+                        }
+                    }
+
                     if (keyword) {
                         filteredItems = filteredItems.filter(item =>
                             (item.name && item.name.toLowerCase().includes(keyword)) ||
