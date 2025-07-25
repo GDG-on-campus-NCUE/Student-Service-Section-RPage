@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國立彰化師範大學 生輔組 遺失物招領平台</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --text-color: #212529;
+            --bg-color: #ffffff;
+            --panel-bg-color: #f8f9fa;
+            --border-color: #dee2e6;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --border-radius: 0.375rem;
+        }
+
+        .lost-and-found-container {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .announcement-panel {
+            background-color: #e9f5ff;
+            color: #004085;
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2.5rem;
+        }
+
+        .announcement-panel p {
+            margin-bottom: 0.75rem;
+        }
+
+        .announcement-panel p:last-child {
+            margin-bottom: 0;
+        }
+
+        .announcement-panel strong {
+            font-weight: 700;
+            color: #004085;
+        }
+
+        .announcement-panel .report-button {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: 99px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .announcement-panel .report-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem 1.5rem;
+            background-color: var(--panel-bg-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        .filter-controls select,
+        .filter-controls input {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            height: 42px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fff;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .filter-controls select {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.65em auto;
+        }
+
+        .location-filter-group {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .location-filter-group {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .location-filter-group {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        #items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .item-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            height: 220px;
+            background-color: #f0f0f0;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+
+        .card-content p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .card-content strong {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .card-footer {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--panel-bg-color);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: #adb5bd;
+            text-align: right;
+        }
+
+        .loading-text,
+        .no-results-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 5rem 0;
+            color: var(--text-muted);
+        }
+
+        .announcement-panel .date-highlight {
+            color: #c92a2a;
+            font-weight: 700;
+        }
+
+        .announcement-panel .contact-link {
+            color: #0056b3;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .announcement-panel .contact-link:hover {
+            color: #003d80;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lost-and-found-container">
+        <section class="announcement-panel">
+            <p>
+                <strong>【重要公告】</strong>
+                113-1學期寶山校區遺失物(<strong class="date-highlight">114.1.31</strong>前遺失物)，請同學盡速來認領。預計 <strong
+                    class="date-highlight">114.3.7</strong> 星期五，先送至學務處倉庫保存半年，如未領取預計在 <strong
+                    class="date-highlight">114.7.31</strong> 列為無人認領物品處理。
+            </p>
+            <p>
+                <strong>聯絡資訊：</strong>
+                生活輔導組 柯銘勳先生 (電話：04-7232105#5714，Email：<a href="mailto:s60370@cc.ncue.edu.tw"
+                    class="contact-link">s60370@cc.ncue.edu.tw</a>)
+            </p>
+            <p>
+                <strong>處理原則：</strong>
+                公告招領之日起逾<strong>6個月</strong>無人認領，有價物品得由學務處生輔組以轉贈公益團體或其他適當方式處理之；保存價值較低之物品，經招領
+                <strong>6個月</strong>無人認領或過保存期限，學務處生輔組得逕行廢棄物丟棄或資源回收。
+            </p>
+            <a href="https://forms.gle/LaXeXCjMtK4wjHDW6" target="_blank" rel="noopener"
+                class="report-button">我撿到東西了，前往回報 →</a>
+        </section>
+
+        <section class="filter-controls">
+            <div class="filter-group">
+                <label for="start-date-filter">拾獲日期 (起)</label>
+                <input type="date" id="start-date-filter">
+            </div>
+            <div class="filter-group">
+                <label for="end-date-filter">拾獲日期 (迄)</label>
+                <input type="date" id="end-date-filter">
+            </div>
+            <div class="filter-group">
+                <label for="year-semester-filter">學年/學期</label>
+                <select id="year-semester-filter">
+                    <option value="全部">全部學年學期</option>
+                </select>
+            </div>
+            <div class="location-filter-group">
+                <div class="filter-group">
+                    <label for="campus-filter">校區</label>
+                    <select id="campus-filter">
+                        <option value="全部">全部校區</option>
+                        <option value="進德校區">進德校區</option>
+                        <option value="寶山校區">寶山校區</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="location-filter">拾獲地點</label>
+                    <select id="location-filter">
+                        <option value="全部">全部地點</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="keyword-filter">關鍵字</label>
+                <input type="text" id="keyword-filter" placeholder="搜尋物品名稱、描述...">
+            </div>
+        </section>
+
+        <main id="items-grid"></main>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const sheetId = '1-tbex3bF-Czw0IyaZSvakCWqaTGejWalRo64KEcCyfg';
+            const managementSheetName = '失物招領管理平台';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(managementSheetName)}`;
+
+            const locations = {
+                "全部": ["全部地點"],
+                "進德校區": ["全部地點", "教學大樓", "操場", "白沙大樓", "圖書館", "綜合球場", "學生宿舍", "其他"],
+                "寶山校區": ["全部地點", "工學院", "教學一館", "教學二館", "科技學院", "管理學院", "其他"]
+            };
+
+            let allItems = [];
+            const itemsGrid = document.getElementById('items-grid');
+            const yearSemesterFilter = document.getElementById('year-semester-filter');
+            const campusFilter = document.getElementById('campus-filter');
+            const locationFilter = document.getElementById('location-filter');
+            const startDateFilter = document.getElementById('start-date-filter');
+            const endDateFilter = document.getElementById('end-date-filter');
+            const keywordFilter = document.getElementById('keyword-filter');
+
+            /**
+             * 從 Google Sheets 的特殊日期字串 "Date(YYYY,M,D)" 中，解析出一個有效的 JavaScript Date 物件。
+             * @param {string} gvizDate - 來自 Google Sheets API 的日期字串
+             * @returns {Date|null}
+             */
+            function parseGvizDate(gvizDate) {
+                if (!gvizDate || typeof gvizDate !== 'string') return null;
+
+                const match = gvizDate.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (!match) return null;
+
+                const year = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10);
+                const day = parseInt(match[3], 10);
+
+                return new Date(year, month, day);
+            }
+
+            function fetchData() {
+                itemsGrid.innerHTML = `<p class="loading-text">資料載入中...</p>`;
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Network response was not ok, status: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(text => {
+                        if (!text || !text.includes('google.visualization.Query.setResponse')) {
+                            throw new Error('Invalid response from Google Sheets. Check sharing permissions and Apps Script deployment.');
+                        }
+                        const data = JSON.parse(text.substring(47).slice(0, -2));
+                        if (!data.table) throw new Error('Data table not found in response.');
+
+                        const rows = data.table.rows;
+                        const headers = data.table.cols.map(col => col.label);
+
+                        const indices = {
+                            status: headers.indexOf('狀態'), id: headers.indexOf('遺失物編號'),
+                            yearSemester: headers.indexOf('學期-學年'), date: headers.indexOf('拾獲日期'),
+                            campus: headers.indexOf('拾獲校區'), location: headers.indexOf('拾獲地點'),
+                            name: headers.indexOf('拾獲物品名稱'), description: headers.indexOf('物品詳細描述'),
+                            image: headers.indexOf('圖片公開連結')
+                        };
+
+                        allItems = rows.map(row => {
+                            const item = row.c;
+                            return {
+                                id: item[indices.id]?.v || '',
+                                yearSemester: item[indices.yearSemester]?.v || '',
+                                pickupDate: item[indices.date]?.f || '無日期',
+                                jsDate: parseGvizDate(item[indices.date]?.v),
+                                campus: item[indices.campus]?.v || '',
+                                location: item[indices.location]?.v || '',
+                                name: item[indices.name]?.v || '無名稱',
+                                description: item[indices.description]?.v || '',
+                                imageUrl: item[indices.image]?.v || '',
+                                status: item[indices.status]?.v || ''
+                            };
+                        }).filter(item => item.status === '上架');
+
+                        populateFilters(allItems);
+                        renderItems(allItems);
+                    })
+                    .catch(error => {
+                        console.error('抓取資料時發生嚴重錯誤:', error);
+                        itemsGrid.innerHTML = `<p class="no-results-text">資料載入失敗！<br>請確認試算表共用權限，並完成 Apps Script 的「網路應用程式」部署。</p>`;
+                    });
+            }
+
+            function populateFilters(items) {
+                const uniqueYearSemesters = [...new Set(items.map(item => item.yearSemester))].filter(Boolean);
+                uniqueYearSemesters.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+                while (yearSemesterFilter.options.length > 1) {
+                    yearSemesterFilter.remove(1);
+                }
+                uniqueYearSemesters.forEach(ys => {
+                    const option = document.createElement('option');
+                    option.value = ys;
+                    option.textContent = `第 ${ys.split('-')[1]} 學年 第 ${ys.split('-')[0]} 學期`;
+                    yearSemesterFilter.appendChild(option);
+                });
+            }
+
+            function renderItems(items) {
+                itemsGrid.innerHTML = '';
+                if (items.length === 0) {
+                    itemsGrid.innerHTML = `<p class="no-results-text">找不到符合條件的物品。</p>`;
+                    return;
+                }
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    let finalImageUrl = 'https://via.placeholder.com/400x300?text=No+Image';
+                    if (item.imageUrl && item.imageUrl.includes('drive.google.com')) {
+                        const fileId = item.imageUrl.split('id=')[1];
+                        finalImageUrl = `https://lh3.googleusercontent.com/d/${fileId}=w1000`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <img src="${finalImageUrl}" alt="${item.name}" class="card-image" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Image+Error';">
+                        </div>
+                        <div class="card-content">
+                            <h3>${item.name}</h3>
+                            <p><strong>拾獲日期：</strong>${item.pickupDate}</p>
+                            <p><strong>拾獲地點：</strong>${item.campus} - ${item.location}</p>
+                            <p><strong>物品描述：</strong>${item.description || '無'}</p>
+                        </div>
+                        <div class="card-footer">
+                            遺失物編號：${item.id}
+                        </div>
+                    `;
+                    itemsGrid.appendChild(card);
+                });
+            }
+
+            function updateLocationFilter() {
+                const selectedCampus = campusFilter.value;
+                const campusLocations = locations[selectedCampus] || [];
+                locationFilter.innerHTML = '';
+                campusLocations.forEach(location => {
+                    const option = document.createElement('option');
+                    option.value = location;
+                    option.textContent = location;
+                    locationFilter.appendChild(option);
+                });
+            }
+
+            let debounceTimer;
+            function applyFilters() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    let filteredItems = [...allItems];
+
+                    const startDateValue = startDateFilter.value;
+                    const endDateValue = endDateFilter.value;
+                    const selectedYearSemester = yearSemesterFilter.value;
+                    const selectedCampus = campusFilter.value;
+                    const selectedLocation = locationFilter.value;
+                    const keyword = keywordFilter.value.trim().toLowerCase();
+
+                    if (startDateValue) {
+                        const startDate = new Date(startDateValue);
+                        if (!isNaN(startDate.valueOf())) {
+                            startDate.setHours(0, 0, 0, 0);
+                            filteredItems = filteredItems.filter(item => item.jsDate && item.jsDate >= startDate);
+                        }
+                    }
+                    if (endDateValue) {
+                        const endDate = new Date(endDateValue);
+                        if (!isNaN(endDate.valueOf())) {
+                            endDate.setHours(23, 59, 59, 999);
+                            filteredItems = filteredItems.filter(item => item.jsDate && item.jsDate <= endDate);
+                        }
+                    }
+
+                    if (selectedYearSemester !== '全部') filteredItems = filteredItems.filter(item => item.yearSemester === selectedYearSemester);
+                    if (selectedCampus !== '全部') filteredItems = filteredItems.filter(item => item.campus === selectedCampus);
+                    if (selectedLocation !== '全部地點') filteredItems = filteredItems.filter(item => item.location === selectedLocation);
+                    if (keyword) {
+                        filteredItems = filteredItems.filter(item =>
+                            (item.name && item.name.toLowerCase().includes(keyword)) ||
+                            (item.description && item.description.toLowerCase().includes(keyword))
+                        );
+                    }
+
+                    renderItems(filteredItems);
+                }, 250);
+            }
+
+            [yearSemesterFilter, campusFilter, locationFilter, startDateFilter, endDateFilter].forEach(el => {
+                el.addEventListener('change', applyFilters);
+            });
+            keywordFilter.addEventListener('input', applyFilters);
+            campusFilter.addEventListener('change', () => {
+                updateLocationFilter();
+                applyFilters();
+            });
+
+            fetchData();
+            updateLocationFilter();
+        });
+    </script>
+</body>
+
+</html>
