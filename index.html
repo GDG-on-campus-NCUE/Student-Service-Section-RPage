@@ -345,7 +345,7 @@
                         const rows = data.table.rows;
                         const headers = data.table.cols.map(col => col.label);
                         const indices = {
-                            status: headers.indexOf('狀態'), id: headers.indexOf('遺失物編號'), yearSemester: headers.indexOf('學期-學年'),
+                            status: headers.indexOf('狀態'), id: headers.indexOf('遺失物編號'), yearSemester: headers.indexOf('學期'),
                             date: headers.indexOf('拾獲日期'), campus: headers.indexOf('拾獲校區'), location: headers.indexOf('拾獲地點'),
                             name: headers.indexOf('拾獲物品名稱'), description: headers.indexOf('物品詳細描述'), image: headers.indexOf('圖片公開連結')
                         };
@@ -377,7 +377,7 @@
                 uniqueYearSemesters.forEach(ys => {
                     const option = document.createElement('option');
                     option.value = ys;
-                    option.textContent = `第 ${ys.split('-')[1]} 學年 第 ${ys.split('-')[0]} 學期`;
+                    option.textContent = `第 ${ys.split('-')[0]} 學年 第 ${ys.split('-')[1]} 學期`;
                     yearSemesterFilter.appendChild(option);
                 });
             }
