@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法規與SOP Regulations and SOP</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-docs-app {
+            --primary-blue: #0077A2;
+            --header-bg: #e7f5fe;
+            --category-bg: #fdf0d5;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f9ff;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: transparent;
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .ncue-docs-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 主要容器 --- */
+        .ncue-docs-app .container {
+            max-width: 1100px;
+            margin: 32px auto;
+        }
+
+        /* --- 卡片式區塊 --- */
+        .ncue-docs-app .card {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        /* --- 區塊主標題 --- */
+        .ncue-docs-app .main-header {
+            padding: 20px 24px;
+            background-color: var(--primary-blue);
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .ncue-docs-app .content {
+            padding: 8px 24px 24px 24px;
+        }
+
+        /* --- 法規列表樣式 --- */
+        .ncue-docs-app .regulations-list {
+            list-style: none;
+            counter-reset: regulations-counter;
+            padding-left: 0;
+        }
+
+        .ncue-docs-app .regulations-list li {
+            counter-increment: regulations-counter;
+            padding: 16px 0 16px 40px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+
+        .ncue-docs-app .regulations-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ncue-docs-app .regulations-list li::before {
+            content: counter(regulations-counter);
+            position: absolute;
+            left: 0;
+            top: 16px;
+            width: 28px;
+            height: 28px;
+            background-color: var(--header-bg);
+            color: var(--primary-blue);
+            border-radius: 50%;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .ncue-docs-app .regulations-list a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ncue-docs-app .regulations-list a:hover {
+            color: var(--primary-blue);
+            text-decoration: underline;
+        }
+
+        /* --- SOP 表格樣式 --- */
+        .ncue-docs-app .sop-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .ncue-docs-app .sop-table tr {
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+
+        .ncue-docs-app .sop-table th,
+        .ncue-docs-app .sop-table td {
+            padding: 14px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .ncue-docs-app .sop-table thead th {
+            background-color: var(--header-bg);
+            font-weight: 700;
+        }
+
+        .ncue-docs-app .sop-table .sop-category td {
+            background-color: var(--category-bg);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .ncue-docs-app .sop-table a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ncue-docs-app .sop-table a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- 桌面端懸浮效果 --- */
+        @media (hover: hover) {
+            .ncue-docs-app .regulations-list li:hover {
+                background-color: var(--hover-bg);
+                transform: scale(1.01);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                position: relative;
+                z-index: 10;
+                border-radius: 8px;
+            }
+
+            .ncue-docs-app .sop-table tbody tr:not(.sop-category):hover {
+                background-color: var(--hover-bg);
+                transform: scale(1.01);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                position: relative;
+                z-index: 10;
+            }
+        }
+
+        /* --- RWD --- */
+        @media (max-width: 768px) {
+            .ncue-docs-app .container {
+                margin: 16px 0;
+            }
+
+            .ncue-docs-app .card {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .ncue-docs-app .content {
+                padding: 8px 16px 16px 16px;
+            }
+
+            .ncue-docs-app .sop-table thead {
+                display: none;
+            }
+
+            .ncue-docs-app .sop-table,
+            .ncue-docs-app .sop-table tbody,
+            .ncue-docs-app .sop-table tr,
+            .ncue-docs-app .sop-table td {
+                display: block;
+                width: 100%;
+                border: none;
+            }
+
+            .ncue-docs-app .sop-table tr:not(.sop-category) {
+                padding: 16px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .ncue-docs-app .sop-table tbody:last-child tr:last-child {
+                border-bottom: none;
+            }
+
+            .ncue-docs-app .sop-table td {
+                padding: 6px 0;
+            }
+
+            .ncue-docs-app .sop-table td[data-label="作業名稱"] {
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+
+            .ncue-docs-app .sop-table td[data-label="作業流程"],
+            .ncue-docs-app .sop-table td[data-label="自評表"] {
+                padding-left: 16px;
+            }
+
+            .ncue-docs-app .sop-table td[data-label="作業流程"]::before,
+            .ncue-docs-app .sop-table td[data-label="自評表"]::before {
+                content: attr(data-label) '：';
+                font-weight: 500;
+                color: var(--text-light);
+                margin-right: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-docs-app">
+        <div class="container">
+
+            <!-- 法規章則區 -->
+            <section class="card">
+                <header class="main-header">法規章則</header>
+                <div class="content">
+                    <ol class="regulations-list">
+                        <li><a href="/var/file/39/1039/img/592/179010173.pdf" target="_blank">國立彰化師範大學學生獎懲辦法</a></li>
+                        <li><a href="/var/file/39/1039/img/592/208532903.pdf" target="_blank">國立彰化師範大學學生操行成績評定作業規定</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/441230649.pdf" target="_blank">國立彰化師範大學學生銷過實施要點</a></li>
+                        <li><a href="/var/file/39/1039/img/841734276.pdf" target="_blank">國立彰化師範大學學生請假規定(113學年度開始施行)</a>
+                        </li>
+                        <li><a href="/p/412-1039-1455.php?Lang=zh-tw" target="_blank">國立彰化師範大學學生申訴處理辦法</a></li>
+                        <li><a href="/var/file/39/1039/img/592/133989222.pdf" target="_blank">國立彰化師範大學學生機車暨自行車管理要點</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/624507397.pdf" target="_blank">國立彰化師範大學學生菸害管理要點(含檢舉單)</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/650437834.pdf" target="_blank">國立彰化師範大學校園遺失物處理要點</a></li>
+                        <li><a href="/var/file/39/1039/img/592/658407854.pdf" target="_blank">國立彰化師範大學校園危機事件處理作業要點</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/931341664.pdf" target="_blank">國立彰化師範大學學生自殺事件危機應變處理流程</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/108542065.pdf" target="_blank">國立彰化師範大學教師擔任導師辦法</a></li>
+                        <li><a href="/var/file/39/1039/img/592/146244864.pdf" target="_blank">國立彰化師範大學績優導師遴選要點</a></li>
+                        <li><a href="/var/file/39/1039/img/592/125456548.pdf" target="_blank">國立彰化師範大學教師輔導與管教學生辦法</a>
+                        </li>
+                        <li><a href="/p/405-1039-8706,c1193-1.php?Lang=zh-tw" target="_blank">國立彰化師範大學學生急難扶助金申請要點</a>
+                        </li>
+                        <li><a href="https://edufund.cyut.edu.tw/HomePage/Rule.aspx"
+                                target="_blank">教育部學產基金設置急難慰問金實施要點</a></li>
+                        <li><a href="/p/404-1039-18977.php?Lang=zh-tw"
+                                target="_blank">國立彰化師範大學王金平先生關懷揚鷹生急難扶助金暨校園餐券申請作業要點</a></li>
+                        <li><a href="/var/file/39/1039/img/720/152647852.pdf"
+                                target="_blank">國立彰化師範大學王金平先生關懷揚鷹生獎學金申請作業要點</a></li>
+                        <li><a href="/var/file/39/1039/img/592/170000447.pdf" target="_blank">國立彰化師範大學優秀學生獎學金實施要點</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/173540983.pdf"
+                                target="_blank">國立彰化師範大學優秀學生獎學金實施要點～傑出才能獎學金</a></li>
+                        <li><a href="/var/file/39/1039/img/592/129159285.pdf"
+                                target="_blank">國立彰化師範大學優秀學生獎學金實施要點～服務奉獻獎學金</a></li>
+                        <li><a href="/var/file/39/1039/img/592/706852740.pdf" target="_blank">特殊教育學生獎補助辦法</a></li>
+                        <li><a href="/var/file/39/1039/img/592/404609476.pdf"
+                                target="_blank">國立彰化師範大學弱勢學生助學計畫就學補助申請要點</a></li>
+                        <li><a href="/var/file/39/1039/img/592/130708161.pdf"
+                                target="_blank">國立彰化師範大學弱勢學生助學計畫就學補助申請要點～生活助學金</a></li>
+                        <li><a href="/var/file/39/1039/img/592/322511394.pdf" target="_blank">國立彰化師範大學研究生獎助學金實施辦法</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/108280174.pdf" target="_blank">國立彰化師範大學工讀助學金實施要點</a></li>
+                        <li><a href="/var/file/39/1039/img/592/160475422.pdf" target="_blank">國立彰化師範大學代辦楊宗緯先生志工服務獎學金</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/153037255.pdf"
+                                target="_blank">國立彰化師範大學代辦彰化市白雲寺清寒優秀學生獎助學金注意事項</a></li>
+                        <li><a href="/var/file/39/1039/img/592/941998252.pdf" target="_blank">國立彰化師範大學代辦勤學獎助學金注意事項</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/130860931.pdf"
+                                target="_blank">國立彰化師範大學代辦杭特電子股份有限公司獎助學金注意事項</a></li>
+                        <li><a href="/var/file/39/1039/img/592/149665747.pdf"
+                                target="_blank">國立彰化師範大學代辦張榮鑫先生清寒學生獎助學金注意事項</a></li>
+                        <li><a href="/var/file/39/1039/img/592/79625260.pdf" target="_blank">深耕揚鷹計畫～揚鷹勤學助學金作業要點</a></li>
+                        <li><a href="/p/406-1039-19998,r37-1.php?Lang=zh-tw" target="_blank">深耕揚鷹計畫～揚鷹生專題研究學習獎勵金作業要點</a>
+                        </li>
+                        <li><a href="/var/file/39/1039/img/592/291596653.pdf" target="_blank">飛羚電機關懷揚鷹生獎助學金</a></li>
+                        <li><a href="/var/file/39/1039/img/592/852413221.pdf" target="_blank">國立彰化師範大學「培鷹‧翱翔」助學金實施要點</a>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- SOP 區 -->
+            <section class="card">
+                <header class="main-header">標準作業流程 (SOP)</header>
+                <div class="content">
+                    <table class="sop-table">
+                        <thead>
+                            <tr>
+                                <th>作業名稱</th>
+                                <th>作業流程</th>
+                                <th>自評表</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="sop-category">
+                                <td colspan="3">導師業務</td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/142997882.pdf"
+                                        target="_blank">聘任導師作業流程</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0201.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0201.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/826747646.pdf"
+                                        target="_blank">導師費分配核發作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0202.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0202.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/461739942.pdf"
+                                        target="_blank">導師會議作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0203.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0203.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/146167964.pdf"
+                                        target="_blank">績優導師遴選作業</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0204.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0204.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr class="sop-category">
+                                <td colspan="3">獎助學金</td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/158647104.pdf"
+                                        target="_blank">獎助學金作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0206.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0206.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/300249727.pdf"
+                                        target="_blank">教育部學產基金低收入戶學生助學金</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0207.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0207.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/147159622.pdf"
+                                        target="_blank">特殊教育學生獎補助作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0208.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0208.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/178978186.pdf"
+                                        target="_blank">學生急難扶助金</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0213.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0213.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/411826333.pdf"
+                                        target="_blank">學生工讀助學金作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0214.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0214.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/687495865.pdf"
+                                        target="_blank">研究生獎助學金</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0217.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0217.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/204924276.pdf"
+                                        target="_blank">弱勢學生助學金</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/529/D0223.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0223.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr class="sop-category">
+                                <td colspan="3">學雜費</td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/805069299.pdf"
+                                        target="_blank">學雜費減免</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0209.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0209.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/199946042.pdf"
+                                        target="_blank">就學貸款</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0221.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0221.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr class="sop-category">
+                                <td colspan="3">其他業務</td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/157429764.pdf"
+                                        target="_blank">學生請假作業</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0205.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0205.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/699421170.pdf"
+                                        target="_blank">學生自行車及機車證申請</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0211.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0211.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/380131148.pdf"
+                                        target="_blank">學生機車及自行車取締違規作業</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0212.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0212.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/543/D0216.pdf"
+                                        target="_blank">學生申訴辦理流程</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0216.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0216.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/155711912.pdf"
+                                        target="_blank">師生座談</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0210.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0210.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/724299833.pdf"
+                                        target="_blank">學生操行作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0219.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0219.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                            <tr>
+                                <td data-label="作業名稱"><a href="/var/file/39/1039/img/706/192593943.pdf"
+                                        target="_blank">學生獎懲作業程序</a></td>
+                                <td data-label="作業流程"><a href="/var/file/39/1039/img/618/D0220.1.odt"
+                                        target="_blank">流程圖</a></td>
+                                <td data-label="自評表"><a href="/var/file/39/1039/img/619/D0220.2.odt"
+                                        target="_blank">檢核表</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

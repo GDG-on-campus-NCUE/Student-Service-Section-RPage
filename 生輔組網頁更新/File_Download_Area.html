@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檔案下載區 File download area</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-downloads-app {
+            --primary-blue: #0077A2;
+            --header-bg: #e7f5fe;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --border-color: #e9ecef;
+            --hover-accent-color: #d4f3ef;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: transparent;
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            padding: 1px 0;
+        }
+
+        .ncue-downloads-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 主要容器 --- */
+        .ncue-downloads-app .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        /* --- 下拉選單篩選器 --- */
+        .ncue-downloads-app .filter-container {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ncue-downloads-app .filter-container label {
+            font-weight: 700;
+            color: var(--primary-blue);
+            white-space: nowrap;
+        }
+
+        .ncue-downloads-app #category-filter {
+            width: 100%;
+            max-width: 300px;
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        /* --- 表格主體 --- */
+        .ncue-downloads-app .downloads-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .ncue-downloads-app .downloads-table tr {
+            transition: transform 0.25s ease-out, background-color 0.25s ease-out, box-shadow 0.25s ease-out;
+        }
+
+        .ncue-downloads-app .downloads-table th,
+        .ncue-downloads-app .downloads-table td {
+            padding: 18px 24px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .ncue-downloads-app .downloads-table tr:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ncue-downloads-app .item-name {
+            font-weight: 500;
+        }
+
+        .ncue-downloads-app .file-links-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 24px;
+        }
+
+        @media (hover: hover) {
+            .ncue-downloads-app tbody tr:not(.section-header):hover {
+                background-color: var(--hover-accent-color);
+                transform: scale(1.01);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                position: relative;
+                z-index: 10;
+            }
+        }
+
+        .ncue-downloads-app .section-header th {
+            background-color: var(--header-bg);
+            color: var(--primary-blue);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .ncue-downloads-app .section-header th::before {
+            content: '※';
+            margin-right: 12px;
+        }
+
+        .ncue-downloads-app .section-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- 圖示與文字標籤 --- */
+        .ncue-downloads-app .file-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .ncue-downloads-app .file-link:hover {
+            transform: scale(1.1);
+        }
+
+        .ncue-downloads-app .file-link i {
+            font-size: 24px;
+            vertical-align: middle;
+        }
+
+        .ncue-downloads-app .file-type-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .ncue-downloads-app .fa-file-word {
+            color: #2a5699;
+        }
+
+        .ncue-downloads-app .fa-file-excel {
+            color: #1e7145;
+        }
+
+        .ncue-downloads-app .fa-file-lines {
+            color: #7b7a7a;
+        }
+
+        .ncue-downloads-app .fa-file-spreadsheet {
+            color: #005f25;
+        }
+
+        .ncue-downloads-app .page-link {
+            color: var(--primary-blue);
+            font-weight: 500;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .ncue-downloads-app .rwd-row {
+            display: contents;
+        }
+
+        /* --- RWD --- */
+        @media (max-width: 992px) {
+            .ncue-downloads-app .container {
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .ncue-downloads-app .filter-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 16px;
+            }
+
+            .ncue-downloads-app .downloads-table,
+            .ncue-downloads-app tbody,
+            .ncue-downloads-app tr,
+            .ncue-downloads-app td,
+            .ncue-downloads-app th {
+                display: block;
+                width: 100%;
+            }
+
+            .ncue-downloads-app tbody {
+                padding: 0 16px;
+            }
+
+            .ncue-downloads-app tbody:first-of-type .section-header {
+                margin-top: 0;
+            }
+
+            .ncue-downloads-app tr {
+                border: none;
+            }
+
+            .ncue-downloads-app .section-header {
+                padding: 0;
+                margin-top: 24px;
+                border-bottom: none;
+            }
+
+            .ncue-downloads-app .section-header th {
+                padding: 10px 16px;
+                border-radius: 8px;
+                border-bottom: none;
+            }
+
+            .ncue-downloads-app tr:not(.section-header)>td {
+                padding: 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .ncue-downloads-app tbody:last-of-type tr:last-child>td {
+                border-bottom: none;
+            }
+
+            .ncue-downloads-app .rwd-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 16px 0;
+            }
+
+            .ncue-downloads-app .item-name {
+                flex: 1 1 auto;
+                margin-right: 16px;
+                font-size: 15px;
+                line-height: 1.5;
+                min-width: 0;
+            }
+
+            .ncue-downloads-app .file-links-container {
+                flex-shrink: 0;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .ncue-downloads-app tbody tr:not(.section-header):active {
+                background-color: var(--hover-accent-color);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-downloads-app">
+        <div class="container">
+
+            <div class="filter-container">
+                <label for="category-filter">篩選類別：</label>
+                <select id="category-filter">
+                    <option value="all">全部類別</option>
+                    <option value="學雜費減免">學雜費減免</option>
+                    <option value="校內外獎助學金">校內外獎助學金</option>
+                    <option value="就學貸款">就學貸款</option>
+                    <option value="導師業務">導師業務</option>
+                    <option value="工讀助學金">工讀助學金</option>
+                    <option value="學生申訴">學生申訴</option>
+                    <option value="學生銷過">學生銷過</option>
+                    <option value="獎助生團體保險申請表格">獎助生團體保險申請表格</option>
+                </select>
+            </div>
+
+            <table class="downloads-table">
+                <tbody data-category="學雜費減免">
+                    <tr class="section-header">
+                        <th colspan="2">學雜費減免</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row">
+                                <span class="item-name">軍公教遺族子女就學優待申請書</span>
+                                <span class="file-links-container">
+                                    <a href="/p/405-1039-8817,c1826-1.php?Lang=zh-tw" class="page-link"
+                                        target="_blank">連結頁面</a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="校內外獎助學金">
+                    <tr class="section-header">
+                        <th colspan="2">校內外獎助學金</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">校園餐券申請表</span>
+                                <span class="file-links-container">
+                                    <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-1344.php" class="page-link"
+                                        target="_blank">連結頁面</a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">急難扶助金申請表</span>
+                                <span class="file-links-container"><a href="/p/412-1039-1193.php?Lang=zh-tw"
+                                        class="page-link" target="_blank">連結頁面</a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">未領取他項獎學金切結書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/530/186404282.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/530/413245524.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">校內代辦獎助學金共用申請表(王金平、飛羚電機、勤學、張榮鑫、杭特)</span><span
+                                    class="file-links-container"><a href="/p/412-1039-1052.php?Lang=zh-tw"
+                                        class="page-link" target="_blank">連結頁面</a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">楊宗緯先生志工服務獎學金申請表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/720/145259988.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/720/595892518.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">服務奉獻獎推薦表(社團幹部組)</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/720/852470918.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/720/451046997.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">服務奉獻獎推薦表(志工組)</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/720/194058346.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/720/342146692.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">傑出才能獎個人申請表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/529/737959007.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/720/428569946.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">傑出才能獎團體申請表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/720/213804522.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/720/656944365.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">弱勢助學計畫生活助學金</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/529/637825895.odt"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/529/903100447.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">特殊教育獎助學金</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/934/457752475.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/934/154051027.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">深耕揚鷹計畫～揚鷹生專題研究學習獎勵金</span><span
+                                    class="file-links-container"><a href="/p/406-1039-19998,r31-1.php?Lang=zh-tw"
+                                        class="page-link" target="_blank">連結頁面</a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">深耕揚鷹計畫～揚鷹勤學助學金</span><span
+                                    class="file-links-container"><a href="/p/406-1039-19735,r37-1.php?Lang=zh-tw"
+                                        class="page-link" target="_blank">連結頁面</a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">自願放棄獎助學金聲明書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/720/763174159.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/529/142186699.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="就學貸款">
+                    <tr class="section-header">
+                        <th colspan="2">就學貸款</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">彰師大通知函及同意書-乙級</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/575728091.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/169965959.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">彰師大通知函及同意書-丙級</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/233050406.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/206961771.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">申請就學貸款海外研修費用證明書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/986684864.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/857111516.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">就學貸款學分費預估表(博、碩士班、預研生)</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/133541795.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/365672467.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">就學貸款學分費預估表(延畢生)</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/197887448.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/188877224.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">彰師大受傳染病疫情影響學生申請就學貸款生活費證明</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/202916983.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/192138378.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">彰師大受傳染病疫情影響學生申請就學貸款生活費自述書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/588/106734328.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/588/164209884.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="導師業務">
+                    <tr class="section-header">
+                        <th colspan="2">導師業務</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">112學年度導師活動實施計劃表-上學期</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/531/118928117.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/531/126128759.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">班級活動紀錄表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/531/158880099.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/531/85814982.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">績優導師推薦表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/531/107520148.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/531/782327971.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">佐證資料表格</span><span
+                                    class="file-links-container">
+                                    <a href="/var/file/39/1039/img/531/73361544.docx" class="file-link">
+                                        <i class="fa-solid fa-file-word"></i> <span class="file-type-label">WORD</span>
+                                    </a>
+                                    <a href="/var/file/39/1039/img/531/198685957.odt" class="file-link">
+                                        <i class="fa-solid fa-file-lines"></i><span class="file-type-label">ODF</span>
+                                    </a>
+                                </span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="工讀助學金">
+                    <tr class="section-header">
+                        <th colspan="2">工讀助學金</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">工讀紀錄表</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/715/507028654.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/715/109893877.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">工讀契約書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/934/987714767.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/934/126501524.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="學生申訴">
+                    <tr class="section-header">
+                        <th colspan="2">學生申訴</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">申訴書</span><span class="file-links-container"><a
+                                        href="/var/file/39/1039/img/934/256842743.docx" class="file-link"><i
+                                            class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/934/466949717.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">撤回申訴聲明書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/527/150386989.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/527/355124063.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">學生車輛管理申訴申請書</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/527/115977493.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/527/101424523.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="學生銷過">
+                    <tr class="section-header">
+                        <th colspan="2">學生銷過</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">銷過申請單</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/752/72554908.doc"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/752/142472435.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">銷過反思報告</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/934/927333547.docx"
+                                        class="file-link"><i class="fa-solid fa-file-word"></i><span
+                                            class="file-type-label">WORD</span></a><a
+                                        href="/var/file/39/1039/img/934/195812324.odt" class="file-link"><i
+                                            class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODF</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody data-category="獎助生團體保險申請表格">
+                    <tr class="section-header">
+                        <th colspan="2">獎助生團體保險申請表格</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rwd-row"><span class="item-name">獎助生團體保險申請表格</span><span
+                                    class="file-links-container"><a href="/var/file/39/1039/img/934/914832510.xlsx"
+                                        class="file-link"><i class="fa-solid fa-file-excel"></i><span
+                                            class="file-type-label">EXCEL</span></a><a
+                                        href="/var/file/39/1039/img/934/175905261.ods" class="file-link">
+                                        <i class="fa-solid fa-file-lines"></i><span
+                                            class="file-type-label">ODS</span></a></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#category-filter').on('change', function () {
+                var selectedCategory = $(this).val();
+                if (selectedCategory === 'all') {
+                    $('.downloads-table tbody').stop().fadeIn('fast');
+                } else {
+                    $('.downloads-table tbody').hide();
+                    $('.downloads-table tbody[data-category="' + selectedCategory + '"]').stop().fadeIn('fast');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

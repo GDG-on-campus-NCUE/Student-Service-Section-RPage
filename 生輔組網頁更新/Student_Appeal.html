@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學生申訴 Student Appeal</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-appeal-app {
+            --primary-blue: #0077A2;
+            --header-bg: #e7f5fe;
+            --notice-bg: #fffbe6;
+            --notice-border: #ffe58f;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #d4f3ef;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: transparent;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .ncue-appeal-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 主要容器 --- */
+        .ncue-appeal-app .container {
+            max-width: 900px;
+            margin: 32px auto;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            padding: 24px 32px 32px 32px;
+        }
+
+        /* --- 頁面主標題 --- */
+        .ncue-appeal-app .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        /* --- 重要公告區塊 --- */
+        .ncue-appeal-app .notice-block {
+            background-color: var(--notice-bg);
+            border: 1px solid var(--notice-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .ncue-appeal-app .notice-block .icon {
+            font-size: 24px;
+            color: #f59e0b;
+            flex-shrink: 0;
+            padding-top: 4px;
+        }
+
+        .ncue-appeal-app .notice-block .content h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #b45309;
+        }
+
+        .ncue-appeal-app .notice-block .content p {
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        /* --- 列表項目通用樣式 --- */
+        .ncue-appeal-app .info-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .ncue-appeal-app .info-list>li {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px 12px;
+            border-bottom: 1px solid var(--border-color);
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+
+        .ncue-appeal-app .info-list>li:last-child {
+            border-bottom: none;
+        }
+
+        .ncue-appeal-app .item-content {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .ncue-appeal-app .item-title {
+            font-weight: 500;
+            font-size: 17px;
+            display: block;
+        }
+
+        .ncue-appeal-app .item-title::before {
+            content: '※';
+            color: var(--primary-blue);
+            margin-right: 12px;
+            font-weight: 700;
+        }
+
+        .ncue-appeal-app .links-group {
+            display: flex;
+            gap: 24px;
+            flex-shrink: 0;
+            padding-left: 24px;
+            align-items: center;
+        }
+
+        /* --- 相關法規子列表樣式 --- */
+        .ncue-appeal-app .sub-list {
+            list-style: none;
+            padding: 12px 0 0 42px;
+        }
+
+        .ncue-appeal-app .sub-list li {
+            position: relative;
+            padding: 4px 0 4px 24px;
+        }
+
+        .ncue-appeal-app .sub-list li::before {
+            content: '●';
+            color: var(--text-light);
+            position: absolute;
+            left: 0;
+            top: 5px;
+        }
+
+        /* --- 連結與圖示 --- */
+        .ncue-appeal-app a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ncue-appeal-app a:hover {
+            text-decoration: underline;
+        }
+
+        .ncue-appeal-app .file-link,
+        .ncue-appeal-app .page-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .ncue-appeal-app .file-link i {
+            font-size: 22px;
+        }
+
+        .ncue-appeal-app .file-link-label {
+            font-size: 14px;
+        }
+
+        .ncue-appeal-app .fa-file-word {
+            color: #2a5699;
+        }
+
+        .ncue-appeal-app .fa-file-pdf {
+            color: #e6232d;
+        }
+
+        .ncue-appeal-app .fa-file-lines {
+            color: #555;
+        }
+
+        /* --- 懸浮互動 --- */
+        @media (hover: hover) {
+            .ncue-appeal-app .info-list>li:hover {
+                background-color: var(--hover-bg);
+                transform: scale(1.02);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                position: relative;
+                z-index: 10;
+                border-radius: 8px;
+            }
+        }
+
+        /* --- RWD --- */
+        @media (max-width: 768px) {
+            .ncue-appeal-app .container {
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 16px 24px 24px 24px;
+            }
+
+            .ncue-appeal-app .main-title {
+                font-size: 24px;
+            }
+
+            .ncue-appeal-app .notice-block {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .ncue-appeal-app .notice-block .icon {
+                padding-top: 0;
+            }
+
+            .ncue-appeal-app .info-list>li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 16px 0;
+            }
+
+            .ncue-appeal-app .links-group {
+                padding-left: 0;
+            }
+
+            .ncue-appeal-app .sub-list {
+                padding-left: 0;
+            }
+
+            .ncue-appeal-app .sub-list li {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-appeal-app">
+        <div class="container">
+            <h1 class="main-title">學生申訴相關資訊</h1>
+
+            <div class="notice-block">
+                <div class="icon"><i class="fa-solid fa-bullhorn"></i></div>
+                <div class="content">
+                    <h3>【法規更新】本校學生申訴處理辦法業經報部核定，請各單位卓參。</h3>
+                    <p>一、本校學生申訴處理辦法業經教育部於111年9月28日核定，並簽准奉核公告施行。</p>
+                    <p>二、請各單位如有相關法規，請惠予卓參據以修正。</p>
+                    <p><strong>附件下載：</strong> <a href="/var/file/39/1039/img/527/198154748.pdf"
+                            target="_blank">111.9.28核定 彰師大學生申訴處理辦法.pdf</a></p>
+                </div>
+            </div>
+
+            <ul class="info-list">
+                <li>
+                    <span class="item-content"><span class="item-title">學生申訴辦法</span></span>
+                    <div class="links-group">
+                        <a href="/var/file/39/1039/img/527/198154748.pdf" class="page-link" target="_blank">查看辦法 <i
+                                class="fa-solid fa-up-right-from-square"></i></a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="item-content">
+                        <span class="item-title">相關法規</span>
+                        <ul class="sub-list">
+                            <li><a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=GL000221"
+                                    target="_blank">大學及專科學校學生申訴案處理原則</a></li>
+                            <li><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=A0030055"
+                                    target="_blank">行政程序法</a></li>
+                            <li><a href="https://acadaff.ncue.edu.tw/files/11-1021-2139.php?Lang=zh-tw"
+                                    target="_blank">國立彰化師範大學教師繳交、修改及更正成績辦法 (404 Error)</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <span class="item-content"><span class="item-title">申訴流程</span></span>
+                    <div class="links-group">
+                        <a href="/var/file/39/1039/img/592/106618202.pdf" class="page-link" target="_blank">查看流程圖 <i
+                                class="fa-solid fa-up-right-from-square"></i></a>
+                    </div>
+                </li>
+
+                <li>
+                    <span class="item-content"><span class="item-title">申訴書</span></span>
+                    <div class="links-group">
+                        <a href="https://stuaffweb.ncue.edu.tw/var/file/39/1039/img/934/256842743.docx"
+                            class="file-link" title="下載 Word"><i class="fa-solid fa-file-word"></i><span
+                                class="file-link-label">WORD</span></a>
+                        <a href="https://stuaffweb.ncue.edu.tw/var/file/39/1039/img/934/466949717.odt" class="file-link"
+                            title="下載 ODT"><i class="fa-solid fa-file-lines"></i><span
+                                class="file-link-label">ODT</span></a>
+                    </div>
+                </li>
+
+                <li>
+                    <span class="item-content"><span class="item-title">撤回申訴聲明書</span></span>
+                    <div class="links-group">
+                        <a href="/var/file/39/1039/img/592/113081716.pdf" class="file-link" target="_blank"
+                            title="下載 PDF"><i class="fa-solid fa-file-pdf"></i><span
+                                class="file-link-label">PDF</span></a>
+                        <a href="/var/file/39/1039/img/592/143805484.odt" class="file-link" title="下載 ODT"><i
+                                class="fa-solid fa-file-lines"></i><span class="file-link-label">ODT</span></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>

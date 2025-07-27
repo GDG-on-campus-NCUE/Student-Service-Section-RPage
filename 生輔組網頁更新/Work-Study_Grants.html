@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工讀助學金 Work-Study Grants</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-work-study-app {
+            --primary-blue: #0077A2;
+            --cta-orange: #f59e0b;
+            --cta-orange-dark: #d97706;
+            --header-bg: #e7f5fe;
+            --notice-bg: #fffbe6;
+            --notice-border: #ffe58f;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .ncue-work-study-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 主要容器 --- */
+        .ncue-work-study-app .container {
+            max-width: 900px;
+            margin: 32px auto;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            padding: 24px 32px 32px 32px;
+        }
+
+        /* --- 頁面主標題 --- */
+        .ncue-work-study-app .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--primary-blue);
+            text-align: center;
+        }
+
+        .ncue-work-study-app .cta-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .ncue-work-study-app .cta-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--cta-orange);
+            border: 2px solid var(--cta-orange);
+            font-size: 22px;
+            font-weight: 700;
+            padding: 14px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.25s ease-out;
+        }
+
+        .ncue-work-study-app .cta-button:hover {
+            background-color: var(--cta-orange);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px 0 rgba(245, 158, 11, 0.5);
+        }
+
+        /* --- 內容區塊 --- */
+        .ncue-work-study-app .content-section {
+            margin-bottom: 24px;
+        }
+
+        .ncue-work-study-app .content-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ncue-work-study-app ul,
+        .ncue-work-study-app ol {
+            padding-left: 24px;
+        }
+
+        .ncue-work-study-app li {
+            margin-bottom: 10px;
+        }
+
+        .ncue-work-study-app .notice-box {
+            background-color: var(--notice-bg);
+            border: 1px solid var(--notice-border);
+            border-left: 5px solid var(--notice-border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .ncue-work-study-app strong {
+            color: var(--cta-orange-dark);
+            font-weight: 700;
+        }
+
+        .ncue-work-study-app .related-links {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .ncue-work-study-app .related-links h3 {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .ncue-work-study-app .related-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .ncue-work-study-app .related-links a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ncue-work-study-app .related-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- RWD --- */
+        @media (max-width: 768px) {
+            .ncue-work-study-app .container {
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 16px 24px 24px 24px;
+            }
+
+            .ncue-work-study-app .main-title {
+                font-size: 24px;
+            }
+
+            .ncue-work-study-app .cta-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-work-study-app">
+        <div class="container">
+            <h1 class="main-title">114學年度工讀助學金申請</h1>
+
+            <div class="cta-section">
+                <a href="https://aps.ncue.edu.tw/working/" class="cta-button" target="_blank">
+                    <i class="fa-solid fa-paper-plane"></i> 前往線上工讀申請系統
+                </a>
+            </div>
+
+            <div class="content-section">
+                <h3><i class="fa-solid fa-calendar-days"></i>一、申辦期限</h3>
+                <div class="notice-box">
+                    <ul>
+                        <li><strong>舊生：</strong>即日起至 <strong>114年6月8日</strong> 前，至線上申請。</li>
+                        <li><strong>新生：</strong>開學日起算一週內 (即日起至 <strong>9月15日 24:00</strong> 止)。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3><i class="fa-solid fa-laptop-file"></i>二、申請方式</h3>
+                <p>請至「學生線上工讀申請系統」填寫申請資料，申請學年度請務必點選「<strong>114學年度</strong>」。輸入完畢後請點選送出。(檢附證件可用拍照或掃描檔上傳)</p>
+            </div>
+
+            <div class="content-section">
+                <h3><i class="fa-solid fa-user-check"></i>三、申請資格</h3>
+                <p>凡具有本校學籍學生(<strong>陸生、進修學院及休學期間學生除外</strong>)，具備服務熱忱與主動學習精神，且<strong>未受記過以上處分者</strong>，均可申請本助學金。</p>
+            </div>
+
+            <div class="content-section">
+                <h3><i class="fa-solid fa-award"></i>四、錄取標準</h3>
+                <p>前一學年學業成績平均達 <strong>60分</strong> 以上，且具備以下身分者，得<strong>優先錄取</strong>：</p>
+                <ol>
+                    <li>身心障礙學生。</li>
+                    <li>原住民學生。</li>
+                    <li>符合大專校院弱勢學生助學計畫資格、低收入戶、中低收入戶、特殊境遇子女、身心障礙人士子女。</li>
+                    <li>家庭遭變故致經濟困難影響就學，經導師簽署證明。</li>
+                    <li>清寒僑外生，由國際事務處審查，並證明其清寒狀況。</li>
+                </ol>
+            </div>
+
+            <div class="related-links">
+                <h3><i class="fa-solid fa-link"></i>相關連結</h3>
+                <ul>
+                    <li><a href="/var/file/39/1039/img/592/108280174.pdf" target="_blank"><i
+                                class="fa-solid fa-scroll"></i> 國立彰化師範大學工讀助學金實施要點</a></li>
+                    <li><a href="/p/412-1039-4293.php" target="_blank"><i class="fa-solid fa-download"></i>
+                            工讀助學金相關表單下載</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

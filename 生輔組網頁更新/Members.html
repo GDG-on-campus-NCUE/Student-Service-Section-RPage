@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成員介紹 Members</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-staff-app {
+            --primary-blue: #0077A2;
+            --header-bg: #e7f5fe;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: transparent;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .ncue-staff-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ncue-staff-app .container {
+            max-width: 1100px;
+            margin: 32px auto;
+        }
+
+        .ncue-staff-app .staff-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            overflow: hidden;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+        }
+
+        .ncue-staff-app .card-header {
+            background-color: var(--header-bg);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease-out;
+        }
+
+        .ncue-staff-app .card-title {
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            transition: color 0.3s ease-out;
+        }
+
+        .ncue-staff-app .card-content {
+            padding: 24px;
+        }
+
+        .ncue-staff-app .staff-intro {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .ncue-staff-app .staff-photo {
+            flex: 0 0 200px;
+        }
+
+        .ncue-staff-app .staff-photo img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ncue-staff-app .staff-details {
+            flex: 1;
+        }
+
+        .ncue-staff-app .staff-name {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            transition: color 0.3s ease-out;
+        }
+
+        .ncue-staff-app .staff-position {
+            font-size: 18px;
+            color: var(--primary-blue);
+            margin: 0 0 16px 0;
+            font-weight: 500;
+        }
+
+        .ncue-staff-app .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+
+        .ncue-staff-app .contact-info li {
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ncue-staff-app .contact-info i {
+            color: var(--text-light);
+            width: 20px;
+            text-align: center;
+        }
+
+        .ncue-staff-app .contact-info a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ncue-staff-app .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- 業務內容區塊 --- */
+        .ncue-staff-app .profile-section h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 24px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ncue-staff-app .profile-section ol {
+            padding-left: 24px;
+            margin: 0;
+            list-style-type: decimal-leading-zero;
+        }
+
+        .ncue-staff-app .profile-section ol li {
+            margin-bottom: 16px;
+            padding-left: 8px;
+        }
+
+        .ncue-staff-app .task-zh {
+            display: block;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .ncue-staff-app .task-en {
+            display: block;
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        @media (hover: hover) {
+            .ncue-staff-app .staff-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border-color: var(--primary-blue);
+            }
+
+            .ncue-staff-app .staff-card:hover .card-header {
+                background-color: var(--primary-blue);
+            }
+
+            .ncue-staff-app .staff-card:hover .card-title {
+                color: #fff;
+            }
+
+            .ncue-staff-app .staff-card:hover .staff-name {
+                color: var(--primary-blue);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ncue-staff-app .container {
+                margin: 0;
+            }
+
+            .ncue-staff-app .staff-card {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                margin-bottom: 24px;
+            }
+
+            .ncue-staff-app .staff-intro {
+                flex-direction: column;
+            }
+
+            .ncue-staff-app .staff-photo {
+                flex-basis: auto;
+                max-width: 250px;
+                margin: 0 auto 16px auto;
+            }
+
+            .ncue-staff-app .staff-details {
+                text-align: center;
+            }
+
+            .ncue-staff-app .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-staff-app">
+        <div class="container">
+
+            <!-- 胡其瑞 組長 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">組長 Section Chief</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="組長照片" src="/var/file/39/1039/img/523/197075116.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">胡其瑞 Hu,Chi-Jui</h3>
+                            <p class="staff-position">組長</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5711</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:huchijui@cc.ncue.edu.tw">huchijui@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：何淑芬(5718)、林秀紀(5716)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong class="task-zh">綜理生輔組全般業務</strong><span class="task-en">General Management of
+                                    Student Service Section and Military Training Section</span></li>
+                            <li><strong class="task-zh">學務處交辦事項</strong><span class="task-en">Matters assigned by the
+                                    Office of Student Affairs</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 何淑芬 組員 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">組員 Officer</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="何淑芬照片" src="/var/file/39/1039/img/523/Hs.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">何淑芬 Ho,Shu-Fen</h3>
+                            <p class="staff-position">組員</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5718</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:hosf@cc.ncue.edu.tw">hosf@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：林秀紀(5716)、鄭伊玲(5719)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong
+                                    class="task-zh">學生申訴業務：法規修訂、聘任委員、教育研習、受理學生申訴（晤談）、辦理學生申訴評議會議、訴願等相關作業。</strong><span
+                                    class="task-en">Student Complaints</span></li>
+                            <li><strong class="task-zh">學生校內及校外急難扶助業務：公告、受理申請及晤談、造冊撥款、依個案狀況另行協助尋求其他相關資源挹注。</strong><span
+                                    class="task-en">Emergency assistance for students on and off campus</span></li>
+                            <li><strong class="task-zh">學產基金急難慰問金：受理申請、審核、登錄、送件、造冊撥款。</strong><span
+                                    class="task-en">Student fund emergency relief fund</span></li>
+                            <li><strong
+                                    class="task-zh">校外獎助學金業務：公告（含一覽表）、受理申請、審核、送件、公告獲獎、造冊核發撥款、辦理校外獎助學金撥款單位請協助或配合之相關事宜。</strong><span
+                                    class="task-en">Off-campus scholarship business</span></li>
+                            <li><strong
+                                    class="task-zh">校內代辦獎學金(王金平先生關懷揚鷹生獎助學金、飛羚電機關懷揚鷹生獎助學金、勤學獎助學金、杭特獎助學金、張榮鑫先生清寒學生獎助學金、培鷹翱翔助學金)受理申請、審核、造冊、核發。</strong><span
+                                    class="task-en">On-campus scholarship</span></li>
+                            <li><strong
+                                    class="task-zh">高教深耕計畫「附錄1」相關業務：單一窗口、王金平關懷揚鷹生急難扶助金業務、揚鷹生專題研究學習獎勵金業務、新鮮人助學金系列增能講座、及預研生（四加一學程）及直升碩班優惠措施講座。</strong><span
+                                    class="task-en">Higher Education Development Plan "Appendix 1" Related
+                                    Business</span></li>
+                            <li><strong class="task-zh">生輔組創設之Line社群「彰師多元關懷社群」、生輔組獎助學金專區「Q＆A」。</strong><span
+                                    class="task-en">The Line community "Zhangshi Diversity Care Community" created by
+                                    the Student Assistance Group and the Student Assistance Group Scholarship Area
+                                    "Q&A"</span></li>
+                            <li><strong class="task-zh">生輔組採購及財產管理。</strong><span class="task-en">Procurement and
+                                    property management of the student support group</span></li>
+                            <li><strong class="task-zh">其他臨時交辦事項。</strong><span class="task-en">Other temporary
+                                    tasks</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 林秀紀 行政組員 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">行政組員 Administrative Officer</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="林秀紀照片" src="/var/file/39/1039/img/523/sgl.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">林秀紀 Lin,Hsiu-Chi</h3>
+                            <p class="staff-position">行政組員</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5716</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:tina@cc.ncue.edu.tw">tina@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：鄭伊玲(5719)、何淑芬(5718)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong class="task-zh">減免學雜費業務。</strong><span class="task-en">Tuition Waiver</span>
+                            </li>
+                            <li><strong class="task-zh">弱勢學生助學計畫(助學金及校外租金補貼)。</strong><span class="task-en">Financial
+                                    Aid for Disadvantaged Students</span></li>
+                            <li><strong class="task-zh">學產基金低收入戶助學金。</strong><span class="task-en">Low-Income Student
+                                    Grant</span></li>
+                            <li><strong class="task-zh">特殊教育學生獎助學金。</strong><span class="task-en">Special Education
+                                    Student Scholarships and Grants</span></li>
+                            <li><strong class="task-zh">校園餐券。</strong><span class="task-en">Campus Dining Coupons</span>
+                            </li>
+                            <li><strong class="task-zh">其他臨時交辦事項。</strong><span class="task-en">Other temporary
+                                    tasks</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 柯銘勳 行政組員 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">行政組員 Administrative Officer</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="柯銘勳照片" src="/var/file/39/1039/img/523/s.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">柯銘勳 Ke,Ming-Xun</h3>
+                            <p class="staff-position">行政組員</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5714</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:s60370@cc.ncue.edu.tw">s60370@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：黃永助(5715)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong class="task-zh">各單位工讀助學金學生申請、分發、薪資造冊業務。</strong><span class="task-en">Work-Study
+                                    Financial Aid</span></li>
+                            <li><strong class="task-zh">研究生業務(獎助學金暨新生輔導)。</strong><span class="task-en">Graduate
+                                    Scholarship and Grant</span></li>
+                            <li><strong class="task-zh">公費生業務。</strong><span class="task-en">Publicly Funded Students
+                                    Program</span></li>
+                            <li><strong class="task-zh">學生就學貸款業務(含就貸還款說明會)。</strong><span class="task-en">Student
+                                    Educational Loans</span></li>
+                            <li><strong class="task-zh">師生座談。</strong><span class="task-en">Teacher-student Forum</span>
+                            </li>
+                            <li><strong class="task-zh">遺失物招領。</strong><span class="task-en">Lost and Found</span></li>
+                            <li><strong class="task-zh">生輔組登記桌及協助網頁管理。</strong><span class="task-en">Student support
+                                    group registration desk and assist with website management</span></li>
+                            <li><strong class="task-zh">其他臨時交辦事項。</strong><span class="task-en">Other temporary
+                                    tasks</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 鄭伊玲 行政組員 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">行政組員 Administrative Officer</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="鄭伊玲照片" src="/var/file/39/1039/img/523/22625.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">鄭伊玲 Cheng, I-Ling</h3>
+                            <p class="staff-position">行政組員</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5719</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:may@cc.ncue.edu.tw">may@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：林秀紀(5716)、何淑芬(5718)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong
+                                    class="task-zh">導師業務(導師名單建置、導師會議、導師增能活動、導師經費與班級活動費核銷管制、班會與班級活動紀錄管制)。</strong><span
+                                    class="task-en">Mentorship Services</span></li>
+                            <li><strong class="task-zh">績特優導師甄選暨專刊製作。</strong><span class="task-en">Selection of
+                                    outstanding tutors and production of special publications</span></li>
+                            <li><strong class="task-zh">弱勢學生助學計畫-生活助學金。</strong><span class="task-en">Disadvantaged
+                                    Student Aid Program-Living Bursary</span></li>
+                            <li><strong class="task-zh">生輔組工讀生管理。</strong><span class="task-en">Management of work-study
+                                    students in the student support group</span></li>
+                            <li><strong class="task-zh">學生請假作業。</strong><span class="task-en">Student Leave
+                                    Management</span></li>
+                            <li><strong class="task-zh">學生操行業務。</strong><span class="task-en">Student Conduct
+                                    Services</span></li>
+                            <li><strong class="task-zh">學生獎懲業務。</strong><span class="task-en">Student Rewards and
+                                    Disciplinary Services</span></li>
+                            <li><strong class="task-zh">校園心理健康促進計畫。</strong><span class="task-en">Campus Mental Health
+                                    Promotion Program</span></li>
+                            <li><strong class="task-zh">其他臨時交辦事項。</strong><span class="task-en">Other temporary
+                                    tasks</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 黃永助 校安人員 -->
+            <section class="staff-card">
+                <header class="card-header">
+                    <h2 class="card-title">校安人員 Campus Security Officer</h2>
+                </header>
+                <div class="card-content">
+                    <div class="staff-intro">
+                        <div class="staff-photo"><img alt="黃永助照片" src="/var/file/39/1039/img/523/fb.jpg"></div>
+                        <div class="staff-details">
+                            <h3 class="staff-name">黃永助 Hwang,Yeong-Ju</h3>
+                            <p class="staff-position">校安人員</p>
+                            <ul class="contact-info">
+                                <li><i class="fa-solid fa-phone"></i> 分機(phone)：5715</li>
+                                <li><i class="fa-solid fa-envelope"></i> 電子郵件(E-mail)：<a
+                                        href="mailto:juh@cc.ncue.edu.tw">juh@cc.ncue.edu.tw</a></li>
+                                <li><i class="fa-solid fa-user-group"></i> 職務代理人：柯銘勳(5714)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>業務內容</h4>
+                        <ol>
+                            <li><strong class="task-zh">校內學生車輛秩序管理(交安工讀生教育管理與經費結報、學生機踏車輛違規取締、校園無主自行車清理工作)。</strong><span
+                                    class="task-en">Campus Student Vehicle Regulation Enforcement</span></li>
+                            <li><strong class="task-zh">學生機車暨自行車通行證申辦業務。</strong><span class="task-en">Student
+                                    Motorcycle and Bicycle Permit Application</span></li>
+                            <li><strong
+                                    class="task-zh">防制學生藥物濫用(計畫及教育宣導與活動規劃辦理、教育部藥物濫用服務學習模式方案計畫申辦與執行及經費結報、特定人員個案管理、年度評鑑與績優學校作業)。</strong><span
+                                    class="task-en">Drug Addiction Prevention Education</span></li>
+                            <li><strong class="task-zh">校園禁菸業務(教育宣導、違規取締、個案轉介)。</strong><span class="task-en">Campus
+                                    smoking ban business</span></li>
+                            <li><strong class="task-zh">學期楊宗緯志工服務獎學金及傑出才能、學年服務奉獻獎學金。</strong><span class="task-en">Yang
+                                    Zongwei Scholarship, Outstanding Talent Scholarship, Service Dedication
+                                    Scholarship</span></li>
+                            <li><strong class="task-zh">生輔組空間管理、其他臨時交辦事項。</strong><span class="task-en">Space management
+                                    of the student support group and other temporary tasks</span></li>
+                            <li><strong class="task-zh">輔諮系、所及生物系大學部學生輔導人員及協助校園安全維護。</strong><span
+                                    class="task-en">Assist in the student counseling of the Department, Institute and
+                                    Department of Biology and assist in campus safety maintenance</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</body>
+
+</html>
