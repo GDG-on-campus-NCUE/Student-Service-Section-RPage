@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國立彰化師範大學 生輔組 遺失物招領平台</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --text-color: #212529;
+            --bg-color: #ffffff;
+            --panel-bg-color: #f8f9fa;
+            --border-color: #dee2e6;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --border-radius-px: 6px;
+
+            --card-hover-bg-color: #e9f5ff;
+            --card-hover-title-color: #0056b3;
+            --card-hover-text-color: #004085;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .lost-and-found-container {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .announcement-panel {
+            background-color: #e9f5ff;
+            color: #004085;
+            border-left: 5px solid var(--primary-color);
+            padding: 24px 32px;
+            border-radius: var(--border-radius-px);
+            margin-bottom: 40px;
+        }
+
+        .announcement-panel p {
+            margin-bottom: 12px;
+        }
+
+        .announcement-panel p:last-child {
+            margin-bottom: 0;
+        }
+
+        .announcement-panel strong {
+            font-weight: 700;
+            color: #004085;
+        }
+
+        .announcement-panel .report-button {
+            display: inline-block;
+            margin-top: 16px;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 99px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .announcement-panel .report-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px 24px;
+            background-color: var(--panel-bg-color);
+            padding: 32px;
+            border-radius: var(--border-radius-px);
+            margin-bottom: 40px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .filter-controls select,
+        .filter-controls input {
+            width: 100%;
+            padding: 10px 16px;
+            height: 42px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-px);
+            font-size: 16px;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fff;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            box-sizing: border-box;
+        }
+
+        .filter-controls select {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 10px auto;
+        }
+
+        .location-filter-group {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 992px) {
+            .location-filter-group {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .location-filter-group {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        #items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .item-card {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius-px);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: var(--primary-color);
+            background-color: var(--card-hover-bg-color);
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-image-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: blur(15px);
+            transform: scale(1.1);
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .card-image-fg {
+            position: relative;
+            z-index: 2;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .card-content {
+            padding: 24px;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+            font-weight: 700;
+        }
+
+        .card-content p {
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .card-content strong {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .item-card:hover .card-content h3 {
+            color: var(--card-hover-title-color);
+        }
+
+        .item-card:hover .card-content p,
+        .item-card:hover .card-content strong {
+            color: var(--card-hover-text-color);
+        }
+
+        .card-footer {
+            padding: 12px 24px;
+            background-color: var(--panel-bg-color);
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: #adb5bd;
+            text-align: right;
+            transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+        }
+
+        .item-card:hover .card-footer {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border-top-color: #cce7ff;
+        }
+
+        .loading-text,
+        .no-results-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 19px;
+            padding: 80px 0;
+            color: var(--secondary-color);
+        }
+
+        .announcement-panel .date-highlight {
+            color: #c92a2a;
+            font-weight: 700;
+        }
+
+        .announcement-panel .contact-link {
+            color: #0056b3;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .announcement-panel .contact-link:hover {
+            color: #003d80;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="lost-and-found-app">
+        <section class="announcement-panel">
+            <p><strong>【重要公告】</strong>113-1學期寶山校區遺失物(<strong class="date-highlight">114.1.31</strong>前遺失物)，請同學盡速來認領。預計
+                <strong class="date-highlight">114.3.7</strong> 星期五，先送至學務處倉庫保存半年，如未領取預計在
+                <strong class="date-highlight">114.7.31</strong> 列為無人認領物品處理。
+            </p>
+            <p><strong>聯絡資訊：</strong>生活輔導組 柯銘勳先生 (電話：04-7232105#5714，
+                Email：<a href="mailto:s60370@cc.ncue.edu.tw" class="contact-link">s60370@cc.ncue.edu.tw</a>)</p>
+            <p><strong>處理原則：</strong>公告招領之日起逾<strong>6個月</strong>無人認領，有價物品得由學務處生輔組以轉贈公益團體或其他適當方式處理之；保存價值較低之物品，經招領
+                <strong class="date-highlight">6個月</strong>無人認領或過保存期限，學務處生輔組得逕行廢棄物丟棄或資源回收。
+            </p>
+            <a href="https://forms.gle/LaXeXCjMtK4wjHDW6" target="_blank" rel="noopener"
+                class="report-button">我撿到東西了，前往回報 →</a>
+        </section>
+        <section class="filter-controls">
+            <div class="filter-group"><label for="start-date-filter">拾獲日期 (起)</label><input type="date"
+                    id="start-date-filter"></div>
+            <div class="filter-group"><label for="end-date-filter">拾獲日期 (迄)</label><input type="date"
+                    id="end-date-filter"></div>
+            <div class="filter-group"><label for="year-semester-filter">學年/學期</label><select id="year-semester-filter">
+                    <option value="全部">全部學年學期</option>
+                </select></div>
+            <div class="location-filter-group">
+                <div class="filter-group"><label for="campus-filter">校區</label><select id="campus-filter">
+                        <option value="全部">全部校區</option>
+                        <option value="進德校區">進德校區</option>
+                        <option value="寶山校區">寶山校區</option>
+                    </select></div>
+                <div class="filter-group"><label for="location-filter">拾獲地點</label><select id="location-filter">
+                        <option value="全部">全部地點</option>
+                    </select></div>
+            </div>
+            <div class="filter-group"><label for="keyword-filter">關鍵字</label><input type="text" id="keyword-filter"
+                    placeholder="搜尋物品名稱、描述..."></div>
+        </section>
+        <main id="items-grid"></main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const sheetId = '1yGWyvzR3Jr6dRpZBATVhSVvEcc0FMQrWHPBqbYrgIag';
+            const managementSheetName = 'Public_data';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(managementSheetName)}`;
+
+            const locations = {
+                "全部": ["全部地點"],
+                "進德校區": ["全部地點", "教學大樓", "白沙大樓", "圖書館", "體育館", "操場"],
+                "寶山校區": ["全部地點", "工學院大樓", "科技學院大樓", "管理學院大樓", "教學一館", "教學二館"]
+            };
+
+            let allItems = [];
+            const itemsGrid = document.querySelector('#items-grid');
+            const yearSemesterFilter = document.querySelector('#year-semester-filter');
+            const campusFilter = document.querySelector('#campus-filter');
+            const locationFilter = document.querySelector('#location-filter');
+            const startDateFilter = document.querySelector('#start-date-filter');
+            const endDateFilter = document.querySelector('#end-date-filter');
+            const keywordFilter = document.querySelector('#keyword-filter');
+
+            function parseGvizDate(gvizDate) {
+                if (!gvizDate || typeof gvizDate !== 'string') return null;
+                const match = gvizDate.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (!match) return null;
+                const year = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10);
+                const day = parseInt(match[3], 10);
+                return new Date(year, month, day);
+            }
+
+            function fetchData() {
+                itemsGrid.innerHTML = `<p class="loading-text">資料載入中...</p>`;
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Network response was not ok, status: ${response.status}`);
+                        return response.text();
+                    })
+                    .then(text => {
+                        if (!text || !text.includes('google.visualization.Query.setResponse')) {
+                            throw new Error('Invalid response from Google Sheets. Check sharing permissions.');
+                        }
+                        const data = JSON.parse(text.substring(47).slice(0, -2));
+                        if (!data.table || !data.table.rows || data.table.rows.length === 0) {
+                            allItems = [];
+                        } else {
+                            const rows = data.table.rows;
+                            const headers = data.table.cols.map(col => col.label);
+                            const indices = {
+                                id: headers.indexOf('遺失物編號'), yearSemester: headers.indexOf('學期'),
+                                date: headers.indexOf('拾獲日期'), campus: headers.indexOf('拾獲校區'),
+                                location: headers.indexOf('拾獲地點'), name: headers.indexOf('拾獲物品名稱'),
+                                description: headers.indexOf('物品詳細描述'), image: headers.indexOf('圖片公開連結')
+                            };
+
+                            allItems = rows.map(row => {
+                                const item = row.c;
+                                return {
+                                    id: item[indices.id]?.v || '',
+                                    yearSemester: item[indices.yearSemester]?.v || '',
+                                    pickupDate: item[indices.date]?.f || '無日期',
+                                    jsDate: parseGvizDate(item[indices.date]?.v),
+                                    campus: item[indices.campus]?.v || '',
+                                    location: item[indices.location]?.v || '',
+                                    name: item[indices.name]?.v || '無名稱',
+                                    description: item[indices.description]?.v || '',
+                                    imageUrl: item[indices.image]?.v || ''
+                                };
+                            }).filter(item => item.id);
+                        }
+
+                        populateFilters(allItems);
+                        renderItems(allItems);
+                    })
+                    .catch(error => {
+                        console.error('抓取資料時發生嚴重錯誤:', error);
+                        itemsGrid.innerHTML = `<p class="no-results-text">資料載入失敗！<br>請檢查試算表 ID、工作表名稱或共用權限設定。</p>`;
+                    });
+            }
+
+            function populateFilters(items) {
+                const uniqueYearSemesters = [...new Set(items.map(item => item.yearSemester).filter(Boolean))];
+                uniqueYearSemesters.sort((a, b) => b.localeCompare(a, 'zh-Hant-TW', { numeric: true }));
+                yearSemesterFilter.innerHTML = '<option value="全部">全部學年學期</option>';
+                uniqueYearSemesters.forEach(ys => {
+                    const option = document.createElement('option');
+                    option.value = ys;
+                    option.textContent = `第 ${ys.split('-')[0]} 學年 第 ${ys.split('-')[1]} 學期`;
+                    yearSemesterFilter.appendChild(option);
+                });
+            }
+
+            function renderItems(items) {
+                itemsGrid.innerHTML = '';
+                if (items.length === 0) {
+                    itemsGrid.innerHTML = `<p class="no-results-text">找不到符合條件的物品。</p>`;
+                    return;
+                }
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    let finalImageUrl = 'https://via.placeholder.com/400x300/000000/FFFFFF?text=No+Image';
+                    if (item.imageUrl) {
+                        if (item.imageUrl.includes('drive.google.com')) {
+                            const fileIdMatch = item.imageUrl.match(/id=([a-zA-Z0-9_-]+)/);
+                            if (fileIdMatch && fileIdMatch[1]) {
+                                const fileId = fileIdMatch[1];
+                                finalImageUrl = `https://lh3.googleusercontent.com/d/${fileId}=w1000`;
+                            }
+                        } else {
+                            finalImageUrl = item.imageUrl;
+                        }
+                    }
+
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <div class="card-image-bg" style="background-image: url('${finalImageUrl}');"></div>
+                            <img src="${finalImageUrl}" alt="${item.name}" class="card-image-fg" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/000000/FFFFFF?text=Image+Error'; this.previousElementSibling.style.display='none';">
+                        </div>
+                        <div class="card-content">
+                            <h3>${item.name}</h3>
+                            <p><strong>拾獲日期：</strong>${item.pickupDate}</p>
+                            <p><strong>拾獲地點：</strong>${item.campus} - ${item.location}</p>
+                            <p><strong>物品描述：</strong>${item.description || '無'}</p>
+                        </div>
+                        <div class="card-footer">遺失物編號：${item.id}</div>
+                    `;
+                    itemsGrid.appendChild(card);
+                });
+            }
+
+            function updateLocationFilter() {
+                const selectedCampus = campusFilter.value;
+                const campusLocations = locations[selectedCampus] || [];
+                locationFilter.innerHTML = '';
+                campusLocations.forEach(location => {
+                    const option = document.createElement('option');
+                    option.value = location;
+                    option.textContent = location;
+                    locationFilter.appendChild(option);
+                });
+                if (selectedCampus !== '全部') {
+                    const otherOption = document.createElement('option');
+                    otherOption.value = '_other_';
+                    otherOption.textContent = '其他';
+                    locationFilter.appendChild(otherOption);
+                }
+            }
+
+            let debounceTimer;
+            function applyFilters() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    let filteredItems = [...allItems];
+
+                    const startDateValue = startDateFilter.value;
+                    const endDateValue = endDateFilter.value;
+                    const selectedYearSemester = yearSemesterFilter.value;
+                    const selectedCampus = campusFilter.value;
+                    const selectedLocation = locationFilter.value;
+                    const keyword = keywordFilter.value.trim().toLowerCase();
+
+                    if (startDateValue) {
+                        const startDate = new Date(startDateValue);
+                        if (!isNaN(startDate.valueOf())) {
+                            startDate.setHours(0, 0, 0, 0);
+                            filteredItems = filteredItems.filter(item => item.jsDate && item.jsDate >= startDate);
+                        }
+                    }
+                    if (endDateValue) {
+                        const endDate = new Date(endDateValue);
+                        if (!isNaN(endDate.valueOf())) {
+                            endDate.setHours(23, 59, 59, 999);
+                            filteredItems = filteredItems.filter(item => item.jsDate && item.jsDate <= endDate);
+                        }
+                    }
+
+                    if (selectedYearSemester !== '全部') {
+                        filteredItems = filteredItems.filter(item => item.yearSemester === selectedYearSemester);
+                    }
+                    if (selectedCampus !== '全部') {
+                        filteredItems = filteredItems.filter(item => item.campus === selectedCampus);
+
+                        if (selectedLocation === '_other_') {
+                            const predefinedLocations = locations[selectedCampus] || [];
+                            filteredItems = filteredItems.filter(item => !predefinedLocations.includes(item.location));
+                        } else if (selectedLocation !== '全部地點') {
+                            filteredItems = filteredItems.filter(item => item.location === selectedLocation);
+                        }
+                    }
+
+                    if (keyword) {
+                        filteredItems = filteredItems.filter(item =>
+                            (item.name && item.name.toLowerCase().includes(keyword)) ||
+                            (item.description && item.description.toLowerCase().includes(keyword))
+                        );
+                    }
+
+                    renderItems(filteredItems);
+                }, 250);
+            }
+
+            [yearSemesterFilter, campusFilter, locationFilter, startDateFilter, endDateFilter].forEach(el => {
+                el.addEventListener('change', applyFilters);
+            });
+            keywordFilter.addEventListener('input', applyFilters);
+            campusFilter.addEventListener('change', () => {
+                updateLocationFilter();
+                applyFilters();
+            });
+
+            fetchData();
+            updateLocationFilter();
+        });
+    </script>
+</body>
+
+</html>
