@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>導師制度</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-tutor-system-app {
+            --primary-blue: #0077A2;
+            --accent-orange: #f59e0b;
+            --header-bg: #e7f5fe;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .ncue-tutor-system-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ncue-tutor-system-app .container {
+            max-width: 1100px;
+            margin: 32px auto;
+        }
+
+        .ncue-tutor-system-app .info-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            overflow: hidden;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        @media (hover: hover) {
+            .ncue-tutor-system-app .info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        .ncue-tutor-system-app .card-header {
+            background-color: var(--header-bg);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease-out;
+        }
+
+        .ncue-tutor-system-app .card-title {
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.3s ease-out;
+        }
+
+        @media (hover: hover) {
+            .ncue-tutor-system-app .info-card:hover .card-header {
+                background-color: var(--primary-blue);
+            }
+
+            .ncue-tutor-system-app .info-card:hover .card-title {
+                color: #fff;
+            }
+        }
+
+        .ncue-tutor-system-app .card-content {
+            padding: 24px;
+        }
+
+        .ncue-tutor-system-app .intro-text {
+            text-indent: 2em;
+        }
+
+        /* --- 連結樣式 --- */
+        .ncue-tutor-system-app a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ncue-tutor-system-app .link-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 17px;
+            padding: 8px 0;
+            transition: transform 0.25s ease-out, color 0.25s ease-out;
+        }
+
+        .ncue-tutor-system-app .link-item i {
+            transition: color 0.25s ease-out;
+        }
+
+        .ncue-tutor-system-app .link-item:hover {
+            transform: translateX(5px);
+            color: var(--accent-orange);
+        }
+
+        .ncue-tutor-system-app .link-item:hover i {
+            color: var(--accent-orange);
+        }
+
+        /* --- 各系所法規網格佈局 --- */
+        .ncue-tutor-system-app .department-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 32px 24px;
+        }
+
+        .ncue-tutor-system-app .college-group h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+            transition: border-bottom-color 0.3s ease-out;
+        }
+
+        @media (hover: hover) {
+            .ncue-tutor-system-app .info-card:hover .college-group h4 {
+                border-bottom-color: var(--accent-orange);
+            }
+        }
+
+        .ncue-tutor-system-app .college-group ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ncue-tutor-system-app .college-group li {
+            margin-bottom: 8px;
+        }
+
+        .ncue-tutor-system-app .college-group a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.25s ease-out, color 0.25s ease-out;
+        }
+
+        .ncue-tutor-system-app .college-group a i {
+            color: var(--text-light);
+            transition: color 0.25s ease-out;
+        }
+
+        .ncue-tutor-system-app .college-group a:hover {
+            transform: translateX(5px);
+            color: var(--accent-orange);
+        }
+
+        .ncue-tutor-system-app .college-group a:hover i {
+            color: var(--accent-orange);
+        }
+
+        /* --- RWD --- */
+        @media (max-width: 768px) {
+            .ncue-tutor-system-app .container {
+                margin: 0;
+            }
+
+            .ncue-tutor-system-app .info-card {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .ncue-tutor-system-app .department-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-tutor-system-app">
+        <div class="container">
+
+            <section class="info-card">
+                <header class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-circle-info"></i> 導師制度-簡介</h2>
+                </header>
+                <div class="card-content">
+                    <p class="intro-text">
+                        本校為強化導師制度，落實輔導學生工作，提升教育品質，達成大學教育目的，於民國92年4月依據教師法第17條規定，配合本校實際需要，訂定「國立彰化師範大學教師擔任導師辦法」，並依教育目標與現況需求分別於92年6月、93年12月、98年5月及6月透過行政會議與校務會議修正部分條文，使本校導師制度更臻完善，達成落實輔導學生工作及提升教育品質的目標，並於98年11月函送教育部備查。
+                    </p>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <header class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-landmark"></i> 本校法規</h2>
+                </header>
+                <div class="card-content">
+                    <a href="/var/file/39/1039/img/592/812763985.pdf" target="_blank" class="link-item">
+                        <i class="fa-solid fa-file-pdf"></i> 國立彰化師範大學教師擔任導師辦法
+                    </a>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <header class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-award"></i> 績優導師遴選要點</h2>
+                </header>
+                <div class="card-content">
+                    <a href="/var/file/39/1039/img/592/146244864.pdf" target="_blank" class="link-item">
+                        <i class="fa-solid fa-file-pdf"></i> 國立彰化師範大學績優導師遴選要點
+                    </a>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <header class="card-header">
+                    <h2 class="card-title"><i class="fa-solid fa-sitemap"></i> 各系所法規</h2>
+                </header>
+                <div class="card-content">
+                    <div class="department-grid">
+                        <div class="college-group">
+                            <h4>教育學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/13.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 特教系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/14.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 教研所</a></li>
+                                <li><a href="/var/file/39/1039/img/532/15.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 復諮所</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>理學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/16.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 生物系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/17.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 物理系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/19.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 光電所</a></li>
+                                <li><a href="/var/file/39/1039/img/532/20.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 科教所</a></li>
+                                <li><a href="/var/file/39/1039/img/532/21.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 數學系、統資所</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>技職學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/10.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 工教系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/11.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 車輛所</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>文學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/4.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 地理系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/5.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 兒英所</a></li>
+                                <li><a href="/var/file/39/1039/img/532/6.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 美術系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/7.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 英語系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/8.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 國文學曁台文所</a></li>
+                                <li><a href="/var/file/39/1039/img/532/9.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 翻譯所</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>工學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/1.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 電機系</a></li>
+                                <li><a href="/var/file/39/1039/img/532/2.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 機電系</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>管理學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/22.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 會計系</a></li>
+                            </ul>
+                        </div>
+                        <div class="college-group">
+                            <h4>社科學院</h4>
+                            <ul>
+                                <li><a href="/var/file/39/1039/img/532/12.pdf" target="_blank"><i
+                                            class="fa-solid fa-book-open-reader"></i> 運動系</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
