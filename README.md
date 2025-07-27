@@ -4,9 +4,9 @@
 
 本系統旨在提供一個高效、安全且易於管理的校園失物招領公告平台。透過整合 Google 表單、Google 試算表及 Google Apps Script 自動化腳本，本平台實現了從「拾獲回報」、「後台審核」到「公開上架」及「自動下架」的完整生命週期管理，並徹底分離了機密與公開資料，確保拾獲者的個資安全。
 
--   **前端公告網站**：[失物招領平台 (rpage)](https://stuaffweb.ncue.edu.tw/p/404-1039-31065.php)
+-   **前端公告網站**：[失物招領平台 (rpage)](https://stuaffweb.ncue.edu.tw/p/412-1039-4292.php)
 -   **拾獲物品回報**：[線上回報表單](https://forms.gle/LaXeXCjMtK4wjHDW6)
--   **後台管理中心**：[Google 試算表後台](https://docs.google.com/spreadsheets/d/1-tbex3bF-Czw0IyaZSvakCWqaTGejWalRo64KEcCyfg/edit?usp=sharing)
+-   **後台管理中心**：[Google 試算表公開存取節點](https://docs.google.com/spreadsheets/d/1yGWyvzR3Jr6dRpZBATVhSVvEcc0FMQrWHPBqbYrgIag/edit?usp=sharing)
 
 ---
 
