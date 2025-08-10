@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國立彰化師範大學 就學貸款專區</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-blue: #0077A2;
+            --secondary-blue: #005A7C;
+            --accent-yellow: #FFC107;
+            --accent-yellow-darker: #f4b701;
+            --money-green: #28a745;
+            --term-red: #c52929;
+            --light-blue-bg: #e7f5fe;
+            --very-light-blue-bg: #f0faff;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --border-color: #dee2e6;
+            --card-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --warning-red-bg: #fdeaea;
+            --warning-red-text: #c52929;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ncue-loan-app {
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .ncue-loan-app * {
+            box-sizing: border-box;
+        }
+
+        .ncue-loan-app .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 16px;
+        }
+
+        .ncue-loan-app .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--accent-yellow);
+            text-align: left;
+        }
+
+        .ncue-loan-app .section-title i {
+            margin-right: 12px;
+        }
+
+        .ncue-loan-app .content-card,
+        .ncue-loan-app .info-card,
+        .ncue-loan-app .notice-card {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (hover: hover) {
+
+            .ncue-loan-app .content-card:hover,
+            .ncue-loan-app .info-card:hover,
+            .ncue-loan-app .notice-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--card-shadow-hover);
+            }
+        }
+
+        .ncue-loan-app .content-card {
+            padding: 28px;
+        }
+
+        .ncue-loan-app .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+        }
+
+        .ncue-loan-app .loan-process-section,
+        .ncue-loan-app .loan-timeline-section {
+            margin-top: 60px;
+        }
+
+        .ncue-loan-app .info-card {
+            padding: 24px;
+            margin-bottom: 0;
+        }
+
+        .ncue-loan-app .info-card.qualifications,
+        .ncue-loan-app .info-card.timeline {
+            background-color: var(--light-blue-bg);
+        }
+
+        .ncue-loan-app .info-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--secondary-blue);
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .ncue-loan-app .info-card h3 i {
+            margin-right: 10px;
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .ncue-loan-app .info-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ncue-loan-app .info-card li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .ncue-loan-app .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        .ncue-loan-app .highlight-red {
+            background-color: var(--warning-red-bg);
+            color: var(--warning-red-text);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .ncue-loan-app .highlight-date {
+            background-color: var(--accent-yellow);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .ncue-loan-app .highlight-money {
+            color: var(--money-green);
+            font-weight: 700;
+        }
+
+        .ncue-loan-app .highlight-doc {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .ncue-loan-app .highlight-term {
+            color: var(--term-red);
+            font-weight: 700;
+        }
+
+        .ncue-loan-app .highlight-action {
+            font-weight: 700;
+            color: var(--primary-blue);
+            background-color: #d4eaf7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .ncue-loan-app .warning-note {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .ncue-loan-app a:not(.doc-item) {
+            background: linear-gradient(to right, var(--accent-yellow-darker), var(--accent-yellow-darker) 50%, var(--primary-blue) 50%);
+            background-size: 200% 100%;
+            background-position: 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-position 0.4s ease-in-out;
+        }
+
+        @media (hover: hover) {
+            .ncue-loan-app a:not(.doc-item):hover {
+                background-position: 0%;
+            }
+        }
+
+        .ncue-loan-app .tabs-nav {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: -1px;
+        }
+
+        .ncue-loan-app .tab-link {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            background-color: #f1f1f1;
+            color: var(--text-light);
+            border-radius: 8px 8px 0 0;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .ncue-loan-app .tab-link:hover {
+            background-color: var(--light-blue-bg);
+        }
+
+        .ncue-loan-app .tab-link.active {
+            background-color: #fff;
+            border-color: var(--border-color);
+            border-bottom: 2px solid #fff;
+            color: var(--primary-blue);
+            font-weight: 700;
+            transform: translateY(1px);
+        }
+
+        .ncue-loan-app .tab-content {
+            display: none;
+        }
+
+        .ncue-loan-app .tab-content.active {
+            display: block;
+        }
+
+        .ncue-loan-app .tab-content h4 {
+            color: var(--secondary-blue);
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ncue-loan-app .tab-content ol {
+            padding-left: 20px;
+        }
+
+        .ncue-loan-app .tab-content li {
+            margin-bottom: 10px;
+        }
+
+        .ncue-loan-app .tab-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ncue-loan-app .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ncue-loan-app .doc-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .ncue-loan-app .doc-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-blue);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+        }
+
+        .ncue-loan-app .doc-item .doc-item-icon {
+            font-size: 24px;
+            color: var(--primary-blue);
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+
+        .ncue-loan-app .doc-item .doc-item-content span {
+            display: block;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .ncue-loan-app .doc-item:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--card-shadow);
+                border-color: var(--primary-blue);
+                background-color: var(--very-light-blue-bg);
+            }
+
+            .ncue-loan-app .doc-item:hover::after {
+                transform: scaleX(1);
+            }
+
+            .ncue-loan-app .doc-item:hover .doc-item-content span {
+                color: var(--secondary-blue);
+            }
+        }
+
+        .ncue-loan-app .modern-process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .ncue-loan-app .process-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 0 15px;
+            min-width: 160px;
+            margin-bottom: 30px;
+        }
+
+        .ncue-loan-app .step-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--light-blue-bg);
+            border: 3px solid var(--primary-blue);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            transition: all 0.4s ease;
+            font-size: 32px;
+        }
+
+        .ncue-loan-app .step-title {
+            font-weight: 700;
+            color: var(--secondary-blue);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .ncue-loan-app .step-desc {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .ncue-loan-app .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-blue), var(--border-color));
+            z-index: -1;
+        }
+
+        @media (hover: hover) {
+            .ncue-loan-app .process-step:hover .step-icon-wrapper {
+                background-color: var(--primary-blue);
+                color: #fff;
+                transform: scale(1.1) rotate(10deg);
+                box-shadow: 0 5px 15px rgba(0, 119, 162, 0.3);
+            }
+        }
+
+        .ncue-loan-app .notice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .ncue-loan-app .notice-card {
+            border: 2px solid var(--primary-blue);
+            background-color: var(--light-blue-bg);
+            padding: 24px;
+            margin-bottom: 0;
+        }
+
+        .ncue-loan-app .notice-card h3 {
+            font-size: 20px;
+            color: var(--secondary-blue);
+            margin-top: 0;
+            border-bottom: 1px solid #aedbeb;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        .ncue-loan-app .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ncue-loan-app .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .ncue-loan-app .accordion-header {
+            padding: 16px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .ncue-loan-app .accordion-header:hover {
+            color: var(--primary-blue);
+        }
+
+        .ncue-loan-app .accordion-header::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+
+        .ncue-loan-app .accordion-item.active .accordion-header::after {
+            transform: rotate(180deg);
+        }
+
+        .ncue-loan-app .accordion-content {
+            display: none;
+            padding-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .ncue-loan-app .contact-info {
+            background-color: var(--very-light-blue-bg);
+            border-left: 4px solid var(--primary-blue);
+            padding: 16px;
+            margin-top: 24px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .ncue-loan-app .final-notes-card {
+            background-color: var(--light-blue-bg);
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        @media (max-width: 992px) {
+
+            .ncue-loan-app .info-grid,
+            .ncue-loan-app .notice-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ncue-loan-app .container {
+                margin: 0;
+                padding: 16px;
+            }
+
+            .ncue-loan-app .process-step {
+                min-width: calc(50% - 30px);
+            }
+
+            .ncue-loan-app .process-step:nth-child(2)::after {
+                display: none;
+            }
+
+            .ncue-loan-app .process-step:nth-child(4)::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ncue-loan-app .section-title {
+                font-size: 24px;
+            }
+
+            .ncue-loan-app .content-card {
+                padding: 20px;
+            }
+
+            .ncue-loan-app .tabs-nav {
+                flex-direction: column;
+                border-bottom: none;
+            }
+
+            .ncue-loan-app .tab-link {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 4px;
+                border-radius: 8px;
+                text-align: center;
+            }
+
+            .ncue-loan-app .tab-link.active {
+                transform: none;
+                border: 2px solid var(--primary-blue);
+            }
+
+            .ncue-loan-app .process-step {
+                min-width: 100%;
+            }
+
+            .ncue-loan-app .process-step::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ncue-loan-app">
+        <div class="container">
+
+            <!-- ==================== 1. Core Info Section ==================== -->
+            <div class="info-grid">
+                <div class="info-card qualifications">
+                    <h3><i class="fa-solid fa-clipboard-check"></i>就學貸款申請資格</h3>
+                    <p><strong>(113年2月1日起放寬申貸門檻)</strong></p>
+                    <ul>
+                        <li><strong>甲級 (<span class="highlight-term">免息</span>)</strong><br>家庭年所得 <strong
+                                class="highlight-money">120萬元</strong>以下。</li>
+                        <li><strong>乙級 (<span class="highlight-term">免息</span>)</strong><br>家庭年所得 <strong
+                                class="highlight-money">120~148萬元</strong>，且學生加兄弟姊妹或子女共<strong
+                                class="highlight-doc">2名</strong>(含)以上。</li>
+                        <li><strong>丙級 (<span class="highlight-term">自負全息</span>)</strong><br>家庭年所得 <strong
+                                class="highlight-money">148萬元以上</strong>，且學生加兄弟姊妹或子女共<strong
+                                class="highlight-doc">2名</strong>。</li>
+                        <li><strong>丁級 (<span class="highlight-term">免息</span>)</strong><br>家庭年所得 <strong
+                                class="highlight-money">148萬元以上</strong>，且學生加兄弟姊妹或子女共<strong
+                                class="highlight-doc">3名</strong>(含)以上。</li>
+                    </ul>
+                    <p class="highlight-red">⚠️ 家庭年所得120萬以上，且無兄弟姊妹及子女者，不可申貸。</p>
+                </div>
+                <div class="info-card timeline">
+                    <h3><i class="fa-solid fa-calendar-days"></i>重要辦理時程</h3>
+                    <p><strong>學校受理期限 (114學年度第1學期):</strong><br>
+                        <span class="highlight-date">註冊繳費單開放日起</span> 至 <span class="highlight-date">114年9月12日
+                            (開學第一週)</span>
+                    </p>
+                    <p><strong>臺灣銀行對保時間:</strong></p>
+                    <ul>
+                        <li><strong class="highlight-action">臨櫃對保</strong>: <span
+                                class="highlight-date">上學期8/1~9/30</span>、<span
+                                class="highlight-date">下學期1/15~2/28</span>。<br>服務時間：上午9:00至下午3:30 (不含例假日)</li>
+                        <li><strong class="highlight-action">線上申貸</strong>: <span
+                                class="highlight-date">上學期8/1~9/30</span>、<span
+                                class="highlight-date">下學期1/15~2/28</span>。<br>服務時間：24小時服務 (例假日亦可)</li>
+                    </ul>
+                    <p class="warning-note">※請依規定辦理並如期繳件，未依規定致影響個人申貸者，後果恕請自行負責。</p>
+                </div>
+            </div>
+
+            <!-- ==================== 2. Application Process Tabs ==================== -->
+            <section class="loan-process-section">
+                <h2 class="section-title"><i class="fa-solid fa-circle-play"></i>申辦流程詳解</h2>
+                <div class="content-card">
+                    <div class="tabs-nav">
+                        <button class="tab-link active" data-tab="tab-1">首次申辦</button>
+                        <button class="tab-link" data-tab="tab-2">續辦流程</button>
+                        <button class="tab-link" data-tab="tab-3">研究生/延畢生</button>
+                        <button class="tab-link" data-tab="tab-4">繳交文件至學校</button>
+                    </div>
+
+                    <div id="tab-1" class="tab-content active">
+                        <h4>首次申辦流程 (需<strong class="highlight-action">臨櫃對保</strong>)</h4>
+                        <p>第一次申辦就學貸款，<strong>均</strong>需由借貸人連同保證人（監護人或配偶）一同至臺灣銀行各地分行辦理對保手續。</p>
+                        <strong>應備文件：</strong>
+                        <ol>
+                            <li>借貸人與保證人之<strong class="highlight-doc">身分證</strong>、<strong
+                                    class="highlight-doc">印章</strong>。</li>
+                            <li>申貸前<strong class="highlight-doc">三個月</strong>內之<strong
+                                    class="highlight-doc">戶籍謄本</strong> (若戶籍不同需分別檢附)。</li>
+                            <li>本校<strong class="highlight-doc">註冊繳費單</strong>。</li>
+                            <li>至臺銀網站填寫完成後列印的<strong class="highlight-doc">臺銀撥款通知申請書</strong>。</li>
+                        </ol>
+                        <p><strong>操作步驟圖解：</strong></p>
+                        <p><strong>步驟一、二：</strong>至<a href="https://school.bot.com.tw/newTwbank/StudentLogin.aspx"
+                                target="_blank">臺銀學雜費網</a>，點選「學生登入」後，列印該學期註冊繳費單。</p>
+                        <img src="https://www.ncue.edu.tw/var/file/39/1039/img/580/201689662.png" alt="臺銀學雜費網入口">
+                        <img src="https://www.ncue.edu.tw/var/file/39/1039/img/580/340405121.png" alt="學生登入學雜費網">
+                        <p><strong>步驟三、四、五：</strong>至<a href="https://sloan.bot.com.tw/newsloan/login/SLoanLogin.action"
+                                target="_blank">臺銀就學貸款入口網</a>，註冊會員後登入，填寫申請資料並列印申請書(對保單)，再攜帶所有文件至銀行臨櫃辦理。</p>
+                        <img src="https://www.ncue.edu.tw/var/file/39/1039/img/580/183200621.png" alt="臺銀就學貸款入口">
+                        <img src="https://www.ncue.edu.tw/var/file/39/1039/img/580/806104167.jpg" alt="填寫貸款金額">
+                    </div>
+
+                    <div id="tab-2" class="tab-content">
+                        <h4>同一學程續辦流程</h4>
+                        <p>同一教育階段第二次以後申辦，可選擇<strong class="highlight-action">臨櫃對保</strong>或更方便的<strong
+                                class="highlight-action">線上申貸</strong>。</p>
+                        <h4>方法一：<strong class="highlight-action">臨櫃對保</strong></h4>
+                        <p>攜帶<strong class="highlight-doc">臺銀撥款通知申請書</strong>、<strong
+                                class="highlight-doc">身分證</strong>、<strong class="highlight-doc">印章</strong>、<strong
+                                class="highlight-doc">繳費單</strong>、<strong
+                                class="highlight-doc">前次貸款申請書(自存聯)</strong>至臺銀辦理。</p>
+                        <h4>方法二：<strong class="highlight-action">線上申貸</strong></h4>
+                        <p>前提：維持原保證人，且同一學程曾成功貸款一次以上，且借款人、保證人之姓名、身分證字號、戶籍地址均未變更。</p>
+                        <ol>
+                            <li><strong>金融卡認證：</strong>需持有(或新開立)臺銀活期性存款帳戶並申請晶片金融卡。 (須先扣繳<span
+                                    class="highlight-money">50元</span>手續費，對保期結束後統一退款至帳戶)</li>
+                            <li><strong>手機簡訊OTP核驗：</strong>您填寫的行動電話需與上一次申請書相同才能使用。若不相同，本學期只能選擇「金融卡認證」或「臨櫃對保」。</li>
+                        </ol>
+                        <p>詳細操作可參考：<a href="/var/file/39/1039/img/588/123028505.pdf"
+                                target="_blank">臺灣銀行線上申貸-學生端操作說明</a></p>
+                    </div>
+
+                    <div id="tab-3" class="tab-content">
+                        <h4>研究生、預研生、延畢生申辦</h4>
+                        <p>由於學分費非固定，申辦時需預估學分費金額。可選擇<strong class="highlight-action">臨櫃對保</strong>或<strong
+                                class="highlight-action">線上申貸</strong>。</p>
+                        <h4>方法一：<strong class="highlight-action">臨櫃對保</strong></h4>
+                        <ol>
+                            <li>下載並填妥對應的「<strong class="highlight-doc">就學貸款學分費預估表</strong>」。
+                                (<a href="/var/file/39/1039/img/588/133541795.docx" target="_blank">博碩士/預研生版</a> | <a
+                                    href="/var/file/39/1039/img/588/197887448.docx" target="_blank">延畢生版</a>)
+                            </li>
+                            <li>攜帶「<strong class="highlight-doc">預估表</strong>」、「<strong
+                                    class="highlight-doc">註冊繳費單</strong>」、「<strong
+                                    class="highlight-doc">臺銀撥款通知申請書</strong>」、「<strong
+                                    class="highlight-doc">身分證</strong>」、「<strong
+                                    class="highlight-doc">印章</strong>」至臺銀辦理。</li>
+                        </ol>
+                        <h4>方法二：<strong class="highlight-action">線上申貸</strong></h4>
+                        <p>於臺銀線上申貸系統的「學雜費」欄位，填入【自行預估的學分費 + 註冊單上的學雜費基數】之總額。</p>
+                        <p><strong>提醒：</strong></p>
+                        <ul>
+                            <li>建議學分費申貸「預估的最大值」，多貸金額學校會退還銀行，避免因少貸需重跑流程。</li>
+                            <li>延畢生如選課超過<strong class="highlight-doc">9學分</strong>，請先電洽出納組黃小姐(分機5822)要求修改為「全額」註冊單。</li>
+                        </ul>
+                    </div>
+
+                    <div id="tab-4" class="tab-content">
+                        <h4>完成對保後，繳交文件至學校</h4>
+                        <p>不論採何種方式對保，最後一步都是要將資料繳回學校才算完成註冊！</p>
+                        <h4>步驟一：列印校內就貸申請表</h4>
+                        <p>至<a href="https://webap.ncue.edu.tw/Student/login.aspx" target="_blank">學校學生資訊系統</a> →
+                            獎助學金及學雜費資訊 → 學生就學貸款系統，登入後填寫資料並列印申請表。</p>
+                        <img src="https://www.ncue.edu.tw/var/file/39/1039/img/580/570455024.png" alt="校內系統登入">
+
+                        <h4>步驟二：繳交/郵寄應備文件</h4>
+                        <p>請於<span class="highlight-date">註冊日前</span>，透過以下任一方式將文件送至生輔組：</p>
+                        <ul>
+                            <li><strong>掛號郵寄</strong></li>
+                            <li><strong>親自送件</strong></li>
+                            <li><strong>舊生線上申貸者可寄送電子檔</strong> (請將所有文件掃描成單一PDF檔，寄至 <a
+                                    href="mailto:s60370@cc.ncue.edu.tw">s60370@cc.ncue.edu.tw</a>)</li>
+                        </ul>
+                        <strong>應備文件清單：</strong>
+                        <ol>
+                            <li><strong class="highlight-doc">臺灣銀行就學貸款撥款通知書</strong> (第二聯學校存執聯)</li>
+                            <li><strong class="highlight-doc">學校註冊繳費單</strong></li>
+                            <li><strong class="highlight-doc">校內就學貸款系統申請表</strong></li>
+                            <li><strong class="highlight-doc">住宿契約影本</strong> (有申貸校外住宿費者才需提供)</li>
+                        </ol>
+                        <p class="highlight-red">⚠️ 若貸款金額不足以支付全額學雜費，請親自至生輔組送件並補繳差額。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 3. Loan Items ==================== -->
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-hand-holding-dollar"></i>申貸項目與額度</h2>
+                <div class="content-card">
+                    <ul>
+                        <li><strong>學雜費減免資格者：</strong>請務必先至生輔組 <strong>林秀紀小姐(分機5716)</strong> 處辦理減免，取得更新後的繳費單，再進行對保。
+                        </li>
+                        <li><strong>軍公教子女教育補助費：</strong>對保時，貸款金額請先扣除補助費(公立大學為<span
+                                class="highlight-money">13,600元</span>)。或先向生輔組申請拆單。</li>
+                        <li><strong>生活費：</strong>低收入戶每月可貸<span class="highlight-money">8,000元</span>(最高<span
+                                class="highlight-money">4萬元/學期</span>)；中低收入戶最高<span
+                                class="highlight-money">2萬元/學期</span>。</li>
+                        <li><strong>受疫情影響生活費：</strong>需經學校認定，最高<span class="highlight-money">4萬元/學期</span>。可下載<a
+                                href="/p/412-1039-1801.php?Lang=zh-tw#就學貸款">申請書</a>，填妥後掃描email辦理。</li>
+                        <li><strong>書籍費：</strong>最高<span class="highlight-money">3,000元/學期</span>。</li>
+                        <li><strong>校外住宿費：</strong>最高<span class="highlight-money">30,000元/學期</span> (需檢附<strong
+                                class="highlight-doc">住宿契約影本</strong>)。<br><span class="warning-note">P.S.
+                                請衡量實際需求申貸，避免未來還款壓力。學校會查核契約並保留影本。</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ==================== Redesigned Timeline Section ==================== -->
+            <section class="loan-timeline-section">
+                <h2 class="section-title"><i class="fa-solid fa-forward-step"></i>貸款撥款簡易流程</h2>
+                <div class="content-card">
+                    <div class="modern-process-flow">
+                        <div class="process-step">
+                            <div class="step-icon-wrapper"><i class="fa-solid fa-file-signature"></i></div>
+                            <div class="step-title"><span class="highlight-date">寒暑假~第3週</span></div>
+                            <div class="step-desc">受理申請</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon-wrapper"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="step-title"><span class="highlight-date">第4~5週</span></div>
+                            <div class="step-desc">報教育部審查</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon-wrapper"><i class="fa-solid fa-gavel"></i></div>
+                            <div class="step-title"><span class="highlight-date">第6~7週</span></div>
+                            <div class="step-desc">審查結果申覆</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon-wrapper"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="step-title"><span class="highlight-date">第8~9週</span></div>
+                            <div class="step-desc">向臺銀請款</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon-wrapper"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="step-title"><span class="highlight-date">第10~11週</span></div>
+                            <div class="step-desc">發放多貸費用</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 4. Documents & Regulations ==================== -->
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-folder-open"></i>相關文件與規定</h2>
+                <div class="docs-grid">
+                    <a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL008654" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-book"></i></div>
+                        <div class="doc-item-content"><span>高級中等以上學校學生就學貸款作業要點</span></div>
+                    </a>
+                    <a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL008414" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-book"></i></div>
+                        <div class="doc-item-content"><span>高級中等以上學校學生就學貸款辦法</span></div>
+                    </a>
+                    <a href="/var/file/39/1039/img/588/447144422.pdf" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="doc-item-content"><span>學生就學貸款須知</span></div>
+                    </a>
+                    <a href="/var/file/39/1039/img/588/127370541.pdf" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="doc-item-content"><span>就學貸款線上申貸須知</span></div>
+                    </a>
+                    <a href="/var/file/39/1039/img/588/123028505.pdf" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="doc-item-content"><span>臺灣銀行線上申貸-學生端操作說明</span></div>
+                    </a>
+                    <a href="/p/412-1039-1801.php#section4" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-lines"></i></div>
+                        <div class="doc-item-content"><span>就學貸款申請資格核定通知書兼同意書</span></div>
+                    </a>
+                    <a href="/p/412-1039-1801.php#section4" target="_blank" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-lines"></i></div>
+                        <div class="doc-item-content"><span>申請就學貸款海外研修費用證明書</span></div>
+                    </a>
+                    <a href="/var/file/39/1039/img/588/356416103.pptx" class="doc-item">
+                        <div class="doc-item-icon"><i class="fa-solid fa-file-powerpoint"></i></div>
+                        <div class="doc-item-content"><span>就貸還款宣導資料 (PPTX)</span></div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ==================== 5. Special Notices Section ==================== -->
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-bell"></i>特殊情況通知 (財稅中心審核後)</h2>
+                <div class="notice-grid">
+                    <div class="notice-card">
+                        <h3>家庭年所得 <span class="highlight-money">120萬</span> ~ <span class="highlight-money">148萬</span>
+                        </h3>
+                        <p>若您收到此通知，需於<span class="highlight-date">114年3月26日</span>前補交文件：</p>
+                        <ul>
+                            <li><strong>狀況一 (<span class="highlight-term">免息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
+                                    class="highlight-doc">2人</strong>(含)以上，且符合條件(未成年或在學)。<br> → 需繳交「<a
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    target="_blank">乙類通知函及同意書</a>」及戶籍/在學證明。</li>
+                            <li><strong>狀況二 (資格不符)：</strong>不符上述條件者。<br> → 需繳交「<a
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    target="_blank">乙類通知函及同意書</a>」，並補繳全額學雜費。</li>
+                        </ul>
+                    </div>
+                    <div class="notice-card">
+                        <h3>家庭年所得 <span class="highlight-money">148萬</span>以上</h3>
+                        <p>若您收到此通知，需於<span class="highlight-date">114年3月26日</span>前補交文件：</p>
+                        <ul>
+                            <li><strong>狀況一 (<span class="highlight-term">免息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
+                                    class="highlight-doc">3人</strong>(含)以上，且符合條件。<br> → 需繳交「<a
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    target="_blank">丙類通知函及同意書</a>」及證明文件。</li>
+                            <li><strong>狀況二 (<span class="highlight-term">自負全息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
+                                    class="highlight-doc">2人</strong>，且符合條件。<br> → 需繳交「<a
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    target="_blank">丙類通知函及同意書</a>」及證明文件。</li>
+                            <li><strong>狀況三 (資格不符)：</strong>不符上述條件者。<br> → 需繳交「<a
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    target="_blank">丙類通知函及同意書</a>」，並補繳全額學雜費。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 6. FAQ Section ==================== -->
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-circle-question"></i>離校後還款須知 (問答集)</h2>
+                <div class="content-card">
+                    <div class="accordion-item">
+                        <div class="accordion-header">就學貸款何時開始償還？可以提早還嗎？</div>
+                        <div class="accordion-content">
+                            <p>應於學業完成/休學/退學後<strong>滿一年之次日</strong>起，依年金法按月攤還本息。服義務兵役或實習可申請展延。隨時都可以提前償還部分或全部本金。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">如果還款有困難，有什麼緩繳措施嗎？</div>
+                        <div class="accordion-content">
+                            <p>符合低所得/中低收入戶資格者，可向臺灣銀行申請「緩繳本金」，本金可緩繳一年(最多<strong
+                                    class="highlight-doc">4次</strong>)，緩繳期間利息由政府負擔。若不符合資格但仍有困難，也可專案申請延長還款期間為<strong
+                                    class="highlight-doc">1.5倍</strong>，以降低每月還款壓力。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">畢業後繼續升學或有其他異動，該怎麼辦？</div>
+                        <div class="accordion-content">
+                            <p>若繼續在國內升學，應主動通知臺灣銀行，可將所有學貸合併至最後教育階段畢業後再一起開始償還。有任何戶籍、通訊資料異動，也應主動告知銀行，以確保能收到重要通知。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 7. Other Notes Section ==================== -->
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-paperclip"></i>其他注意事項</h2>
+                <div class="content-card final-notes-card">
+                    <p><i class="fa-solid fa-user-tie"></i> <strong>在職專班</strong>同學欲辦理就學貸款者，請參考：<a
+                            href="http://cee.ncue.edu.tw/student.php?masn=5" target="_blank">進修學院網頁</a></p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.tabs-nav .tab-link').on('click', function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('.tabs-nav .tab-link').removeClass('active');
+                $('.tab-content').removeClass('active');
+
+                $(this).addClass('active');
+                $("#" + tab_id).addClass('active');
+            });
+
+            $('.accordion-header').on('click', function () {
+                var currentItem = $(this).parent();
+
+                $('.accordion-item').not(currentItem).removeClass('active').find('.accordion-content').slideUp(300);
+
+                currentItem.toggleClass('active');
+                currentItem.find('.accordion-content').slideToggle(300);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
