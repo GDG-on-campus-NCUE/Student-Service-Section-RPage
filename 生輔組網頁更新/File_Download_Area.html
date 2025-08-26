@@ -12,19 +12,28 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
 
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .ncue-downloads-app {
+        :root {
             --primary-blue: #0077A2;
             --header-bg: #e7f5fe;
             --text-dark: #333333;
             --text-light: #6c757d;
             --border-color: #e9ecef;
             --hover-accent-color: #d4f3ef;
+            --highlight-bg: #fffbe6;
+            --highlight-border: #f6e05e;
             --shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
             --border-radius: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .ncue-downloads-app {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: transparent;
             color: var(--text-dark);
@@ -93,6 +102,19 @@
             text-align: left;
             vertical-align: middle;
         }
+        
+        .ncue-downloads-app tbody {
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        /* --- 新增的高亮樣式 --- */
+        .ncue-downloads-app tbody.highlight {
+            background-color: var(--highlight-bg);
+            border: 2px solid var(--highlight-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px rgba(246, 224, 94, 0.4);
+        }
+
 
         .ncue-downloads-app .downloads-table tr:not(:last-child) {
             border-bottom: 1px solid var(--border-color);
@@ -109,7 +131,7 @@
         }
 
         @media (hover: hover) {
-            .ncue-downloads-app tbody tr:not(.section-header):hover {
+            .ncue-downloads-app tbody:not(.highlight) tr:not(.section-header):hover {
                 background-color: var(--hover-accent-color);
                 transform: scale(1.01);
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -159,21 +181,10 @@
             color: var(--text-light);
         }
 
-        .ncue-downloads-app .fa-file-word {
-            color: #2a5699;
-        }
-
-        .ncue-downloads-app .fa-file-excel {
-            color: #1e7145;
-        }
-
-        .ncue-downloads-app .fa-file-lines {
-            color: #7b7a7a;
-        }
-
-        .ncue-downloads-app .fa-file-spreadsheet {
-            color: #005f25;
-        }
+        .ncue-downloads-app .fa-file-word { color: #2a5699; }
+        .ncue-downloads-app .fa-file-excel { color: #1e7145; }
+        .ncue-downloads-app .fa-file-lines { color: #7b7a7a; }
+        .ncue-downloads-app .fa-file-spreadsheet { color: #005f25; }
 
         .ncue-downloads-app .page-link {
             color: var(--primary-blue);
@@ -213,6 +224,11 @@
 
             .ncue-downloads-app tbody {
                 padding: 0 16px;
+            }
+            
+            .ncue-downloads-app tbody.highlight {
+                padding: 16px;
+                margin: 16px 0;
             }
 
             .ncue-downloads-app tbody:first-of-type .section-header {
@@ -295,7 +311,7 @@
             </div>
 
             <table class="downloads-table">
-                <tbody data-category="學雜費減免">
+                <tbody data-category="學雜費減免" id="section1">
                     <tr class="section-header">
                         <th colspan="2">學雜費減免</th>
                     </tr>
@@ -312,7 +328,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="校內外獎助學金">
+                <tbody data-category="校內外獎助學金" id="section2">
                     <tr class="section-header">
                         <th colspan="2">校內外獎助學金</th>
                     </tr>
@@ -457,7 +473,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="就學貸款">
+                <tbody data-category="就學貸款" id="section3">
                     <tr class="section-header">
                         <th colspan="2">就學貸款</th>
                     </tr>
@@ -540,7 +556,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="導師業務">
+                <tbody data-category="導師業務" id="section4">
                     <tr class="section-header">
                         <th colspan="2">導師業務</th>
                     </tr>
@@ -592,7 +608,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="工讀助學金">
+                <tbody data-category="工讀助學金" id="section5">
                     <tr class="section-header">
                         <th colspan="2">工讀助學金</th>
                     </tr>
@@ -620,7 +636,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="學生申訴">
+                <tbody data-category="學生申訴" id="section6">
                     <tr class="section-header">
                         <th colspan="2">學生申訴</th>
                     </tr>
@@ -659,7 +675,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="學生銷過">
+                <tbody data-category="學生銷過" id="section7">
                     <tr class="section-header">
                         <th colspan="2">學生銷過</th>
                     </tr>
@@ -687,7 +703,7 @@
                     </tr>
                 </tbody>
 
-                <tbody data-category="獎助生團體保險申請表格">
+                <tbody data-category="獎助生團體保險申請表格" id="section8">
                     <tr class="section-header">
                         <th colspan="2">獎助生團體保險申請表格</th>
                     </tr>
@@ -709,6 +725,7 @@
 
     <script>
         $(document).ready(function () {
+            // 篩選器邏輯
             $('#category-filter').on('change', function () {
                 var selectedCategory = $(this).val();
                 if (selectedCategory === 'all') {
@@ -718,6 +735,40 @@
                     $('.downloads-table tbody[data-category="' + selectedCategory + '"]').stop().fadeIn('fast');
                 }
             });
+
+            // --- 新增的區塊高亮邏輯 ---
+            function highlightSection() {
+                // 先移除所有 tbody 的高亮 class
+                $('.downloads-table tbody.highlight').removeClass('highlight');
+
+                // 取得 URL 中的 hash (例如 #section2)
+                var hash = window.location.hash;
+
+                if (hash) {
+                    var targetElement = $(hash);
+                    // 檢查目標是否存在
+                    if (targetElement.length) {
+                        // 為目標加上高亮 class
+                        targetElement.addClass('highlight');
+                        
+                        // 如果使用者是透過篩選器隱藏了該區塊，則顯示它
+                        if (targetElement.is(':hidden')) {
+                            targetElement.stop().fadeIn('fast');
+                        }
+
+                        // 平滑捲動到目標位置，-20px 是為了留出一點頂部空間
+                        $('html, body').animate({
+                            scrollTop: targetElement.offset().top - 20
+                        }, 500);
+                    }
+                }
+            }
+
+            // 頁面載入時執行一次高亮檢查
+            highlightSection();
+
+            // 當 URL 的 hash 改變時再次執行
+            $(window).on('hashchange', highlightSection);
         });
     </script>
 

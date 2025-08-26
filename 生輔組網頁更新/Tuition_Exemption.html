@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學雜費補助 Tuition Exemption</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-button {
+            transition: all 0.3s ease-in-out;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-button:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .theme-waiver .tab-button.active {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .theme-aid .tab-button.active {
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        .theme-waiver .header-color {
+            color: #ef4444;
+        }
+
+        .theme-waiver .section-card {
+            border-left-color: #ef4444;
+        }
+
+        .theme-waiver .button-color {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .theme-waiver .button-color:hover {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .theme-aid .header-color {
+            color: #f97316;
+        }
+
+        .theme-aid .section-card {
+            border-left-color: #f97316;
+        }
+
+        .theme-aid .button-color {
+            background-color: #f97316;
+            color: white;
+        }
+
+        .theme-aid .button-color:hover {
+            background-color: #ea580c;
+            color: white;
+        }
+
+        .action-button {
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        .action-button:hover {
+            transform: scale(1.05);
+            text-decoration: none;
+        }
+
+        .link-style:hover {
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 48px;
+        }
+
+        .venn-circle {
+            border: 3px solid;
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 24px;
+            position: relative;
+            flex-direction: column;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .venn-waiver {
+            border-color: #ef4444;
+            color: #ef4444;
+            background-color: #fee2e2;
+        }
+
+        .venn-aid {
+            border-color: #f97316;
+            color: #f97316;
+            background-color: #ffedd5;
+        }
+
+        .venn-waiver.highlight {
+            background-color: #ef4444;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .venn-aid.highlight {
+            background-color: #f97316;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .venn-aid.highlight .venn-aid-item {
+            background-color: #f97316;
+            color: white;
+            border-color: white;
+        }
+
+        .venn-aid.highlight .venn-aid-item.secondary {
+            background-color: #fb923c;
+            color: #fed7aa;
+            border-color: #fed7aa;
+        }
+
+        .venn-aid-items {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .venn-aid-item-wrapper {
+            position: relative;
+        }
+
+        .venn-aid-item {
+            background-color: white;
+            color: #f97316;
+            border: 1px solid #f97316;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .venn-aid-item.venn-aid-main {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-width: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        .venn-aid-item.secondary {
+            background-color: #f3f4f6;
+            color: #6b7280;
+            border-color: #d1d5db;
+        }
+
+        .venn-aid-item.secondary:hover {
+            background-color: #e5e7eb;
+        }
+
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 10px 15px rgba(249, 115, 22, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+            }
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 280px;
+            text-align: left;
+            z-index: 10;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            border-top: 4px solid #f97316;
+        }
+
+        .venn-aid-item-wrapper:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip,
+        .tooltip p,
+        .tooltip span {
+            color: #374151;
+        }
+
+        .tooltip h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            padding: 0;
+            color: #f97316;
+        }
+
+        .tooltip p {
+            margin: 0 0 12px 0;
+            padding: 0;
+            line-height: 1.5;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .tooltip .info-line {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip .label {
+            font-weight: 600;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .tooltip .info-line span {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .timeline-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-month {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-text {
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        .timeline-card.border-red-500 {
+            border-top-color: #ef4444;
+        }
+
+        .timeline-card.border-orange-500 {
+            border-top-color: #f97316;
+        }
+
+        .timeline-month.text-red-600 {
+            color: #ef4444;
+        }
+
+        .timeline-month.text-orange-600 {
+            color: #f97316;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="container mx-auto" style="padding: 16px;">
+        <div style="margin-bottom: 32px;">
+            <h2 class="font-bold text-center text-gray-700" style="font-size: 24px; margin-bottom: 24px;">年度重要時程</h2>
+            <div class="timeline-grid">
+                <div class="timeline-card border-red-500">
+                    <div class="timeline-month text-red-600">6月</div>
+                    <div class="timeline-text">學雜費減免<br />(舊生)</div>
+                </div>
+                <div class="timeline-card border-red-500">
+                    <div class="timeline-month text-red-600">8月</div>
+                    <div class="timeline-text">學雜費減免<br />(新生)</div>
+                </div>
+                <div class="timeline-card border-orange-500">
+                    <div class="timeline-month text-orange-600">9月</div>
+                    <div class="timeline-text">弱勢助學金申請<br />(約9/20開放)</div>
+                </div>
+                <div class="timeline-card border-orange-500">
+                    <div class="timeline-month text-orange-600">10月</div>
+                    <div class="timeline-text">弱勢助學金申請<br />(10/20截止)</div>
+                </div>
+                <div class="timeline-card border-orange-500">
+                    <div class="timeline-month text-orange-600">11月</div>
+                    <div class="timeline-text">弱勢助學<br />查核結果</div>
+                </div>
+                <div class="timeline-card border-red-500">
+                    <div class="timeline-month text-red-600">12月</div>
+                    <div class="timeline-text">新學期<br />學雜費減免申請</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md shadow-md text-center"
+            role="alert" style="margin-bottom: 24px; font-size: 16px;">
+            <p class="font-bold" style="font-size: 18px;">※ 重要提醒 ※</p>
+            <p>「學雜費減免」與「大專校院弱勢學生助學金」僅能 <span class="text-red-600 font-semibold">擇一申請</span></p>
+        </div>
+
+        <div style="margin-top: 48px;">
+            <div class="venn-container">
+                <div id="venn-waiver-circle" class="venn-circle venn-waiver card-hover">
+                    <span>各類身分<br />學雜費減免</span>
+                </div>
+                <div id="venn-aid-circle" class="venn-circle venn-aid card-hover">
+                    <span>大專校院<br />弱勢學生助學計畫</span>
+                    <div class="venn-aid-items">
+                        <div class="venn-aid-item-wrapper">
+                            <span class="venn-aid-item venn-aid-main">助學金</span>
+                            <div class="tooltip">
+                                <h3>助學金</h3>
+                                <p>依家庭年所得條件補助學雜費，減輕學費負擔。</p>
+                                <div class="info-line"><span class="label">申請時間:</span><span>每年約 9/20 ~ 10/20</span>
+                                </div>
+                                <div class="info-line"><span class="label">辦理單位:</span><span>生輔組</span></div>
+                            </div>
+                        </div>
+                        <div class="venn-aid-item-wrapper">
+                            <span class="venn-aid-item secondary">生活助學金</span>
+                            <div class="tooltip">
+                                <h3>生活助學金</h3>
+                                <p>提供符合資格且成績優異之同學每月生活津貼。</p>
+                                <div class="info-line"><span class="label">申請時間:</span><span>每學期開學後第 2-5 週</span></div>
+                                <div class="info-line"><span class="label">辦理單位:</span><span>生輔組</span></div>
+                            </div>
+                        </div>
+                        <div class="venn-aid-item-wrapper">
+                            <span class="venn-aid-item secondary">緊急紓困</span>
+                            <div class="tooltip">
+                                <h3>緊急紓困助學金</h3>
+                                <p>補助家庭突遭變故之學生，協助度過難關。</p>
+                                <div class="info-line"><span class="label">申請時間:</span><span>在學期間，符合急難狀況即可申請</span>
+                                </div>
+                                <div class="info-line"><span class="label">辦理單位:</span><span>生輔組</span></div>
+                            </div>
+                        </div>
+                        <div class="venn-aid-item-wrapper">
+                            <span class="venn-aid-item secondary">住宿優惠</span>
+                            <div class="tooltip">
+                                <h3>住宿優惠</h3>
+                                <p>提供低收/中低收入戶學生校內宿舍免費或優先住宿。</p>
+                                <div class="info-line"><span class="label">申請時間:</span><span>請洽詢住宿服務組</span></div>
+                                <div class="info-line"><span class="label">辦理單位:</span><span>住宿組</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="main-content" class="bg-white rounded-2xl shadow-lg" style="padding: 24px;">
+            <div id="tab-container" class="flex flex-wrap justify-center border-b border-gray-200"
+                style="margin-bottom: 24px;">
+                <button class="tab-button font-semibold text-gray-600 hover:text-red-500" data-tab="waiver"
+                    style="padding: 12px 24px; font-size: 18px;">
+                    學雜費減免
+                </button>
+                <button class="tab-button font-semibold text-gray-600 hover:text-orange-500" data-tab="aid"
+                    style="padding: 12px 24px; font-size: 18px;">
+                    大專校院弱勢學生助學金
+                </button>
+            </div>
+
+            <!-- 學雜費減免內容 -->
+            <div id="waiver" class="tab-content">
+                <div class="text-center">
+                    <h2 class="font-bold header-color" style="font-size: 24px; margin-bottom: 10px;">學雜費減免</h2>
+                    <p class="text-gray-600" style="margin-bottom: 24px; font-size: 16px;">不符合學雜費減免申請資格者，可參考大專校院弱勢學生助學金。
+                    </p>
+
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card">
+                        <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【申請時間】</h3>
+                        <div class="space-y-2" style="font-size: 16px;">
+                            <p><strong class="bg-yellow-200 rounded" style="padding: 4px 8px;">114學年度上學期</strong></p>
+                            <p><strong>舊生:</strong> 06/16 ~ 07/16</p>
+                            <p><strong>新生:</strong> 08/01 ~ 08/22</p>
+                            <p><strong class="bg-yellow-200 rounded" style="padding: 4px 8px;">114學年度下學期</strong></p>
+                            <p>12/16 ~ 01/15</p>
+                        </div>
+                        <a href="https://aps.ncue.edu.tw/guid/minus/index.php" target="_blank"
+                            class="inline-block mt-4 text-white font-bold py-2 px-4 rounded-lg button-color action-button"
+                            style="padding: 8px 16px; font-size: 16px;">
+                            前往線上申請系統
+                        </a>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card">
+                        <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【申請資格】</h3>
+                        <ul class="list-disc space-y-2 text-gray-700" style="padding-left: 20px; font-size: 16px;">
+                            <li>原住民學生</li>
+                            <li>低收、中低收入戶學生</li>
+                            <li>特殊境遇家庭子女孫子女</li>
+                            <li>身心障礙學生、身心障礙人士子女</li>
+                            <li>軍公教遺族</li>
+                            <li>現役軍人子女</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card md:col-span-2">
+                        <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【注意事項與應繳文件】
+                        </h3>
+                        <ul class="list-disc space-y-3 text-gray-700" style="padding-left: 20px; font-size: 16px;">
+                            <li><strong>應繳文件：</strong>相關身分證明文件、全戶戶籍謄本。軍公教遺族請另將紙本掛號郵寄至生輔組。</li>
+                            <li><strong>申請方式：</strong>至申請系統登錄並上傳所有文件 (合併成一個PDF檔)。</li>
+                            <li><strong class="text-red-600">務必先減免、後繳費/貸款。</strong></li>
+                            <li>證明文件即將到期者 (有效期間為114年度/身障手冊114年9/8之後)，請於換證後再申請。無須換證者請依時限申請。</li>
+                            <li><strong class="bg-yellow-200 px-1">每學期皆需重新申請</strong> (已核定之軍公教遺族、復學者除外)。</li>
+                            <li><strong class="text-red-600">不得重複請領</strong> 其他政府獎助學金。</li>
+                            <li>申請資料若有不實，願負法律責任並繳回減免金額。</li>
+                        </ul>
+                        <div style="margin-top: 12px;">
+                            <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-3218-1.php?Lang=zh-tw" target="_blank"
+                                class="header-color link-style" style="font-size: 16px;">詳細申請資格與應繳文件說明 &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 弱勢學生助學金內容 -->
+            <div id="aid" class="tab-content hidden">
+                <div class="text-center">
+                    <h2 class="font-bold header-color" style="font-size: 24px; margin-bottom: 24px;">大專校院弱勢學生助學計畫 - 助學金
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card">
+                            <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【申請時間】
+                            </h3>
+                            <div class="space-y-2" style="font-size: 16px;">
+                                <p><strong>每年約 09/20 ~ 10/20 開放線上申請。</strong></p>
+                                <p>一學年辦理一次，<strong class="bg-yellow-200"
+                                        style="padding: 2px 4px;">上學期申請</strong>，<strong class="bg-yellow-200"
+                                        style="padding: 2px 4px;">下學期於註冊繳費單扣減</strong>。</p>
+                                <p class="text-red-600">(上學期無補助，請繳交全額學雜費)</p>
+                                <p><strong>查核結果：</strong>請於11/20後至系統查詢。<strong class="bg-yellow-200"
+                                        style="padding: 2px 4px;">⚠️ 查核結果請務必截圖備用</strong></p>
+                            </div>
+                            <a href="https://aps.ncue.edu.tw/guid/weak/index.php" target="_blank"
+                                class="inline-block mt-4 text-white font-bold rounded-lg button-color action-button"
+                                style="padding: 8px 16px; font-size: 16px;">
+                                前往線上申請系統
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card">
+                            <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【應繳文件】
+                            </h3>
+                            <ul class="list-disc space-y-2 text-gray-700" style="padding-left: 20px; font-size: 16px;">
+                                <li>新式戶口名簿影本或三個月內戶籍謄本（包括詳細記事）。</li>
+                                <li>前一學期成績單影本（新生及轉學生除外）。</li>
+                                <li><strong>上傳方式：</strong>所有文件合併成一個PDF檔，檔名為「學號.pdf」。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card">
+                        <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【申請條件】</h3>
+                        <ul class="list-disc space-y-2 text-gray-700" style="padding-left: 20px; font-size: 16px;">
+                            <li><strong>學業成績：</strong>前一學期學業成績平均60分以上（新生及轉學生除外）。</li>
+                            <li><strong>家庭年所得：</strong>學士班不得超過90萬元，碩博士班不得超過70萬元。</li>
+                            <li><strong>利息所得：</strong>不得超過2萬元。</li>
+                            <li><strong>不動產價值：</strong>不得超過650萬元。</li>
+                            <li><strong
+                                    class="text-gray-600">備註：</strong>同學不需自行繳付財產清單，將由財稅中心統一審核，但其中一項財產所得經審核不合格者，則不予補助。
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 section-card lg:col-span-2">
+                        <h3 class="font-semibold header-color" style="font-size: 18px; margin-bottom: 12px;">【補助金額】</h3>
+                        <p class="text-gray-700" style="margin-bottom: 12px; font-size: 16px;">
+                            補助金額依就讀學制班別及家庭經濟條件（財稅中心查核結果）分為不同級距。</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse" style="font-size: 15px; min-width: 600px;">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th colspan="2" class="border p-2 font-semibold text-center">家庭年所得</th>
+                                        <th colspan="2" class="border p-2 font-semibold text-center">每學年補助金額</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="border p-2 font-semibold text-center">級距</th>
+                                        <th class="border p-2 font-semibold text-center">所得範圍</th>
+                                        <th class="border p-2 font-semibold text-center">學士班</th>
+                                        <th class="border p-2 font-semibold text-center">碩博班</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border p-2 text-center">第一級</td>
+                                        <td class="border p-2 text-center">30萬元以下</td>
+                                        <td class="border p-2 text-center" rowspan="5">20,000元</td>
+                                        <td class="border p-2 text-center">16,500元</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2 text-center">第二級</td>
+                                        <td class="border p-2 text-center">超過30萬 ~ 40萬以下</td>
+                                        <td class="border p-2 text-center">12,500元</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2 text-center">第三級</td>
+                                        <td class="border p-2 text-center">超過40萬 ~ 50萬以下</td>
+                                        <td class="border p-2 text-center">10,000元</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2 text-center">第四級</td>
+                                        <td class="border p-2 text-center">超過50萬 ~ 60萬以下</td>
+                                        <td class="border p-2 text-center">7,500元</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2 text-center">第五級</td>
+                                        <td class="border p-2 text-center">超過60萬 ~ 70萬以下</td>
+                                        <td class="border p-2 text-center">5,000元</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2 text-center">第六級</td>
+                                        <td class="border p-2 text-center">超過70萬 ~ 90萬以下</td>
+                                        <td class="border p-2 text-center">15,000元</td>
+                                        <td class="border p-2 text-center">無</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-12 py-8 bg-gray-100 text-center text-gray-600">
+        <div class="container mx-auto px-4">
+            <h3 class="text-lg font-semibold mb-4 text-gray-700">弱勢助學金相關資料</h3>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-8">
+                <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-1828.php" target="_blank"
+                    class="hover:text-orange-500 transition-colors font-medium">注意事項</a>
+                <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-1829.php" target="_blank"
+                    class="hover:text-orange-500 transition-colors font-medium">申請流程</a>
+                <a href="https://stuaffweb.ncue.edu.tw/var/file/39/1039/img/536/121024494.pdf" target="_blank"
+                    class="hover:text-orange-500 transition-colors font-medium">相關法規</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabContainer = document.getElementById('tab-container');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const vennWaiver = document.getElementById('venn-waiver-circle');
+            const vennAid = document.getElementById('venn-aid-circle');
+            const mainContent = document.getElementById('main-content');
+
+            function switchTab(tabId) {
+                mainContent.classList.remove('theme-waiver', 'theme-aid');
+                tabContainer.classList.remove('theme-waiver', 'theme-aid');
+                mainContent.classList.add(`theme-${tabId}`);
+                tabContainer.classList.add(`theme-${tabId}`);
+
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+                if (activeButton) activeButton.classList.add('active');
+
+                tabContents.forEach(content => content.classList.add('hidden'));
+                const activeContent = document.getElementById(tabId);
+                if (activeContent) activeContent.classList.remove('hidden');
+
+                vennWaiver.classList.remove('highlight');
+                vennAid.classList.remove('highlight');
+                if (tabId === 'waiver') {
+                    vennWaiver.classList.add('highlight');
+                } else if (tabId === 'aid') {
+                    vennAid.classList.add('highlight');
+                }
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.dataset.tab);
+                });
+            });
+
+            vennWaiver.addEventListener('click', () => switchTab('waiver'));
+            vennAid.addEventListener('click', () => switchTab('aid'));
+
+            switchTab('waiver');
+        });
+    </script>
+
+</body>
+
+</html>

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>國立彰化師範大學 就學貸款專區</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 使用 Font Awesome 的 JavaScript 版本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style type="text/css">
@@ -457,15 +458,16 @@
         .ncue-loan-app .accordion-header:hover {
             color: var(--primary-blue);
         }
-
-        .ncue-loan-app .accordion-header::after {
-            content: '\f078';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+        
+        /* 修正：將目標從 i 改為 svg，以對應 Font Awesome JS 轉換後的標籤 */
+        .ncue-loan-app .accordion-header svg {
             transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 16px;
         }
 
-        .ncue-loan-app .accordion-item.active .accordion-header::after {
+        /* 修正：當項目展開時，讓 svg 圖示旋轉180度 */
+        .ncue-loan-app .accordion-item.active .accordion-header svg {
             transform: rotate(180deg);
         }
 
@@ -669,7 +671,7 @@
                         <p>於臺銀線上申貸系統的「學雜費」欄位，填入【自行預估的學分費 + 註冊單上的學雜費基數】之總額。</p>
                         <p><strong>提醒：</strong></p>
                         <ul>
-                            <li>建議學分費申貸「預估的最大值」，多貸金額學校會退還銀行，避免因少貸需重跑流程。</li>
+                            <li>建議學分費申貸「預估的最大值」，多貸金額學校会退還銀行，避免因少貸需重跑流程。</li>
                             <li>延畢生如選課超過<strong class="highlight-doc">9學分</strong>，請先電洽出納組黃小姐(分機5822)要求修改為「全額」註冊單。</li>
                         </ul>
                     </div>
@@ -719,7 +721,7 @@
                         <li><strong>書籍費：</strong>最高<span class="highlight-money">3,000元/學期</span>。</li>
                         <li><strong>校外住宿費：</strong>最高<span class="highlight-money">30,000元/學期</span> (需檢附<strong
                                 class="highlight-doc">住宿契約影本</strong>)。<br><span class="warning-note">P.S.
-                                請衡量實際需求申貸，避免未來還款壓力。學校會查核契約並保留影本。</span></li>
+                                請衡量實際需求申貸，避免未來還款壓力。學校会查核契約並保留影本。</span></li>
                     </ul>
                 </div>
             </section>
@@ -839,14 +841,21 @@
             <section>
                 <h2 class="section-title"><i class="fa-solid fa-circle-question"></i>離校後還款須知 (問答集)</h2>
                 <div class="content-card">
+                    <!-- 修正：將 icon 直接放入 header 中 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">就學貸款何時開始償還？可以提早還嗎？</div>
+                        <div class="accordion-header">
+                            <span>就學貸款何時開始償還？可以提早還嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
                         <div class="accordion-content">
                             <p>應於學業完成/休學/退學後<strong>滿一年之次日</strong>起，依年金法按月攤還本息。服義務兵役或實習可申請展延。隨時都可以提前償還部分或全部本金。</p>
                         </div>
                     </div>
                     <div class="accordion-item">
-                        <div class="accordion-header">如果還款有困難，有什麼緩繳措施嗎？</div>
+                        <div class="accordion-header">
+                            <span>如果還款有困難，有什麼緩繳措施嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
                         <div class="accordion-content">
                             <p>符合低所得/中低收入戶資格者，可向臺灣銀行申請「緩繳本金」，本金可緩繳一年(最多<strong
                                     class="highlight-doc">4次</strong>)，緩繳期間利息由政府負擔。若不符合資格但仍有困難，也可專案申請延長還款期間為<strong
@@ -854,7 +863,10 @@
                         </div>
                     </div>
                     <div class="accordion-item">
-                        <div class="accordion-header">畢業後繼續升學或有其他異動，該怎麼辦？</div>
+                        <div class="accordion-header">
+                            <span>畢業後繼續升學或有其他異動，該怎麼辦？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
                         <div class="accordion-content">
                             <p>若繼續在國內升學，應主動通知臺灣銀行，可將所有學貸合併至最後教育階段畢業後再一起開始償還。有任何戶籍、通訊資料異動，也應主動告知銀行，以確保能收到重要通知。</p>
                         </div>
