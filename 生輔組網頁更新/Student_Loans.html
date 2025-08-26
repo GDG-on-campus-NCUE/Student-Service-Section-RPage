@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>國立彰化師範大學 就學貸款專區</title>
-    <!-- 使用 Font Awesome 的 JavaScript 版本 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
+    <title>就學貸款 Student_Loans</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+        crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style type="text/css">
@@ -240,6 +240,10 @@
         .ncue-loan-app .tab-link:hover {
             background-color: var(--light-blue-bg);
         }
+        
+        .ncue-loan-app .tab-link:focus {
+            outline: none;
+        }
 
         .ncue-loan-app .tab-link.active {
             background-color: #fff;
@@ -458,16 +462,14 @@
         .ncue-loan-app .accordion-header:hover {
             color: var(--primary-blue);
         }
-        
-        /* 修正：將目標從 i 改為 svg，以對應 Font Awesome JS 轉換後的標籤 */
-        .ncue-loan-app .accordion-header svg {
+
+        .ncue-loan-app .accordion-header i {
             transition: transform 0.3s ease;
             flex-shrink: 0;
             margin-left: 16px;
         }
 
-        /* 修正：當項目展開時，讓 svg 圖示旋轉180度 */
-        .ncue-loan-app .accordion-item.active .accordion-header svg {
+        .ncue-loan-app .accordion-item.active .accordion-header i {
             transform: rotate(180deg);
         }
 
@@ -488,6 +490,10 @@
         .ncue-loan-app .final-notes-card {
             background-color: var(--light-blue-bg);
             border-left: 5px solid var(--primary-blue);
+        }
+        
+        .ncue-loan-app .final-notes-card p i {
+            margin-right: 10px;
         }
 
         @media (max-width: 992px) {
@@ -561,7 +567,7 @@
             <!-- ==================== 1. Core Info Section ==================== -->
             <div class="info-grid">
                 <div class="info-card qualifications">
-                    <h3><i class="fa-solid fa-clipboard-check"></i>就學貸款申請資格</h3>
+                    <h3><i class="fa-solid fa-clipboard-check"></i>　就學貸款申請資格</h3>
                     <p><strong>(113年2月1日起放寬申貸門檻)</strong></p>
                     <ul>
                         <li><strong>甲級 (<span class="highlight-term">免息</span>)</strong><br>家庭年所得 <strong
@@ -579,7 +585,7 @@
                     <p class="highlight-red">⚠️ 家庭年所得120萬以上，且無兄弟姊妹及子女者，不可申貸。</p>
                 </div>
                 <div class="info-card timeline">
-                    <h3><i class="fa-solid fa-calendar-days"></i>重要辦理時程</h3>
+                    <h3><i class="fa-solid fa-calendar-days"></i>　重要辦理時程</h3>
                     <p><strong>學校受理期限 (114學年度第1學期):</strong><br>
                         <span class="highlight-date">註冊繳費單開放日起</span> 至 <span class="highlight-date">114年9月12日
                             (開學第一週)</span>
@@ -599,7 +605,7 @@
 
             <!-- ==================== 2. Application Process Tabs ==================== -->
             <section class="loan-process-section">
-                <h2 class="section-title"><i class="fa-solid fa-circle-play"></i>申辦流程詳解</h2>
+                <h2 class="section-title"><i class="fa-solid fa-circle-play"></i> 申辦流程詳解</h2>
                 <div class="content-card">
                     <div class="tabs-nav">
                         <button class="tab-link active" data-tab="tab-1">首次申辦</button>
@@ -665,7 +671,8 @@
                                     class="highlight-doc">註冊繳費單</strong>」、「<strong
                                     class="highlight-doc">臺銀撥款通知申請書</strong>」、「<strong
                                     class="highlight-doc">身分證</strong>」、「<strong
-                                    class="highlight-doc">印章</strong>」至臺銀辦理。</li>
+                                    class="highlight-doc">印章</strong>」、「<strong
+                                    class="highlight-doc">申貸前三個月內之戶籍謄本</strong>」至臺銀辦理。</li>
                         </ol>
                         <h4>方法二：<strong class="highlight-action">線上申貸</strong></h4>
                         <p>於臺銀線上申貸系統的「學雜費」欄位，填入【自行預估的學分費 + 註冊單上的學雜費基數】之總額。</p>
@@ -706,7 +713,7 @@
 
             <!-- ==================== 3. Loan Items ==================== -->
             <section>
-                <h2 class="section-title"><i class="fa-solid fa-hand-holding-dollar"></i>申貸項目與額度</h2>
+                <h2 class="section-title"><i class="fa-solid fa-hand-holding-dollar"></i> 申貸項目與額度</h2>
                 <div class="content-card">
                     <ul>
                         <li><strong>學雜費減免資格者：</strong>請務必先至生輔組 <strong>林秀紀小姐(分機5716)</strong> 處辦理減免，取得更新後的繳費單，再進行對保。
@@ -728,7 +735,7 @@
 
             <!-- ==================== Redesigned Timeline Section ==================== -->
             <section class="loan-timeline-section">
-                <h2 class="section-title"><i class="fa-solid fa-forward-step"></i>貸款撥款簡易流程</h2>
+                <h2 class="section-title"><i class="fa-solid fa-forward-step"></i> 貸款撥款簡易流程</h2>
                 <div class="content-card">
                     <div class="modern-process-flow">
                         <div class="process-step">
@@ -762,7 +769,7 @@
 
             <!-- ==================== 4. Documents & Regulations ==================== -->
             <section>
-                <h2 class="section-title"><i class="fa-solid fa-folder-open"></i>相關文件與規定</h2>
+                <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> 相關文件與規定</h2>
                 <div class="docs-grid">
                     <a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL008654" target="_blank" class="doc-item">
                         <div class="doc-item-icon"><i class="fa-solid fa-book"></i></div>
@@ -784,11 +791,13 @@
                         <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
                         <div class="doc-item-content"><span>臺灣銀行線上申貸-學生端操作說明</span></div>
                     </a>
-                    <a href="/p/412-1039-1801.php#section4" target="_blank" class="doc-item">
+                    <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3" target="_blank"
+                        class="doc-item">
                         <div class="doc-item-icon"><i class="fa-solid fa-file-lines"></i></div>
                         <div class="doc-item-content"><span>就學貸款申請資格核定通知書兼同意書</span></div>
                     </a>
-                    <a href="/p/412-1039-1801.php#section4" target="_blank" class="doc-item">
+                    <a href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3" target="_blank"
+                        class="doc-item">
                         <div class="doc-item-icon"><i class="fa-solid fa-file-lines"></i></div>
                         <div class="doc-item-content"><span>申請就學貸款海外研修費用證明書</span></div>
                     </a>
@@ -801,7 +810,7 @@
 
             <!-- ==================== 5. Special Notices Section ==================== -->
             <section>
-                <h2 class="section-title"><i class="fa-solid fa-bell"></i>特殊情況通知 (財稅中心審核後)</h2>
+                <h2 class="section-title"><i class="fa-solid fa-bell"></i> 特殊情況通知 (財稅中心審核後)</h2>
                 <div class="notice-grid">
                     <div class="notice-card">
                         <h3>家庭年所得 <span class="highlight-money">120萬</span> ~ <span class="highlight-money">148萬</span>
@@ -810,10 +819,10 @@
                         <ul>
                             <li><strong>狀況一 (<span class="highlight-term">免息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
                                     class="highlight-doc">2人</strong>(含)以上，且符合條件(未成年或在學)。<br> → 需繳交「<a
-                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3"
                                     target="_blank">乙類通知函及同意書</a>」及戶籍/在學證明。</li>
                             <li><strong>狀況二 (資格不符)：</strong>不符上述條件者。<br> → 需繳交「<a
-                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3"
                                     target="_blank">乙類通知函及同意書</a>」，並補繳全額學雜費。</li>
                         </ul>
                     </div>
@@ -823,14 +832,14 @@
                         <ul>
                             <li><strong>狀況一 (<span class="highlight-term">免息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
                                     class="highlight-doc">3人</strong>(含)以上，且符合條件。<br> → 需繳交「<a
-                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3"
                                     target="_blank">丙類通知函及同意書</a>」及證明文件。</li>
                             <li><strong>狀況二 (<span class="highlight-term">自負全息</span>)：</strong>學生本人+兄弟姊妹/子女共<strong
                                     class="highlight-doc">2人</strong>，且符合條件。<br> → 需繳交「<a
-                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3"
                                     target="_blank">丙類通知函及同意書</a>」及證明文件。</li>
                             <li><strong>狀況三 (資格不符)：</strong>不符上述條件者。<br> → 需繳交「<a
-                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-1801.php?Lang=zh-tw#section4"
+                                    href="https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php#section3"
                                     target="_blank">丙類通知函及同意書</a>」，並補繳全額學雜費。</li>
                         </ul>
                     </div>
@@ -839,9 +848,8 @@
 
             <!-- ==================== 6. FAQ Section ==================== -->
             <section>
-                <h2 class="section-title"><i class="fa-solid fa-circle-question"></i>離校後還款須知 (問答集)</h2>
+                <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> 離校後還款須知 (FAQ)</h2>
                 <div class="content-card">
-                    <!-- 修正：將 icon 直接放入 header 中 -->
                     <div class="accordion-item">
                         <div class="accordion-header">
                             <span>就學貸款何時開始償還？可以提早還嗎？</span>
@@ -876,9 +884,9 @@
 
             <!-- ==================== 7. Other Notes Section ==================== -->
             <section>
-                <h2 class="section-title"><i class="fa-solid fa-paperclip"></i>其他注意事項</h2>
+                <h2 class="section-title"><i class="fa-solid fa-paperclip"></i> 其他注意事項</h2>
                 <div class="content-card final-notes-card">
-                    <p><i class="fa-solid fa-user-tie"></i> <strong>在職專班</strong>同學欲辦理就學貸款者，請參考：<a
+                    <p><i class="fa-solid fa-user-tie"></i>　<strong>在職專班</strong>同學欲辦理就學貸款者，請參考：<a
                             href="http://cee.ncue.edu.tw/student.php?masn=5" target="_blank">進修學院網頁</a></p>
                 </div>
             </section>
@@ -900,8 +908,10 @@
             $('.accordion-header').on('click', function () {
                 var currentItem = $(this).parent();
 
+                // This makes it a true accordion where only one item can be open at a time
                 $('.accordion-item').not(currentItem).removeClass('active').find('.accordion-content').slideUp(300);
-
+                
+                // Toggle the clicked item
                 currentItem.toggleClass('active');
                 currentItem.find('.accordion-content').slideToggle(300);
             });

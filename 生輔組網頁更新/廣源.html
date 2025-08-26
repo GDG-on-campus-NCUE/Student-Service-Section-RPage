@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廣源慈善基金會114學年度「助學金」</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #0077A2;
+            --secondary-color: #005A7C;
+            --accent-color: #FFC107;
+            --accent-color-darker: #f4b701;
+            --danger-color: #e74c3c;
+            --success-color: #28a745;
+            --light-bg: #f8f9fa;
+            --very-light-bg: #f0faff;
+            --card-bg: #ffffff;
+            --text-dark: #333333;
+            --text-light: #555555;
+            --border-color: #dee2e6;
+            --card-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --warning-bg: #fdeaea;
+            --warning-text: #c52929;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 16px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 8px 0;
+        }
+
+        .page-header .deadline {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--danger-color);
+            background-color: var(--warning-bg);
+            padding: 8px 16px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 16px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background-color: var(--very-light-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--card-shadow-hover);
+            }
+        }
+
+        .info-card .icon {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .info-card h3 {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin: 0 0 8px 0;
+        }
+
+        .info-card p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            border: 1px solid var(--border-color);
+            padding: 28px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .content-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--card-shadow-hover);
+            }
+        }
+
+        .custom-link {
+            background: linear-gradient(to right, var(--accent-color-darker), var(--accent-color-darker) 50%, var(--primary-color) 50%);
+            background-size: 200% 100%;
+            background-position: 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-position 0.4s ease-in-out;
+        }
+
+        @media (hover: hover) {
+            .custom-link:hover {
+                background-position: 0%;
+            }
+        }
+
+        /* Accordion Redesign */
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .accordion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion-item.active {
+            box-shadow: var(--card-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .accordion-header {
+            padding: 18px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-dark);
+        }
+
+        @media (hover: hover) {
+            .accordion-header:hover {
+                background-color: var(--very-light-bg);
+                color: var(--primary-color);
+            }
+        }
+
+        .accordion-header .fa-chevron-down,
+        .accordion-header .svg-inline--fa {
+            transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transform-origin: center;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-left: 16px;
+            color: var(--secondary-color);
+        }
+
+        .accordion-item.active .accordion-header .fa-chevron-down,
+        .accordion-item.active .accordion-header .svg-inline--fa {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active .accordion-header {
+            color: var(--primary-color);
+            font-weight: 700;
+            background-color: var(--very-light-bg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 24px 24px 24px;
+            color: var(--text-light);
+            background-color: var(--very-light-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-content ul {
+            padding-left: 20px;
+            list-style-type: disc;
+            margin-top: 16px;
+        }
+
+        .accordion-content li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .note {
+            background-color: #e6f7ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: #fff;
+            margin-right: 8px;
+        }
+
+        .category-1 {
+            background-color: var(--danger-color);
+        }
+
+        .category-2 {
+            background-color: var(--secondary-color);
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .doc-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .doc-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+        }
+
+        .doc-item .doc-item-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+
+        .doc-item .doc-item-content span {
+            display: block;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        .doc-item,
+        .doc-item:link,
+        .doc-item:visited,
+        .doc-item:hover,
+        .doc-item:active {
+            text-decoration: none;
+        }
+
+        .doc-item .doc-item-content,
+        .doc-item .doc-item-content span,
+        .doc-item:hover .doc-item-content span {
+            text-decoration: none;
+        }
+
+        @media (hover: hover) {
+            .doc-item:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--card-shadow);
+                border-color: var(--primary-color);
+                background-color: var(--very-light-bg);
+            }
+
+            .doc-item:hover::after {
+                transform: scaleX(1);
+            }
+
+            .doc-item:hover .doc-item-content span {
+                color: var(--secondary-color);
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+
+            .content-card {
+                padding: 20px;
+            }
+        }
+
+        /* Mobile specific tweaks for better RWD inside rpage (use px, not rem) */
+        @media (max-width: 420px) {
+            body {
+                font-size: 14px; /* px per request */
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 12px auto;
+                padding: 12px;
+            }
+
+            .page-header h1 {
+                font-size: 20px;
+                line-height: 1.2;
+            }
+
+            .page-header .deadline {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                padding-bottom: 8px;
+            }
+
+            .section-title i {
+                margin-right: 8px;
+                font-size: 16px;
+            }
+
+            .content-card {
+                padding: 16px;
+            }
+
+            .accordion-header {
+                padding: 14px 12px;
+                font-size: 16px;
+                align-items: flex-start;
+            }
+
+            .accordion-header span {
+                display: block;
+                word-break: break-word;
+            }
+
+            .accordion-header .fa-chevron-down,
+            .accordion-header .svg-inline--fa {
+                margin-left: 8px;
+                font-size: 14px;
+            }
+
+            .accordion-content {
+                padding: 0 12px 16px 12px;
+                font-size: 14px;
+            }
+
+            .docs-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .doc-item {
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .doc-item .doc-item-icon {
+                font-size: 20px;
+                margin-right: 12px;
+            }
+
+            .doc-item .doc-item-content span {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .info-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="page-header">
+            <h1>廣源慈善基金會114學年度「助學金」</h1>
+            <p class="deadline">
+                <i class="fa-solid fa-clock"></i> 申請截止：請於 <strong>114年5月5日前</strong> 親送至進德校區生輔組
+            </p>
+        </header>
+
+        <section class="info-grid">
+            <div class="info-card">
+                <div class="icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <h3>補助金額</h3>
+                <p>每學年 5 萬元</p>
+            </div>
+            <div class="info-card">
+                <div class="icon"><i class="fa-solid fa-users"></i></div>
+                <h3>本校推薦名額</h3>
+                <p>共計 40 名</p>
+            </div>
+            <div class="info-card">
+                <div class="icon"><i class="fa-solid fa-paper-plane"></i></div>
+                <h3>送件方式</h3>
+                <p>紙本及EXCEL檔</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i>　重要注意事項</h2>
+            <div class="content-card">
+                <ul>
+                    <li>自113學年起該會<strong>僅受理助學金</strong>申請。因本案填寫資料細節甚多， 請務必耐心詳閱下方說明及相關文件。</li>
+                    <li><strong>必看資料：</strong>
+                        <a href="/var/file/39/1039/img/719/559319367.pdf" class="custom-link"
+                            target="_blank">廣源說明會PPT</a> |
+                        <a href="https://reurl.cc/YYd2vl" class="custom-link" target="_blank">「申請廣源助學金說明會」影片</a>
+                        (教導如何使用「MyData」平台取得個人資料)
+                    </li>
+                    <li><strong>問題提問：</strong>如有疑問，可先詳閱本頁面下方『Q＆A』或於「<a href="https://reurl.cc/L7jGQe"
+                            class="custom-link" target="_blank">彰師大多元關懷社群</a>」Line社群提問。</li>
+                    <li><strong>送件前：</strong>請先申請加入<a href="https://reurl.cc/zqrEyk" class="custom-link"
+                            target="_blank">廣源慈善基金會FB</a>。</li>
+                    <li><strong>電子檔寄送：</strong>EXCEL檔及個人FB網址請寄至 <a href="mailto:act5718@gmail.com"
+                            class="custom-link">act5718@gmail.com</a>，主旨及檔名：姓名+114學年廣源EXCEL檔。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-gavel"></i>　審查推薦原則</h2>
+            <div class="content-card">
+                <ol>
+                    <li>以家境困難，確有長期補助需求者為優先。</li>
+                    <li>如條件相同，以曾獲該會前一學期廣源助學金之「舊生」為優先。</li>
+                    <li>獲獎者將列入本校113-1學期王金平及飛羚等校內代辦獎助學金審查考量因素。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-file-signature"></i>　申請詳情</h2>
+            <div class="content-card" style="padding: 24px;">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>一、適用對象</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>大學部、非延修（延畢）生、非應屆畢業生、前一學期學業成績達75分、操行達85分、未受3次以上警告處分、家境清寒（符合下列任一類條件）：</p>
+                            <p><span class="category-tag category-1">第一類</span>低收、中低收、特殊境遇家庭子女（孫子女）。</p>
+                            <p><span
+                                    class="category-tag category-2">第二類</span>無前述身分，但家庭經濟有困難需獎助學金者（含弱勢1～6級），且經生輔組審核<b>同時符合</b>下列3項所得、財產條件者（依據113年全戶之個人所得清單、財產清單計算）：
+                            </p>
+                            <ul>
+                                <li><strong>全戶財產：</strong>任一人之財產清單上無『共同公有』文字，且全戶財產（不含車輛）加總低於650萬元。</li>
+                                <li><strong>全戶平均每人每月所得：</strong>低於15,366元。</li>
+                                <li><strong>全戶平均每人動產金額：</strong>低於112,500元 (動產=各項所得總計+利息本金)。</li>
+                            </ul>
+                            <div class="note">
+                                <i class="fa-solid fa-lightbulb"></i> 弱勢家庭是否符合申請門檻，可參考附檔3 EXCEL申請表「步驟二」AC～AE
+                                欄位，但最終需以生輔組及廣源基金會審核為準。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>二、申請方式</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <ol>
+                                <li>請參考附檔『EXCEL簡易填寫及列印步驟』，填寫附檔3 EXCEL檔申請表「步驟一」至「步驟二」。</li>
+                                <li>列印步驟三之P1～P5後，完成學生簽名及導師（系主任）之意見及簽名（<strong>不要簽日期</strong>），連同應檢附資料，依限親送『進德校區生輔組』。
+                                </li>
+                                <li><span class="highlight">第二類弱勢家庭者</span>，請加附全戶113年個人所得清單、財產清單。</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>三、名詞定義</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>全戶：</strong>包含學生本人（已婚者含配偶）、父母（離異者含監護人及其再婚對象）、目前單身之兄弟姊妹、同一戶籍之祖父母及已婚兄弟姊妹。</p>
+                            <p><strong>新生/舊生：</strong>「新生」指未獲113學年度廣源助學金之新申請者；「舊生」指113學年度廣源獲獎生。</p>
+                            <p><strong>扶養人：</strong>非監護人但實際負擔學生生活開銷者，例如姑姑。若監護人失聯，需加附「特殊案例需求單」。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>四、特殊案例需求單</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>若有以下情況，需加附「<a href="/var/file/39/1039/img/719/596778375.odt" class="custom-link"
+                                    target="_blank">特殊案例需求單</a>」（參考<a href="/var/file/39/1039/img/719/775349866.docx"
+                                    class="custom-link" target="_blank">說明表</a>）：</p>
+                            <ul>
+                                <li>未成年且因特殊原因暫無監護人或無法聯繫監護人者。</li>
+                                <li>監護人家暴隔離、入監服刑或失聯等情形者。</li>
+                                <li>因特殊狀況致無法取得監護人或家庭成員之相關資料者。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>五、應繳交文件</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>請以<b>迴紋針或燕尾夾</b>按照附檔1「檢核表」所列順序排列，不可使用訂書針。</p>
+                            <ol>
+                                <li><strong>EXCEL檔及學生本人FB網址：</strong> Email至指定信箱。</li>
+                                <li><strong>紙本申請書P1～P5：</strong>需完成簽名、貼照片及郵局存摺影本。</li>
+                                <li><strong>全戶3個月內戶籍謄本。</strong></li>
+                                <li><strong>經濟不利身分證明文件彩色正本：</strong>低收/中低收/特境證明，或『全戶』113年所得及財產清單。</li>
+                                <li><strong>113-1成績單正本。</strong></li>
+                                <li><strong>期初三選一同意書正本</strong>（需簽名）。</li>
+                                <li><strong>無則免：</strong>家庭狀況佐證資料、特殊案例需求單。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-cloud-arrow-down"></i>　相關檔案下載</h2>
+            <div class="docs-grid">
+                <a href="/var/file/39/1039/img/214854414.pdf" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="doc-item-content"><span>附件1 114-1應備文件檢核表.pdf</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/809945313.xlsx" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-excel"></i></div>
+                    <div class="doc-item-content"><span>附件2 廣源助學金申請表.xlsx</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/791179819.docx" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-word"></i></div>
+                    <div class="doc-item-content"><span>附件3 申請表填寫、列印步驟說明.docx</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/630995301.docx" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-word"></i></div>
+                    <div class="doc-item-content"><span>附件4 家庭成員稱謂及職業代號表.docx</span></div>
+                </a>
+                <a href="https://stuaffweb.ncue.edu.tw/index.php" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-word"></i></div>
+                    <div class="doc-item-content"><span>附件5 各校名額.docx</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/645705647.docx" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-word"></i></div>
+                    <div class="doc-item-content"><span>附件6 廣源特殊情形案例說明表.docx</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/111710150.odt" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-alt"></i></div>
+                    <div class="doc-item-content"><span>附件7 廣源特殊案例需求單.odt</span></div>
+                </a>
+                <a href="/var/file/39/1039/img/287278599.pdf" target="_blank" class="doc-item">
+                    <div class="doc-item-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="doc-item-content"><span>附件8 校外獎助學金相關證明申請方式.pdf</span></div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-circle-question"></i>　廣源 Q&A</h2>
+            <div class="content-card" style="padding: 24px;">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q1: 哥哥不同戶籍，住外婆家，戶籍謄本需要外公外婆的嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A1:</strong> 外公外婆非直系血親，不需檢附。哥哥是否需檢附，關鍵在於「是否已婚」。未婚者不論戶籍皆須檢附；已婚者若不同戶則免附。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q2: 父母已離婚，媽媽非監護人且不同戶，需要她的資料嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A2:</strong> 非監護人不是「全戶」定義成員，不需檢附其資料。重點是「監護人」的資料必須齊全。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q3: 戶籍謄本來不及申請，可以晚點交嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A3:</strong> 不可以。可利用「MyData」平台線上申請，或至任一戶政事務所申請（全國連線，週六上午部分有上班）。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q4: 沒有任何經濟弱勢證明，可以申請嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A4:</strong> 可以。只要檢附「全戶」113年所得清單及最新財產清單即可申請。EXCEL檔「身分別」請點選「弱勢家庭子女」。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q5: 和叔叔、阿姨等親戚同住，他們也要交財所清單嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A5:</strong> 戶籍謄本需申請全戶含記事，並註記稱謂。但叔叔、阿姨等非「全戶」定義成員，不需檢附財所清單。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q6: 可以先交112年的財所清單，5/5前再補113年的嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A6:</strong> 可以。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q7: 找不到導師簽名，可以補交嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A7:</strong> 請務必先依限繳交其他文件，導師簽名頁最遲可於5/10前補交。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q8: 請問現在已經有領廣源助學金了，那可以申請114學年度的嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A8:</strong> 可以。推薦原則：舊生有優先權，可以申請，符合資格每年需重新送件申請續領到畢業。</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Q9: 請問我的弟弟就讀逢甲大學，但是他們學校沒公告，他可以直接送件給逢甲的校外獎助學金單位申請嗎？</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>A9:</strong> 不行，廣源補助對象只有國立大學，且需再確認是否在廣源補助名單內（詳附檔）。另，各校名額也各有差異。但，若家中有弟妹就讀於附檔5之學校者，可向該校學務處詢問申請廣源助學金。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.accordion-header').on('click', function () {
+                var currentItem = $(this).parent('.accordion-item');
+
+                // Close other items that are not the current one
+                $('.accordion-item').not(currentItem).removeClass('active').find('.accordion-content').slideUp(300);
+
+                // Toggle the clicked item
+                currentItem.toggleClass('active');
+                currentItem.find('.accordion-content').slideToggle(300);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
