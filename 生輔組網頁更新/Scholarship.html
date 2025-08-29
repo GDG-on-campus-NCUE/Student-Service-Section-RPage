@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校外獎助學金 網址更新公告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .feature-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            transition: color 0.3s ease;
+        }
+
+        .feature-card:hover h3 {
+            color: #2563eb;
+        }
+
+        /* Responsive layout for cards */
+        @media (min-width: 992px) {
+            .feature-card {
+                 /* 3 cards per row, accounting for gap */
+                flex-basis: calc(33.333% - 16px);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .features-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-card {
+                width: 100%;
+                max-width: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mx-auto max-w-6xl" style="padding: 48px 16px;">
+        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div style="padding: 32px 48px;">
+                <!-- Header Section -->
+                <header class="text-center" style="margin-bottom: 40px;">
+                    <h1 class="font-bold gradient-text" style="font-size: 40px;">
+                        校外獎助學金平台網址更新公告
+                    </h1>
+                    <p class="text-gray-500" style="margin-top: 12px; font-size: 18px;">
+                        生輔組校外獎助學金平台已全面升級，原網址已失效，敬請更新。
+                    </p>
+                </header>
+
+                <!-- Important Notice -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 rounded-r-lg shadow-sm" style="padding: 24px; margin-bottom: 40px;">
+                    <p class="font-semibold" style="font-size: 18px;">【重要通知】</p>
+                    <p style="margin-top: 8px; font-size: 16px; line-height: 1.6;">
+                        自114學年起，原獎助學金一覽表正式失效。生輔組已整合建置全新 AI 版「彰師生輔組校外獎助學金資訊平台」。
+                    </p>
+                    <p class="font-medium" style="margin-top: 16px; font-size: 16px;">
+                        新平台網址：
+                        <a href="https://scholarship.ncuesa.org.tw/" target="_blank"
+                            class="text-blue-600 hover:text-blue-800 underline break-all">
+                            https://scholarship.ncuesa.org.tw/
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Main Features Section -->
+                <div>
+                    <h2 class="font-bold text-gray-800 text-center" style="font-size: 28px; margin-bottom: 32px;">
+                        AI 版平台主要功能簡介
+                    </h2>
+                    <div class="features-container">
+
+                        <!-- Feature 1: Scholarship Announcements -->
+                        <div class="feature-card">
+                            <div class="flex items-center" style="margin-bottom: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="height: 32px; width: 32px;">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <h3 class="font-semibold text-gray-900" style="margin-left: 12px; font-size: 20px;">獎助學金公告一覽表</h3>
+                            </div>
+                            <ol class="list-decimal list-inside text-gray-600 space-y-3" style="font-size: 16px; line-height: 1.6; padding-left: 4px;">
+                                <li>整合校外獎助學金申請、得獎公告。</li>
+                                <li>新增全文關鍵字查詢功能。</li>
+                                <li>公告依截止日期排序，方便同學依序申請。</li>
+                            </ol>
+                        </div>
+
+                        <!-- Feature 2: Related Resources -->
+                        <div class="feature-card">
+                            <div class="flex items-center" style="margin-bottom: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="height: 32px; width: 32px;">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <h3 class="font-semibold text-gray-900" style="margin-left: 12px; font-size: 20px;">相關資源</h3>
+                            </div>
+                            <p class="text-gray-600" style="font-size: 16px; line-height: 1.7;">
+                                平台之「相關資源」內置有 校內外獎助學金常見問答(FAQ)、本組 LINE「彰師多元關懷社群」網址、全校「校內外獎助學金」公告網頁網址。
+                            </p>
+                        </div>
+
+                        <!-- Feature 3: AI Assistant -->
+                        <div class="feature-card">
+                            <div class="flex items-center" style="margin-bottom: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="height: 32px; width: 32px;">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                                <h3 class="font-semibold text-gray-900" style="margin-left: 12px; font-size: 20px;">AI 獎學金助理</h3>
+                            </div>
+                            <p class="text-gray-600" style="font-size: 16px; line-height: 1.7;">
+                                經註冊並審核通過的學生，即可啟用 AI 查詢功能，快速尋找符合資格的獎助學金機會。
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>
+
