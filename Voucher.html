@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校園餐券申請資訊</title>
+    <style>
+        /* --- 基本樣式重設與設定 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* --- 主要容器 --- */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* --- 標題樣式 --- */
+        .main-title {
+            text-align: center;
+            color: #1d3557;
+            margin-bottom: 32px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* --- 卡片通用樣式 --- */
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .card h2 {
+            font-size: 22px;
+            color: #005f73;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0fbfc;
+        }
+        
+        /* --- 申請資格與主要按鈕區塊 --- */
+        .apply-section {
+            text-align: center;
+            border: 2px dashed #007bff;
+        }
+
+        .apply-section p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            color: #495057;
+        }
+        
+        .apply-section .badge {
+            display: inline-block;
+            background-color: #e7f5ff;
+            color: #007bff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: #ffffff;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(45deg, #0056b3, #007bff);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+
+        /* --- 申請須知列表 --- */
+        .info-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .info-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .info-list li strong {
+            color: #d90429;
+            font-weight: 600;
+        }
+
+        .info-list li.purpose {
+            background-color: #fffbe6;
+            padding: 12px 16px 12px 28px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-top: 16px;
+        }
+        
+        .info-list li.purpose::before {
+            color: #ffc107;
+            content: '💡';
+        }
+
+        /* --- 步驟流程 --- */
+        .steps-container {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background-color: #007bff;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-content h3 {
+            font-size: 18px;
+            color: #1d3557;
+            margin-bottom: 8px;
+        }
+
+        .step-content p {
+            color: #6c757d;
+            font-size: 15px;
+        }
+
+        /* --- 備註區塊 --- */
+        .notes-section {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 24px;
+        }
+        
+        .notes-section h2 {
+            color: #856404;
+            border-bottom-color: #ffeeba;
+        }
+
+        .notes-section p {
+            margin-bottom: 12px;
+            color: #856404;
+            font-size: 15px;
+        }
+        
+        .notes-section p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .notes-section strong {
+            font-weight: 600;
+        }
+
+        /* --- 參考附件區塊 --- */
+        .attachment-link {
+            display: inline-block;
+            background-color: #f1f3f5;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #343a40;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .attachment-link:hover {
+            background-color: #e9ecef;
+            color: #000;
+            text-decoration: none !important;
+        }
+
+        /* --- RWD 響應式設計 --- */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .cta-button {
+                padding: 12px 28px;
+                font-size: 16px;
+            }
+            
+            .step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .step-number {
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="main-title">校園餐券申請資訊</h1>
+
+        <section class="card apply-section">
+            <span class="badge">申請資格</span>
+            <p>經由導師出具經濟困難證明之學生</p>
+            <a href="https://forms.gle/GhmsT53vE6njF3iK8" target="_blank" rel="noopener" class="cta-button">點我前往餐券申請表單</a>
+        </section>
+
+        <section class="card">
+            <h2>發放方式與申請須知</h2>
+            <ul class="info-list">
+                <li>每學期申請以一次為限，發放數量依學期捐款額度核定。</li>
+                <li>餐券採分次(月)發放，上限不超過160張。</li>
+                <li><strong>不得轉售或贈與他人使用</strong>，若經查核發現即刻取消申請資格。</li>
+                <li class="purpose">本餐券旨在協助「經濟困難，在校求學期間，能免於生活困難壓力，幫助學生安心就學」，請珍惜資源。</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>表單填寫須知</h2>
+            <ol class="steps-container">
+                <li class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>填寫線上表單並成功送出</h3>
+                        <p>此表單分為三個部分：申請人基本資料、家庭狀況調查、個人狀況調查。</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>至填答表單的帳號信箱收信</h3>
+                        <p>系統將自動寄送內含「申請書附件」的確認信件至您的信箱。</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>自行列印並完成簽名</h3>
+                        <p>將信件中的申請表附件列印出來，並在指定欄位親筆簽名。</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>將申請表親送生輔組</h3>
+                        <p>將已簽名的紙本申請表，親自繳交至學務處生活輔導組。</p>
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>審核與發放</h3>
+                        <p>經單位審核通過後，將會依規定分次發放餐券給您。</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="card notes-section">
+            <h2>重要備註</h2>
+            <p><strong>備註1:</strong> 以上流程如任一項未完成，都將導致申請失敗，請務必確認所有步驟皆已完成。</p>
+            <p><strong>備註2:</strong> 所有資料以線上表單填寫內容為準，如發現填錯資料，您需<strong>重填表單</strong>。請注意，直接修改下載的檔案將被視為無效申請。</p>
+            <p><strong>備註3:</strong> 系統確認信將於表單送出後 <strong>1 分鐘內</strong> 寄送附件至填答者信箱，若未收到請檢查垃圾郵件匣。</p>
+        </section>
+
+        <section class="card">
+            <h2>參考附件</h2>
+            <a href="/var/file/39/1039/img/1105/563076124.pdf" target="_blank" class="attachment-link">
+                王金平先生急難扶助金暨校園餐券申請作業要點.pdf
+            </a>
+        </section>
+
+    </div>
+
+</body>
+</html>
