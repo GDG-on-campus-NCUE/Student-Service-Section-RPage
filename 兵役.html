@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學生兵役服務指南</title>
+    <!-- Google Fonts: Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. 全域設計系統 (Global Design System) --- */
+        :root {
+            --primary-color: #0F172A;
+            --accent-color: #00A4E6;
+            --accent-hover: #06B6D4;
+            --text-color: #64748B;
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --alert-info-bg: #F0F9FF;
+            --alert-info-border: #7DD3FC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2 .icon {
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover .icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+
+    a:not(.btn-primary-cta):not(.btn-download):not(.link-card)::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent-hover);
+            transform-origin: bottom left;
+            transition: transform 0.3s ease-out;
+        }
+
+        a:not(.btn-primary-cta):not(.btn-download):not(.link-card):hover::after {
+            transform: scaleX(1);
+        }
+
+        .link-card, .link-card * {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        /* --- 2. 頁面結構與佈局 --- */
+        .page-section {
+            margin-bottom: 80px;
+        }
+
+        .content-title-block {
+            position: relative;
+            border-left: 5px solid;
+            border-image: linear-gradient(to bottom, var(--accent-color), var(--accent-hover)) 1;
+            padding: 20px 0 20px 30px;
+            margin-bottom: 60px;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            position: relative;
+            overflow: visible;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            transition: width 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .card:hover::before {
+            width: 100%;
+        }
+
+        h1 > i, h2 > i, h3 > i, h4 > i {
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .alert .icon {
+            color: var(--accent-color);
+            font-size: 20px;
+            margin-top: 2px;
+            margin-right: 12px;
+        }
+
+        .alert > div {
+            font-size: 14px;
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        .tabs-nav__item:hover {
+            background: rgba(0,164,230,0.06);
+            color: var(--primary-color);
+        }
+
+        .tabs-nav__item:focus {
+            outline: none !important;
+            box-shadow: 0 0 0 6px rgba(0,164,230,0.08) !important;
+        }
+
+        .btn-download:hover, .btn-primary-cta:hover {
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        .law-table a::after { display: none !important; }
+        .law-table a, .law-table a * { text-decoration: none !important; color: inherit !important; }
+
+        /* --- 3. 核心元件重新設計 --- */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background-color: var(--border-color);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.8s ease-out;
+        }
+
+        .timeline.is-animated::before {
+            transform: scaleY(1);
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 4px solid var(--accent-color);
+            transform: scale(0);
+            transition: transform 0.4s ease-out;
+        }
+
+        .timeline.is-animated .timeline-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline.is-animated .timeline-item::before {
+            transform: scale(1);
+        }
+
+        .timeline.is-animated .timeline-item:nth-child(1) {
+            transition-delay: 0.2s;
+        }
+
+        .timeline.is-animated .timeline-item:nth-child(2) {
+            transition-delay: 0.4s;
+        }
+
+        .timeline.is-animated .timeline-item:nth-child(3) {
+            transition-delay: 0.6s;
+        }
+
+        .timeline.is-animated .timeline-item:nth-child(4) {
+            transition-delay: 0.8s;
+        }
+
+        .timeline-item h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+        }
+
+        .btn-primary-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px 20px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            color: white;
+            border-radius: 8px;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary-cta:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 164, 230, 0.2);
+        }
+
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid rgba(226,232,240,0.7);
+            margin-bottom: 18px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tabs-nav__item {
+            padding: 10px 16px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-color);
+            border-radius: 10px;
+            transition: all 0.22s ease;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tabs-nav__item:hover {
+            background: rgba(0,164,230,0.06);
+            color: var(--primary-color);
+        }
+
+        .tabs-nav__item.active {
+            color: var(--primary-color);
+            font-weight: 700;
+            background: linear-gradient(90deg, rgba(0,164,230,0.08), rgba(6,182,212,0.04));
+            box-shadow: inset 0 -3px 0 rgba(0,164,230,0.06);
+        }
+
+        .tabs-content {
+            position: relative;
+            min-height: 80px;
+            transition: min-height 0.28s cubic-bezier(.2,.9,.2,1);
+        }
+
+        .tabs-pane {
+            position: relative;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.32s ease, max-height 0.42s ease;
+            padding-top: 0;
+        }
+
+        .tabs-pane.active {
+            opacity: 1;
+            max-height: 1600px;
+            padding-top: 6px;
+        }
+
+        .document-list li {
+            list-style: none;
+            padding-left: 28px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2300A4E6" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>') no-repeat left center;
+            margin-bottom: 12px;
+        }
+
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: var(--alert-info-bg);
+            border-left: 4px solid var(--alert-info-border);
+            text-align: left;
+            flex-direction: row;
+        }
+
+        .alert .icon {
+            color: var(--accent-color);
+            font-size: 20px;
+            margin-top: 2px;
+            margin-right: 12px;
+        }
+
+        .alert > div {
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--primary-color);
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-download:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 7px 14px rgba(0, 164, 230, 0.2);
+        }
+
+        .faq-section details {
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+        }
+
+        .faq-section summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            list-style: none;
+            font-weight: 600;
+            color: var(--primary-color);
+            user-select: none;
+            gap: 12px;
+        }
+
+        .faq-section details[open] summary {
+            color: var(--accent-color);
+        }
+
+        .faq-section summary .icon {
+            transition: transform 0.36s cubic-bezier(0.2, 1, 0.3, 1), color 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .faq-section details[open] summary .icon {
+            transform: rotate(180deg) translateY(1px);
+            color: var(--accent-color);
+        }
+
+        .faq-answer {
+            overflow: hidden;
+        }
+
+        .faq-content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.42s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .faq-content {
+            padding: 12px 0 6px 0;
+            color: #425066;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            align-items: stretch;
+        }
+        
+        .tabs-nav {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* tabs container: allows scroll hint overlay */
+        .tabs-container { position: relative; }
+
+        /* mobile select (hidden by default) */
+        .tabs-mobile { display: none; margin-top: 8px; }
+        .tabs-mobile select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: white;
+            font-size: 15px;
+        }
+
+        /* subtle scrollbar styling */
+        .tabs-nav::-webkit-scrollbar { height: 6px; }
+        .tabs-nav::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 4px; }
+        .tabs-nav { scrollbar-width: thin; }
+
+        /* scroll hint: fade on the right edge when content overflows */
+        .tabs-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 36px;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(to left, rgba(248,250,252,1), rgba(248,250,252,0));
+            opacity: 0; transition: opacity 0.28s ease;
+        }
+
+        /* show mobile select and hide nav on very small screens */
+        @media (max-width: 600px) {
+            .tabs-nav { display: none; }
+            .tabs-mobile { display: block; }
+            .tabs-container::after { opacity: 0; }
+        }
+
+        .tabs-nav__item {
+            white-space: nowrap;
+        }
+
+        h1, h2, h3, h4 {
+            word-break: keep-all;
+            hyphens: none;
+        }
+
+        .faq-section summary:focus,
+        .faq-section summary:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        a::after { display: none !important; }
+        a:hover { text-decoration: none !important; }
+
+        .faq-section a, .faq-section a:hover {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            h2, h3, h4 {
+                white-space: normal;
+                word-break: normal;
+            }
+
+            .tabs-nav {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+            .tabs-nav__item { white-space: nowrap; }
+
+            #student-services-section .card {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        .link-card {
+            display: block;
+            background: linear-gradient(180deg, rgba(6,182,212,0.02), rgba(255,255,255,0));
+            border-radius: 12px;
+            padding: 28px 22px;
+            text-align: center;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            border: 1px solid rgba(226,232,240,0.9);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .link-card .icon {
+            font-size: 36px;
+            color: var(--accent-color);
+            margin-bottom: 14px;
+            transition: transform 0.28s cubic-bezier(0.2,0.9,0.2,1), color 0.2s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(7,117,150,0.06);
+            border-color: rgba(0,164,230,0.18);
+        }
+
+        .link-card:hover .icon {
+            transform: translateY(-4px) scale(1.05);
+            color: var(--accent-hover);
+        }
+
+        .link-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+
+        .link-card p {
+            color: var(--text-color);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .law-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .law-table tr {
+            transition: all 0.2s ease-out;
+        }
+
+        .law-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .law-table tr:hover {
+            background-color: #eefbff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 164, 230, 0.1);
+        }
+
+        .law-table tr:hover td:first-child,
+        .law-table tr:hover a {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .law-table td i {
+            margin-right: 8px;
+            transition: color 0.2s ease-out;
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 992px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+
+        /* Strong mobile overrides (placed at end to ensure precedence) */
+        @media (max-width: 768px) {
+            /* keep comfortable page-side padding on phones */
+            .container { padding-left: 24px; padding-right: 24px; }
+
+            /* prevent cards from touching viewport edges: add horizontal margin and inner padding
+               margin keeps the card away from viewport even if its inner content grows */
+            .card {
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-left: 0;
+                margin-right: 0;
+                box-sizing: border-box;
+            }
+            /* ensure specific section cards follow the same rule */
+            #student-services-section .card {
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-left: 0;
+                margin-right: 0;
+                box-sizing: border-box;
+            }
+
+            /* ensure tabs remain single-line and scroll horizontally on small screens
+               make sure nav uses box-sizing so its padding doesn't overflow the card */
+            .tabs-nav {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-left: 8px;
+                padding-right: 8px;
+                box-sizing: border-box;
+            }
+            .tabs-nav__item { white-space: nowrap; }
+
+            /* prevent student-services section cards from touching viewport edges */
+            #student-services-section .grid-layout {
+                padding-left: 8px;
+                padding-right: 8px;
+                box-sizing: border-box;
+            }
+
+            /* Make cards inside student-services follow the same inner padding rules
+               and make inner grids respect gaps on narrow screens */
+            #student-services-section .card {
+                padding-left: 18px;
+                padding-right: 18px;
+                margin-left: 0;
+                margin-right: 0;
+                box-sizing: border-box;
+            }
+            #student-services-section .card .grid-layout {
+                gap: 14px;
+                padding-left: 0;
+                padding-right: 0;
+                box-sizing: border-box;
+            }
+
+            /* shrink the main title on phones and allow wrapping (no ellipsis) */
+            h1 {
+                font-size: 22px !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: unset !important;
+                line-height: 1.15;
+            }
+
+            /* slightly smaller section headings */
+            h2 { font-size: 20px !important; }
+        }
+
+        /* FAQ links styling: blue default, muted gray on hover */
+        .faq-section a { color: var(--accent-color) !important; text-decoration: none !important; }
+        .faq-section a:hover { color: #94A3B8 !important; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="content-title-block fade-in-section">
+            <h1><i class="fas fa-shield-halved"></i> 學生兵役資訊</h1>
+            <p>提供新生與在校生最完整的兵役申請、緩徵、役期折抵及相關法規資訊。</p>
+        </header>
+
+        <section id="new-student-section" class="page-section grid-layout">
+            <div class="fade-in-section">
+                <h2><i class="fas fa-user-plus icon"></i>新生申請</h2>
+                <div class="card timeline-card">
+                    <h3><i class="fas fa-list-ol"></i> 申請步驟</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4><i class="fas fa-desktop"></i> Step 1: 登入系統</h4>
+                            <p>進入兵役資料申請系統。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4><i class="fas fa-keyboard"></i> Step 2: 線上填報</h4>
+                            <p>登錄個人戶籍地及兵役狀況。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4><i class="fas fa-print"></i> Step 3: 列印文件</h4>
+                            <p>列印對應的申請表。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4><i class="fas fa-paper-plane"></i> Step 4: 繳交資料</h4>
+                            <p>備妥文件後繳交至學生安全組。</p>
+                        </div>
+                    </div>
+                    <a href="https://aps.ncue.edu.tw/guid/army/index.php" target="_blank" class="btn-primary-cta">
+                        <i class="fas fa-rocket"></i> 兵役資料申請系統
+                    </a>
+                </div>
+            </div>
+            <div class="fade-in-section">
+                <h2><i class="fas fa-id-card icon"></i>依兵役狀況辦理</h2>
+                <div class="card">
+                    <div class="tabs-container">
+                        <nav class="tabs-nav">
+                            <button class="tabs-nav__item active" data-tab="unserved"><i class="far fa-clock"></i>
+                                未服役</button>
+                            <button class="tabs-nav__item" data-tab="served"><i class="fas fa-user-check"></i> 已服役</button>
+                            <button class="tabs-nav__item" data-tab="exempt"><i class="fas fa-times-circle"></i> 免役</button>
+                        </nav>
+
+                        <!-- mobile-friendly tabs: shown only on small screens -->
+                        <div class="tabs-mobile">
+                            <select id="tabsSelect" aria-label="選擇兵役狀況">
+                                <option value="unserved">未服役</option>
+                                <option value="served">已服役</option>
+                                <option value="exempt">免役</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="tabs-content">
+                        <div class="tabs-pane active" id="unserved">
+                            <h3>辦理緩徵</h3>
+                            <p>尚未履行兵役義務者，需申請在學緩徵。</p>
+                            <h4>應備文件：</h4>
+                            <ul class="document-list">
+                                <li>學生兵役緩徵申請表</li>
+                                <li>身分證正、反面影本 (貼於表上)</li>
+                            </ul>
+                        </div>
+                        <div class="tabs-pane" id="served">
+                            <h3>辦理儘後召集 / 資料備查</h3>
+                            <p>已服役畢業者，依役別辦理。</p>
+                            <h4>應備文件：</h4>
+                            <ul class="document-list">
+                                <li><b>常備役/補充兵/軍訓役：</b><br>儘後召集申請表 + 退伍令影本</li>
+                                <li><b>替代役/國民兵：</b><br>退役證明影本 (僅需備查)</li>
+                            </ul>
+                        </div>
+                        <div class="tabs-pane" id="exempt">
+                            <h3>辦理資料備查</h3>
+                            <p>已判定免役體位者，請繳交證明以利列管。</p>
+                            <h4>應備文件：</h4>
+                            <ul class="document-list">
+                                <li>免役證明影本</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="student-services-section" class="page-section fade-in-section">
+            <h2><i class="fas fa-university icon"></i>在校生服務</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <h3><i class="fas fa-file-invoice"></i>役期折抵與通訊申請</h3>
+                    <p>建議畢業前完成申請，以免日後需返校辦理。</p>
+                    <div class="grid-layout">
+                        <div class="envelope-card">
+                            <h4><i class="fas fa-paper-plane"></i> A. 寄至學校的信封</h4>
+                            <span class="info-label">收件資訊：</span>
+                            <div class="info-content">50074 彰化市進德路1號 軍訓室 收</div>
+                        </div>
+                        <div class="envelope-card">
+                            <h4><i class="fas fa-envelope-open-text"></i> B. 學校寄回的回郵信封</h4>
+                            <span class="info-label">準備事項：</span>
+                            <div class="info-content">貼足掛號郵資(28元)，並寫妥您的收件姓名與地址。</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                        <a href="/var/file/3/1003/img/516641152.pdf" target="_blank" class="btn-download"><i
+                                class="fas fa-file-pdf"></i>申請表(PDF)</a>
+                        <a href="/var/file/3/1003/img/347167441.odt" target="_blank" class="btn-download"><i
+                                class="fas fa-file-word"></i>申請表(ODT)</a>
+                        <a href="/var/file/3/1003/img/506/465060540.pdf" target="_blank" class="btn-download"><i
+                                class="fas fa-info-circle"></i>折減說明</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-exclamation-triangle"></i>重要注意事項</h3>
+                    <div class="alerts-container">
+                        <div class="alert"><i class="fas fa-sun icon"></i>
+                            <div><strong>暑假入伍：</strong>83年次後役男，欲申請大一升大二暑假入伍，請於入學年11月15日前至役政署網站申請。</div>
+                        </div>
+                        <div class="alert"><i class="fas fa-user-slash icon"></i>
+                            <div><strong>學籍異動：</strong>辦理休、退、畢業後，緩徵即消滅，學校將依法通報。</div>
+                        </div>
+                        <div class="alert"><i class="fas fa-redo-alt icon"></i>
+                            <div><strong>延畢生：</strong>請主動以Email提供身分證影本至學生安全組，以辦理延長緩徵。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq-section" class="page-section fade-in-section">
+            <h2><i class="fas fa-question-circle icon"></i>常見問答 (FAQ)</h2>
+            <div class="card faq-section">
+                <details>
+                    <summary>Q1: 尚未服役之新生，如何辦理「緩徵」？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>請於開學二週內，進入「兵役資料申請系統」，列印「緩徵申請表」，貼妥身分證影本後繳交至學生安全組。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q2: 已服役之新生，如何辦理「儘後召集」？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>具後備軍人身分者，請進入系統列印「儘後召集申請表」，貼妥身分證影本並檢附退伍令影本繳交。替代役畢者免辦，但請繳交退役證明備查。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q3: 什麼是緩徵原因消滅？休學會被徵召嗎？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>指畢業、休學、退學等中途離校。原因消滅後，學生應於30日內向戶籍地公所申報。因此，休學期間會被徵集服役。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q4: 因缺學分無法如期畢業(延畢)，該怎麼辦？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>需先辦理延修生註冊，再至學生安全組繳交「身分證正反面影本」（已服役者另需退伍令影本），以辦理緩徵或儘召。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q5: 暑修或延畢期間收到「徵集令」，該如何處理？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>請速攜「徵集令」至學生安全組申請「暫緩徵集用在學證明書」，再繳交至戶籍地鄉鎮市區公所申請暫緩徵集。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q6: 畢業後準備繼續升學，但收到「徵集令」，怎麼辦？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>請攜帶「准考證」或「入學通知書」，至戶籍地鄉鎮市區公所申請暫緩徵集。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q7: 在學役男可以短期出國嗎？如何申請？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>可以。請至內政部役政署「<a href="https://www.ris.gov.tw/departure/app/Departure/main"
+                                target="_blank">役男短期出境線上申請</a>」系統辦理。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q8: 為何辦了緩徵，還會收到身家調查、體檢、抽籤通知？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>此為正常程序，是兵役單位預作準備，不代表會立即徵召。請安心依通知前往辦理即可。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q9: 我在大一、二、三就收到徵集令(兵單)，該怎麼辦？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>請立即攜帶徵集令至學生安全組洽詢，切勿延遲。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q10: 如果休學後又復學，緩徵或儘後召集要重辦嗎？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>是的，必須重新辦理。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Q11: 學生超過幾歲不得申請緩徵？ <i class="fas fa-chevron-down icon"></i></summary>
+                    <div class="faq-answer">
+                        <p>年齡超過33歲仍未畢業者，不再予以緩徵。</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="resources-section" class="page-section fade-in-section">
+            <h2><i class="fas fa-sitemap icon"></i>外部資源</h2>
+            <div class="card">
+                <h3>常用網站連結</h3>
+                <div class="links-grid">
+                    <a href="https://www.mnd.gov.tw/PublishTable.aspx?title=%E9%87%8D%E8%A6%81%E6%94%BF%E7%AD%96&Types=1%E5%B9%B4%E6%9C%9F%E7%BE%A9%E5%8B%99%E5%BD%B9%E5%B0%88%E5%8D%80"
+                        class="link-card card" target="_blank"><i class="fas fa-calendar-check icon"></i>
+                        <h4>一年期義務役專區</h4>
+                        <p>國防部官方政策說明</p>
+                    </a>
+                    <a href="https://dca.moi.gov.tw/sugsys/" target="_blank" class="link-card card"><i
+                            class="fas fa-users icon"></i>
+                        <h4>一般替代役</h4>
+                        <p>內政部役政署申請系統</p>
+                    </a>
+                    <a href="https://rdss.moi.gov.tw/MND_NCA/" target="_blank" class="link-card card"><i
+                            class="fas fa-flask icon"></i>
+                        <h4>研發替代役</h4>
+                        <p>研發替代役資訊管理系統</p>
+                    </a>
+                    <a href="https://dca.moi.gov.tw/stage/hp2/HP1-3.aspx" target="_blank" class="link-card card"><i
+                            class="fas fa-graduation-cap icon"></i>
+                        <h4>二階段常備兵役</h4>
+                        <p>利用暑假分階段完成訓練</p>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <h3>兵役相關法規</h3>
+                <div class="law-table-wrapper">
+                    <table class="law-table">
+                        <tbody>
+                            <tr>
+                                <td><a href="https://dca.moi.gov.tw/chaspx/news.aspx?web=133" target="_blank"><i
+                                            class="fas fa-search"></i> 內政部役政署－役政法規查詢</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0040004"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 免役禁役緩徵緩召實施辦法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0040023"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 常備役體位因家庭因素及替代役體位服補充兵役辦法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0040016"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 役男申請服替代役辦法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0040006"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 役男出境處理辦法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=F0040001"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 兵役法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0040017"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 替代役實施條例</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=F0040012"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 預備軍官預備士官選訓服役實施辦法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL019646" target="_blank"><i
+                                            class="fas fa-file-alt"></i> 高級中等以上學校學生申請緩徵作業要點</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.mnd.gov.tw/scp/Query4B.aspx?no=1A009706001" target="_blank"><i
+                                            class="fas fa-file-alt"></i> 後備軍人及補充兵緩召逐次與儘後召集處理規定</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=F0040002"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 兵役法施行法</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=F0120002"
+                                        target="_blank"><i class="fas fa-file-alt"></i> 妨害兵役治罪條例</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            // --- FAQ 手風琴動畫 & 單一展開行為 (JS 控制高度過場) ---
+            const allDetails = document.querySelectorAll('.faq-section details');
+            allDetails.forEach(details => {
+                const summary = details.querySelector('summary');
+                const answer = details.querySelector('.faq-answer');
+
+                // 防止重複包裹
+                if (!answer.querySelector('.faq-content-wrapper')) {
+                    answer.innerHTML = `<div class="faq-content-wrapper"><div class="faq-content">${answer.innerHTML}</div></div>`;
+                }
+
+                const wrapper = answer.querySelector('.faq-content-wrapper');
+
+                if (details.hasAttribute('open')) {
+                    wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+                }
+
+                summary.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    const isOpen = details.hasAttribute('open');
+
+                    allDetails.forEach(other => {
+                        const otherWrapper = other.querySelector('.faq-content-wrapper');
+                        if (other !== details && other.hasAttribute('open')) {
+                            other.removeAttribute('open');
+                            if (otherWrapper) otherWrapper.style.maxHeight = '0px';
+                        }
+                    });
+
+                    if (!isOpen) {
+                        details.setAttribute('open', '');
+                        requestAnimationFrame(() => {
+                            wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+                        });
+                    } else {
+                        details.removeAttribute('open');
+                        wrapper.style.maxHeight = '0px';
+                    }
+                });
+            });
+
+            // --- Tabs: 讓卡片高度依據內容自動調整 ---
+            (function setupTabsCardResize(){
+                const tabsNav = document.querySelector('.tabs-nav');
+                if (!tabsNav) return;
+                const card = tabsNav.closest('.card');
+                const contentContainer = tabsNav.nextElementSibling;
+                const panes = contentContainer.querySelectorAll('.tabs-pane');
+
+                function adjustCardHeight(animated=true){
+                    const active = contentContainer.querySelector('.tabs-pane.active');
+                    if (!active) return;
+                    const rect = active.getBoundingClientRect();
+                    const computed = window.getComputedStyle(active);
+                    const paddingTop = parseFloat(computed.paddingTop || 0);
+                    const paddingBottom = parseFloat(computed.paddingBottom || 0);
+                    const targetHeight = active.scrollHeight + 12;
+
+                    if (animated) {
+                        contentContainer.style.minHeight = contentContainer.offsetHeight + 'px';
+                        requestAnimationFrame(() => {
+                            contentContainer.style.minHeight = targetHeight + 'px';
+                        });
+                    } else {
+                        contentContainer.style.minHeight = targetHeight + 'px';
+                    }
+                }
+
+                // initialize heights
+                panes.forEach(p => {
+                    if (!p.classList.contains('active')) {
+                        p.style.maxHeight = '0px';
+                    } else {
+                        p.style.maxHeight = p.scrollHeight + 'px';
+                    }
+                });
+                adjustCardHeight(false);
+
+                // listen tab clicks
+                tabsNav.addEventListener('click', function (e) {
+                    const targetTab = e.target.closest('.tabs-nav__item');
+                    if (targetTab && !targetTab.classList.contains('active')) {
+                        const targetPaneId = targetTab.dataset.tab;
+                        tabsNav.querySelector('.active').classList.remove('active');
+                        targetTab.classList.add('active');
+
+                        const activePane = contentContainer.querySelector('.tabs-pane.active');
+                        const targetPane = contentContainer.querySelector(`#${targetPaneId}`);
+
+                        if (activePane) {
+                            activePane.classList.remove('active');
+                            activePane.style.maxHeight = '0px';
+                        }
+                        if (targetPane) {
+                            targetPane.classList.add('active');
+                            // expand smoothly
+                            requestAnimationFrame(() => {
+                                targetPane.style.maxHeight = targetPane.scrollHeight + 'px';
+                                adjustCardHeight(true);
+                            });
+                        }
+                    }
+                });
+
+                // Re-adjust heights on window resize (debounced)
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        panes.forEach(p => {
+                            if (p.classList.contains('active')) {
+                                p.style.maxHeight = p.scrollHeight + 'px';
+                            }
+                        });
+                        adjustCardHeight(false);
+                    }, 120);
+                });
+            })();
+
+            // --- 滾動觸發動畫 ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        const timeline = entry.target.querySelector('.timeline');
+                        if (timeline) {
+                            // 使用 setTimeout 確保 is-visible 生效後再觸發 timeline 動畫
+                            setTimeout(() => timeline.classList.add('is-animated'), 100);
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+
+            // --- Tabs: sync mobile select with tab buttons and show scroll hint ---
+            (function tabsMobileSync(){
+                const tabsContainer = document.querySelector('.tabs-container');
+                if (!tabsContainer) return;
+                const tabsNav = tabsContainer.querySelector('.tabs-nav');
+                const select = document.getElementById('tabsSelect');
+
+                function setActiveTab(id, fromSelect = false){
+                    const prev = tabsNav.querySelector('.tabs-nav__item.active');
+                    if (prev) prev.classList.remove('active');
+                    const targetBtn = tabsNav.querySelector(`.tabs-nav__item[data-tab="${id}"]`);
+                    if (targetBtn) targetBtn.classList.add('active');
+
+                    // show pane
+                    document.querySelectorAll('.tabs-pane').forEach(p => p.classList.remove('active'));
+                    const pane = document.getElementById(id);
+                    if (pane) pane.classList.add('active');
+                    // adjust heights (reuse existing function if present)
+                    try { if (typeof adjustCardHeight === 'function') adjustCardHeight(true); } catch(e) {}
+
+                    // if triggered by button click, sync select
+                    if (!fromSelect && select) select.value = id;
+                }
+
+                if (select) {
+                    // initialize select to active tab
+                    const active = tabsNav.querySelector('.tabs-nav__item.active');
+                    if (active) select.value = active.dataset.tab;
+
+                    select.addEventListener('change', function(e){
+                        setActiveTab(e.target.value, true);
+                    });
+                }
+
+                // show/hide scroll hint overlay when nav is scrollable
+                function updateScrollHint(){
+                    if (!tabsNav) return;
+                    const isScrollable = tabsNav.scrollWidth > tabsNav.clientWidth + 2;
+                    tabsContainer.style.setProperty('--tabs-scrollable', isScrollable ? '1' : '0');
+                    tabsContainer.classList.toggle('is-scrollable', isScrollable);
+                    const overlay = tabsContainer;
+                    if (overlay) overlay.style.setProperty('--hint-opacity', isScrollable ? '1' : '0');
+                    // also toggle the pseudo-element by adding/removing class
+                    if (isScrollable) tabsContainer.classList.add('show-hint'); else tabsContainer.classList.remove('show-hint');
+                }
+
+                // attach listeners
+                if (tabsNav) {
+                    tabsNav.addEventListener('scroll', updateScrollHint);
+                    window.addEventListener('resize', updateScrollHint);
+                    // initial
+                    setTimeout(updateScrollHint, 50);
+                }
+
+                // delegate click on nav to set active and sync select
+                if (tabsNav) {
+                    tabsNav.addEventListener('click', function(e){
+                        const btn = e.target.closest('.tabs-nav__item');
+                        if (!btn) return;
+                        const id = btn.dataset.tab;
+                        setActiveTab(id, false);
+                    });
+                }
+            })();
+        });
+    </script>
+
+</body>
+
+</html>
