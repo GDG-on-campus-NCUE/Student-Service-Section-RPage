@@ -89,7 +89,7 @@
             display: inline-block;
         }
 
-    a:not(.btn-primary-cta):not(.btn-download):not(.link-card)::after {
+        a:not(.btn-primary-cta):not(.btn-download):not(.link-card)::after {
             content: '';
             position: absolute;
             width: 100%;
@@ -685,11 +685,11 @@
             .tabs-nav__item { white-space: nowrap; }
 
             /* prevent student-services section cards from touching viewport edges */
-            #student-services-section .grid-layout {
+            /* #student-services-section .grid-layout {
                 padding-left: 8px;
-                padding-right: 8px;
+                padding-right: 10px;
                 box-sizing: border-box;
-            }
+            } */
 
             /* Make cards inside student-services follow the same inner padding rules
                and make inner grids respect gaps on narrow screens */
@@ -812,6 +812,14 @@
                             </ul>
                         </div>
                     </div>
+                    <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+                        <h3 style="font-size: 18px; margin-bottom: 16px;"><i class="fas fa-folder-open"></i> 文件繳交方式</h3>
+                        <ol style="list-style: none; padding-left: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px;"><span style="background-color: var(--accent-color); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">1</span><div><b>親送：</b><br>寶山校區-聯合服務中心教學一舘1樓、進德校區-學生安全組白沙大樓1樓。</div></li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px;"><span style="background-color: var(--accent-color); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">2</span><div><b>郵寄：</b><br>50074彰化市師大路二號(聯合服務中心)學務處學生安全組陳櫻文收。</div></li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px;"><span style="background-color: var(--accent-color); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 12px; flex-shrink: 0;">3</span><div><b>電子郵件寄送：</b><br>yingwen@cc.ncue.edu.tw (主旨:申請兵役-姓名 OOO)。</div></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </section>
@@ -822,11 +830,19 @@
                 <div class="card">
                     <h3><i class="fas fa-file-invoice"></i>役期折抵與通訊申請</h3>
                     <p>建議畢業前完成申請，以免日後需返校辦理。</p>
-                    <div class="grid-layout">
+                    <div style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                        <h4 style="font-size: 18px; color: var(--primary-color); margin-bottom: 12px;">折抵役期作業流程</h4>
+                        <ol style="list-style: none; padding-left: 0; margin-bottom: 16px;">
+                            <li style="margin-bottom: 12px; padding-left: 25px; position: relative;"><i class="fas fa-user-friends" style="position: absolute; left: 0; top: 5px; color: var(--accent-color);"></i><b>現場申請：</b><br>親自（或委託他人）至教務處申請「歷年成績單」1份→學生安全組核章→繳交服役單位辦理折減役期。</li>
+                            <li style="margin-bottom: 12px; padding-left: 25px; position: relative;"><i class="fas fa-envelope" style="position: absolute; left: 0; top: 5px; color: var(--accent-color);"></i><b>通訊申請：</b><br>填寫申請單、歷年成績單、請附掛號回郵信封→郵寄本校學生安全組。</li>
+                        </ol>
+                        <p style="padding: 12px; background-color: var(--alert-info-bg); border-radius: 8px; font-size: 14px; color: var(--primary-color);"><b>歷年成績單申請方式：</b>1.到校辦理。2.通訊郵寄。3.線上申請。</p>
+                    </div>
+                    <div class="grid-layout" style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
                         <div class="envelope-card">
                             <h4><i class="fas fa-paper-plane"></i> A. 寄至學校的信封</h4>
                             <span class="info-label">收件資訊：</span>
-                            <div class="info-content">50074 彰化市進德路1號 軍訓室 收</div>
+                            <div class="info-content">500208彰化市師大路2號 學務處學安組收</div>
                         </div>
                         <div class="envelope-card">
                             <h4><i class="fas fa-envelope-open-text"></i> B. 學校寄回的回郵信封</h4>
@@ -847,13 +863,16 @@
                     <h3><i class="fas fa-exclamation-triangle"></i>重要注意事項</h3>
                     <div class="alerts-container">
                         <div class="alert"><i class="fas fa-sun icon"></i>
-                            <div><strong>暑假入伍：</strong>83年次後役男，欲申請大一升大二暑假入伍，請於入學年11月15日前至役政署網站申請。</div>
+                            <div><strong>暑假入伍：</strong>83年次至93年次之役男，欲申請大一升大二暑假入伍，請於入學年11月15日前至役政司網站申請。</div>
+                        </div>
+                        <div class="alert"><i class="fas fa-clipboard-list icon"></i>
+                            <div><strong>兵籍調查線上申報：</strong>徵兵及齡男子兵籍調查線上申報，請於入學年11月15日前至役政司網站申請。</div>
                         </div>
                         <div class="alert"><i class="fas fa-user-slash icon"></i>
                             <div><strong>學籍異動：</strong>辦理休、退、畢業後，緩徵即消滅，學校將依法通報。</div>
                         </div>
                         <div class="alert"><i class="fas fa-redo-alt icon"></i>
-                            <div><strong>延畢生：</strong>請主動以Email提供身分證影本至學生安全組，以辦理延長緩徵。</div>
+                            <div><strong>延長修業年限者：</strong>請主動Email承辦人，信件主旨:申請延緩兵役-姓名 OOO]，提供身分證反面(戶籍地)，以辦理延長緩徵。</div>
                         </div>
                     </div>
                 </div>
@@ -1230,3 +1249,4 @@
 </body>
 
 </html>
+
