@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +60,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #e0fbfc;
         }
-        
+
         /* --- 申請資格與主要按鈕區塊 --- */
         .apply-section {
             text-align: center;
@@ -71,7 +72,7 @@
             margin-bottom: 24px;
             color: #495057;
         }
-        
+
         .apply-section .badge {
             display: inline-block;
             background-color: #e7f5ff;
@@ -126,7 +127,7 @@
             font-weight: bold;
             font-size: 18px;
         }
-        
+
         .info-list li strong {
             color: #d90429;
             font-weight: 600;
@@ -139,7 +140,7 @@
             border-left: 4px solid #ffc107;
             margin-top: 16px;
         }
-        
+
         .info-list li.purpose::before {
             color: #ffc107;
             content: '💡';
@@ -194,7 +195,7 @@
             border-left: 5px solid #ffc107;
             padding: 24px;
         }
-        
+
         .notes-section h2 {
             color: #856404;
             border-bottom-color: #ffeeba;
@@ -205,11 +206,11 @@
             color: #856404;
             font-size: 15px;
         }
-        
+
         .notes-section p:last-child {
             margin-bottom: 0;
         }
-        
+
         .notes-section strong {
             font-weight: 600;
         }
@@ -225,11 +226,22 @@
             font-weight: 500;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        
+
         .attachment-link:hover {
             background-color: #e9ecef;
             color: #000;
             text-decoration: none !important;
+        }
+
+        .reminder {
+            font-size: 0.875em;
+        }
+
+        .highlight {
+            background-color: #2980b9;
+            color: white; /* 讓文字在深色背景上更易讀 */
+            padding: 2px 4px; /* 增加一點內邊距 */
+            border-radius: 3px; /* 圓角 */
         }
 
         /* --- RWD 響應式設計 --- */
@@ -251,7 +263,7 @@
                 padding: 12px 28px;
                 font-size: 16px;
             }
-            
+
             .step {
                 flex-direction: column;
                 align-items: flex-start;
@@ -263,15 +275,21 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h1 class="main-title">校園餐券申請資訊</h1>
 
-        <section class="card apply-section">
+                <section class="card apply-section">
             <span class="badge">申請資格</span>
             <p>經由導師出具經濟困難證明之學生</p>
-            <a href="https://forms.gle/GhmsT53vE6njF3iK8" target="_blank" rel="noopener" class="cta-button">點我前往餐券申請表單</a>
+            <p class="reminder">
+                <span class="highlight">提醒!!</span>
+                「揚鷹生」為符合<u>學雜費減免</u>及<u>弱勢助學金1~6級</u>資格的同學
+            </p>
+            <a href="https://forms.gle/GhmsT53vE6njF3iK8" target="_blank" rel="noopener"
+                class="cta-button">點我前往餐券申請表單</a>
         </section>
 
         <section class="card">
@@ -334,12 +352,14 @@
 
         <section class="card">
             <h2>參考附件</h2>
-            <a href="/var/file/39/1039/img/1105/563076124.pdf" target="_blank" class="attachment-link">
-                王金平先生急難扶助金暨校園餐券申請作業要點.pdf
-            </a>
+            <a href="/var/file/39/1039/img/1105/698471432.pdf" target="_blank"
+                class="attachment-link">愛心餐券發放辦法(集腋成裘).pdf</a>
+            <a href="/var/file/39/1039/img/1105/563076124.pdf" target="_blank"
+                class="attachment-link">王金平先生急難扶助金暨校園餐券申請作業要點.pdf</a>
         </section>
 
     </div>
 
 </body>
+
 </html>
